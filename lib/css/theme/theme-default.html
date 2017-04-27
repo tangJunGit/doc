@@ -136,6 +136,10 @@
 			<label for="password">密码</label>
 			<input type="password" class="form-control" id="password" placeholder="请输入密码">
 		</div>
+		<div class="form-group has-feedback">
+			<input type="text" class="form-control" id="feedback" placeholder="反馈">
+			<button type="button" class="close form-control-feedback"><span>&times;</span></button>
+		</div>
 	</form>
 	<form class="form-inline">
 		<div class="form-group">
@@ -146,9 +150,82 @@
 			<label for="password">密码</label>
 			<input type="password" class="form-control" id="password" placeholder="请输入密码">
 		</div>
+		<div class="form-group">
+			<label for="password">禁止</label>
+			<input type="password" class="form-control" placeholder="disable" disabled>
+		</div>
+	</form>
+	<form>
+		<div class="checkbox">
+			<label>
+				<input type="checkbox" name="sex" value="">男
+			</label>
+		</div>
+		<div class="checkbox disabled">
+			<label>
+				<input type="checkbox" name="sex" value="" disabled>女
+			</label>
+		</div>
+
+		<div class="radio">
+			<label>
+				<input type="radio" name="hobby" value="" checked>足球
+			</label>
+		</div>
+		<div class="radio">
+			<label>
+				<input type="radio" name="hobby" value="">篮球
+			</label>
+		</div>
+	</form>
+	<form>
+		<div class="radio disabled">
+			<label>
+				<input type="radio" name="hobby" disabled>羽毛球
+			</label>
+		</div>
+		<label class="checkbox-inline">
+			<input type="checkbox" value=""> 1
+		</label>
+		<label class="checkbox-inline">
+			<input type="checkbox" value=""> 2
+		</label>
+		<label class="checkbox-inline">
+			<input type="checkbox" value=""> 3
+		</label>
+
+		<label class="radio-inline">
+			<input type="radio" name="option" value=""> 1
+		</label>
+		<label class="radio-inline">
+			<input type="radio" name="option" value=""> 2
+		</label>
+		<label class="radio-inline">
+			<input type="radio" name="option" value=""> 3
+		</label>
+	</form>
+	<form>
+		<select class="form-control">
+			<option>1</option>
+			<option>2</option>
+			<option>3</option>
+			<option>4</option>
+			<option>5</option>
+		</select>
+	</form>
+	<form>
+		<textarea class="form-control" rows="3" placeholder="Textarea"></textarea>
 	</form>
 
-
+	<!-- ==========================      按钮       ============================== -->
+	<h1>按钮 <small>样式</small></h1><hr>
+	<a class="btn btn-default" href="#" role="button">Link</a>
+	<button class="btn" type="submit">Button</button>
+	<button class="btn btn-default" type="submit">Button</button>
+	<input class="btn btn-default" type="button" value="Input">
+	<input class="btn btn-default" type="submit" value="Submit">
+	<button type="button" class="btn btn-default active">Button</button>
+	<button type="button" class="btn btn-default" disabled>Button</button>
 
 	<!-- ==========================      辅助类       ============================== -->
 	<h1>辅助类 <small>样式</small></h1><hr>
