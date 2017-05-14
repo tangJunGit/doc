@@ -1,0 +1,159 @@
+html, body {
+	height: 100% !important;
+}
+
+body {
+    background-color: #e4e5e6;
+}
+
+a:visited,
+a:hover, 
+a:active,
+a:focus {
+	text-decoration: none;
+}
+
+/*  header
+    ============================================*/
+.app-header {
+	position: fixed;
+    z-index: 999;
+    width: 100%;
+	height: 55px;
+    border-bottom: 1px solid #cfd8dc;
+    background-color: #fff;
+}
+.navbar-brand {
+    display: inline-block;
+    font-size: 20px;
+    color: #000;
+    height: 55px;
+    margin-left: 10px;
+    line-height: 55px;
+}
+.navbar-nav {
+	position: absolute;
+	top: 0;
+	right: 15px;
+	height: 55px;
+    line-height: 55px;
+}
+.navbar-nav li {
+	padding: 0 10px;
+}
+
+/*========== header end  ==============*/
+
+.app-body {
+	position: relative;
+	padding-top: 55px;
+	overflow-x: hidden;
+}
+
+/*  左侧菜单
+    ===============================  */
+.app-body .sidebar {
+	position: fixed;
+    height: 100% !important;
+    width: 220px;
+    color: #fff;
+    background: #263238;
+}
+
+.sidebar .sidebar-nav {
+	position: relative;
+    overflow-x: hidden;
+    overflow-y: auto;
+    ms-overflow-style: -ms-autohiding-scrollbar;
+    width: 220px;
+    height: 100% !important;
+}
+.sidebar .nav .nav-title {
+    padding: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #cfd8dc;
+}
+.sidebar .nav .nav-item {
+    position: relative;
+    font-size: 16px;
+    transition: background .3s ease-in-out;
+}
+.sidebar .nav .nav-item.open{
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.sidebar .nav .nav-item .nav-link {
+    display: block;
+    padding: 15px 10px;
+    color: #fff;
+    background: transparent;
+}
+.sidebar .nav .nav-item.active .nav-link {
+	background: #304047;
+}
+.sidebar .nav .nav-item .nav-link:hover {
+	background: #20a8d8;
+}
+
+
+/*滚动条*/
+.sidebar .sidebar-nav::-webkit-scrollbar {
+    position: absolute;
+    width: 10px;
+    margin-left: -10px;
+    -webkit-appearance: none;
+}
+.sidebar .sidebar-nav::-webkit-scrollbar-thumb {
+    height: 50px;
+    background-color: #11171a;
+    background-clip: content-box;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 1px 2px;
+}
+.sidebar .sidebar-nav::-webkit-scrollbar-track {
+    background-color: #304047;
+    border-right: 1px solid #1c2429;
+    border-left: 1px solid #1c2429;
+}
+
+/*========== 左侧菜单 end  ==============*/
+
+
+
+.app-body .main {
+    margin-left: 220px !important;
+    padding: 15px;
+}
+
+/*  主要内容
+    ========================*/
+
+/*表格*/
+.main>table {
+	background-color: #fff;
+}
+.main>table>caption {
+	color: #000;
+	padding: 10px;
+	background-color: #d2d9de;
+}
+
+/*面包屑*/
+.breadcrumb {
+	padding: 10px;
+	background-color: #fff;
+}
+.breadcrumb-item + .breadcrumb-item::before {
+    display: inline-block;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    color: #b0bec5;
+    content: "/";
+}
+.breadcrumb-item.active {
+    color: #b0bec5;
+}
+
+/*========== 主要内容 end  ==============*/

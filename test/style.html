@@ -4,9 +4,9 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>主题</title>
-	<link rel="stylesheet" href="../normalize.css">
-	<link rel="stylesheet" href="theme-default.css">
+	<title>组件样式</title>
+	<link rel="stylesheet" href="../lib/css/normalize.css">
+	<link rel="stylesheet" href="../lib/css/common.css">
 </head>
 <body>
 	<!-- ==========================      文本       ============================== -->
@@ -135,26 +135,47 @@
 		<div class="form-group">
 			<label for="password">密码</label>
 			<input type="password" class="form-control" id="password" placeholder="请输入密码">
+			<span class="text-danger">密码错误提示</span>
 		</div>
 		<div class="form-group has-feedback">
-			<input type="text" class="form-control" id="feedback" placeholder="反馈">
+			<input type="text" class="form-control" id="feedback" placeholder="小图标">
 			<button type="button" class="close form-control-feedback"><span>&times;</span></button>
+		</div>
+	</form>
+	<form class="form-horizontal">
+		<div class="form-group has-feedback">
+			<label for="username2" class="col-sm-2 control-label">用户名</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" id="username2" placeholder="请输入用户名">
+				<span class="text-danger">用户名错误提示</span>
+				<button type="button" class="close form-control-feedback"><span>&times;</span></button>
+			</div>
 		</div>
 	</form>
 	<form class="form-inline">
 		<div class="form-group">
-			<label for="username">用户名</label>
-			<input type="text" class="form-control" id="username" placeholder="请输入用户名">
+			<label for="username3">用户名</label>
+			<input type="text" class="form-control" id="username3" placeholder="请输入用户名">
 		</div>
 		<div class="form-group">
 			<label for="password">密码</label>
 			<input type="password" class="form-control" id="password" placeholder="请输入密码">
 		</div>
 		<div class="form-group">
-			<label for="password">禁止</label>
-			<input type="password" class="form-control" placeholder="disable" disabled>
+			<label for="">禁止</label>
+			<input type="text" class="form-control" placeholder="disable" disabled>
 		</div>
 	</form>
+	<form class="form-inline">
+		<div class="form-group">
+			<div class="input-group">
+				<div class="input-group-addon">$</div>
+				<input type="text" class="form-control" placeholder="文本">
+				<div class="input-group-addon">.00</div>
+			</div>
+		</div>
+	</form>
+
 	<form>
 		<div class="checkbox">
 			<label>
@@ -226,6 +247,9 @@
 	<input class="btn btn-default" type="submit" value="Submit">
 	<button type="button" class="btn btn-default active">Button</button>
 	<button type="button" class="btn btn-default" disabled>Button</button>
+	<button type="button" class="btn btn-primary">Button</button>
+	<button type="button" class="btn btn-primary active">Button</button>
+	<button type="button" class="btn btn-primary" disabled>Button</button>
 
 	<!-- ==========================      辅助类       ============================== -->
 	<h1>辅助类 <small>样式</small></h1><hr>
