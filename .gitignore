@@ -1,0 +1,4 @@
+.idea
+.test.html
+node_modules
+npm-debug.*
