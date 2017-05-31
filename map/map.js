@@ -152,15 +152,4 @@ BaiduMap.prototype.localCityByIp = function(callback) {
 };
 
 
-// ====================   Polyfill
-
-/**
- * Object.keys
- */
-if (!Object.keys) Object.keys = function(o) {
-  var k=[],p;
-  for (p in o) if (Object.prototype.hasOwnProperty.call(o,p)) k.push(p);
-  return k;
-}
-
 
