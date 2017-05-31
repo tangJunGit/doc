@@ -10,10 +10,21 @@
 	<title>百度地图</title>
 	<style>
 		#mapContainer{width:900px;height:600px;margin:0 auto;background-color: #eee;}
+		.buttons{width:900px;margin:0 auto;}
 	</style>
 </head>
 <body>
 	<div id="mapContainer"></div>
+	<div class="buttons">
+		<button onclick="demo.addControls()">添加控件</button>
+		<button onclick="demo.removeControls()">删除城市列表控件</button>
+		<button onclick="demo.addOverlays()">添加覆盖物</button>
+		<button onclick="demo.removeOverlays()">删除覆盖物</button>
+		<button onclick="demo.clearOverlays()">删除所有覆盖物</button>
+	</div>
+	
+
+
 	<script type="text/javascript" src="map.js"></script>
 	<script type="text/javascript" src="demo.js"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=GRaPtLAZFqPgc6GrghXbQ3qG&callback=loadMap"></script>
