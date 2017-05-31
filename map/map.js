@@ -133,7 +133,7 @@ BaiduMap.prototype.removeOverlays = function(overlays) {
  */
 BaiduMap.prototype.clearOverlays = function() {
 	this.bmap.clearOverlays(); 
-	this.overlays = {};
+	this.overlays = {}; 
 	return this;
 };
 

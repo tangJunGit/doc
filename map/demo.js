@@ -34,7 +34,7 @@ function loadMap(){
 
 	window.demo = {
 		// 添加控件
-		addControls: function(){
+		addControls: function(){ 
 			map.addControls({
 				'cityList': cityList,
 				'navigation': navigation,        					
