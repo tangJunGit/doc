@@ -54,16 +54,15 @@ BaiduMap.prototype.getDistance = function(pointA, pointB) {
  * controls {name: 别名，control: 对象}  控件对象
  */
 BaiduMap.prototype.addControls = function(controls) {
-	var currKeys = Object.keys(this.controls);
 	var keys = Object.keys(controls);
 
 	for (var i = 0, len = keys.length; i < len; i++) {
-		var name = keys[i];
-		if(currKeys.indexOf(name) === -1) {
-			this.bmap.addControl(controls[keys[i]]);
-			this.controls[name] = controls[name];
+		var name = keys[i],
+			control = controls[name];
+		if(!(name in this.controls)) {
+			this.bmap.addControl(control);
+			this.controls[name] = control;
 		}
-		
 	}
 	return this;
 };
@@ -74,11 +73,9 @@ BaiduMap.prototype.addControls = function(controls) {
  * controls  控件名字的数组
  */
 BaiduMap.prototype.removeControls = function(controls) {
-	var currKeys = Object.keys(this.controls);
-
 	for (var i = 0, len = controls.length; i < len; i++) {
 		var name = controls[i];
-		if(currKeys.indexOf(name) !== -1) {
+		if(name in this.controls) {
 			this.bmap.removeControl(this.controls[name]);
 			delete this.controls[name];
 		}
@@ -95,16 +92,15 @@ BaiduMap.prototype.removeControls = function(controls) {
  * overlays {name: 别名，overlay: 对象}  覆盖物对象
  */
 BaiduMap.prototype.addOverlays = function(overlays) {
-	var currKeys = Object.keys(this.overlays);
 	var keys = Object.keys(overlays);
 
 	for (var i = 0, len = keys.length; i < len; i++) {
-		var name = keys[i];
-		if(currKeys.indexOf(name) === -1) {
-			this.bmap.addOverlay(overlays[keys[i]]);
-			this.overlays[name] = overlays[name];
+		var name = keys[i],
+			overlay = overlays[name];
+		if(!(name in this.overlays)) {
+			this.bmap.addOverlay(overlay);
+			this.overlays[name] = overlay;
 		}
-		
 	}
 	return this;
 };
@@ -115,11 +111,9 @@ BaiduMap.prototype.addOverlays = function(overlays) {
  * overlays  控件名字的数组
  */
 BaiduMap.prototype.removeOverlays = function(overlays) {
-	var currKeys = Object.keys(this.overlays);
-
 	for (var i = 0, len = overlays.length; i < len; i++) {
 		var name = overlays[i];
-		if(currKeys.indexOf(name) !== -1) {
+		if(name in this.overlays) {
 			this.bmap.removeOverlay(this.overlays[name]);
 			delete this.overlays[name];
 		}
