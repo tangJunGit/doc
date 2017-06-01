@@ -24,27 +24,6 @@ BaiduMap.prototype.init = function(id, point){
 	return this;
 };
 
-// ===================  地图显示
-
-/**
- * 获取地图显示范围
- * 
- */
-BaiduMap.prototype.getBounds = function() {
-	return this.bmap.getBounds();       
-};
-
-
-/**
- * 测距
- * 
- */
-BaiduMap.prototype.getDistance = function(pointA, pointB) {
-	return this.bmap.getDistance(pointA, pointB).toFixed(2);
-};
-
-
-
 
 // ===================  控件
 
@@ -173,17 +152,47 @@ BaiduMap.prototype.hideOverlays = function(overlays) {
 
 
 
-// ===================  定位
-/**
- * 根据IP定位
- * 
- * callback  回调函数
- */
-BaiduMap.prototype.localCityByIp = function(callback) {
-	var city = new BMap.LocalCity();
-	city.get(callback);
-	return this;
+// ==========================================================
+
+var mapControl = {
+	/**
+	 * 根据IP定位
+	 * 
+	 * callback  回调函数
+	 */
+	getLocalCityByIp: function(callback) {
+		var city = new BMap.LocalCity();
+		city.get(callback);
+		return this;
+	},
+
+	/**
+	 * 地址解析
+	 * 
+	 * address   解析的地址
+	 * callback  回调函数
+	 * scope     解析的地址范围
+	 */
+	getPoint: function(address, callback, scope) {
+		var geoc = new BMap.Geocoder();
+		geoc.getPoint(address, callback, scope);
+		return this;
+	},
+
+	/**
+	 * 逆地址解析
+	 * 
+	 * address   解析的地址
+	 * callback  回调函数
+	 * scope     解析的地址范围
+	 */
+	getLocation: function(point, callback) {
+		var geoc = new BMap.Geocoder();
+		geoc.getLocation(point, callback);  
+		return this;
+	}
 };
+
 
 
 
