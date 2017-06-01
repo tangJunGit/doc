@@ -3,7 +3,7 @@
 function loadMap(){
 	// 实例化
 	var point = new BMap.Point(104.071216, 30.576279);
-	map = new BaiduMap('mapContainer', point);
+	var map = new BaiduMap('mapContainer', point);
 		
 	// 根据IP定位
 	map.localCityByIp(function(result){
@@ -30,7 +30,10 @@ function loadMap(){
 	var cityList = new BMap.CityListControl({           					//左上角，添加城市列表控件
 				    anchor: BMAP_ANCHOR_TOP_LEFT, 
 				    offset: new BMap.Size(80, 15)          
-				})
+				});
+
+	var marker = new BMap.Marker(point); 
+	var marker2 = new BMap.Marker(new BMap.Point(104.07, 30.55)); 
 
 	window.demo = {
 		// 添加控件
@@ -50,18 +53,33 @@ function loadMap(){
 		// 添加覆盖物
 		addOverlays: function(){
 			map.addOverlays({
-				'marker': new BMap.Marker(point)
+				'marker': marker,
+				'marker2': marker2
+			}, function(name, marker, rs){
+				var sContent = '<p>name: '+ name +'</p>';
+				var infoWindow = new BMap.InfoWindow(sContent);
+				marker.openInfoWindow(infoWindow);
 			});
 		},
 
 		// 删除覆盖物
 		removeOverlays: function(){
-			map.removeOverlays(['marker'])
+			map.removeOverlays(['marker2'])
 		},
 
 		// 删除所有覆盖物
 		clearOverlays: function(){
 			map.clearOverlays();
+		},
+
+		// 显示覆盖物
+		showOverlays: function(){
+			map.showOverlays(['marker2']);
+		},
+
+		// 隐藏覆盖物
+		hiddenOverlays: function(){
+			map.hideOverlays(['marker2']);
 		},
 	};
 }

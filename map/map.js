@@ -90,8 +90,9 @@ BaiduMap.prototype.removeControls = function(controls) {
  * 添加覆盖物
  * 
  * overlays {name: 别名，overlay: 对象}  覆盖物对象
+ * callback 点击事件触发的回调函数
  */
-BaiduMap.prototype.addOverlays = function(overlays) {
+BaiduMap.prototype.addOverlays = function(overlays, callback) {
 	var keys = Object.keys(overlays);
 
 	for (var i = 0, len = keys.length; i < len; i++) {
@@ -100,8 +101,17 @@ BaiduMap.prototype.addOverlays = function(overlays) {
 		if(!(name in this.overlays)) {
 			this.bmap.addOverlay(overlay);
 			this.overlays[name] = overlay;
+
+			// 绑定点击事件
+			if(typeof callback === 'function') (function(name, overlay){
+				overlay.addEventListener("click", function(result){
+					callback(name, overlay, result);
+				});
+			})(name, overlay);
 		}
 	}
+
+
 	return this;
 };
 
@@ -128,6 +138,36 @@ BaiduMap.prototype.removeOverlays = function(overlays) {
 BaiduMap.prototype.clearOverlays = function() {
 	this.bmap.clearOverlays(); 
 	this.overlays = {}; 
+	return this;
+};
+
+/**
+ * 显示覆盖物
+ * 
+ * overlays  控件名字的数组
+ */
+BaiduMap.prototype.showOverlays = function(overlays) {
+	var keys = Object.keys(overlays || this.overlays);
+
+	for (var i = 0, len = keys.length; i < len; i++) {
+		var name = overlays[i];
+		if(name in this.overlays) this.overlays[name].show();
+	}
+	return this;
+};
+
+/**
+ * 隐藏覆盖物
+ * 
+ * overlays  控件名字的数组
+ */
+BaiduMap.prototype.hideOverlays = function(overlays) {
+	var keys = Object.keys(overlays || this.overlays);
+
+	for (var i = 0, len = keys.length; i < len; i++) {
+		var name = overlays[i];
+		if(name in this.overlays) this.overlays[name].hide();
+	}
 	return this;
 };
 
