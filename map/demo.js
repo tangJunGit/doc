@@ -28,7 +28,7 @@ function loadMap(){
 
 		// 地址解析
 		getPoint: function(){
-			mapControl.getPoint('春熙路', function(point){
+			mapControl.getPoint('天府广场', function(point){
 				map.bmap.centerAndZoom(point, 16);
 				map.addOverlays({'marker3': new BMap.Marker(point)});
 			}, '成都市');
