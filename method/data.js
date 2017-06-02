@@ -9,7 +9,7 @@ var data = {
 	 get: function (object, path, defaultValue) {
 	 	// 查找 path 的结果值
 	 	var _getValue = function(object, path) {
-	        path = _stringToPath(path);
+	        path = _stringToPath(path+'');
 	        
 	        var index = 0, length = path.length;
 
