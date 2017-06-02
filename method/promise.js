@@ -48,7 +48,7 @@
         //异步错误时调用
         reject: function(message){
             this.state = state[2];
-            this.execThen(fn.slice(1).sort(), message);
+            this.execThen(fn.slice(1).reverse(), message);
         },
         //无论正确，错误都调用
         final: function(message){
