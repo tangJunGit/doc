@@ -58,4 +58,4 @@
 	};
 
 	window.TPromise = Promise;
-}(window));
+})(window);
