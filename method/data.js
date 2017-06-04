@@ -66,5 +66,49 @@ var data = {
 	      if (attrs[key] !== object[key] || !(key in object)) return false;
 	    }
 	    return true;
-	}
+	},
+
+	/**
+	  * 对象属性覆盖掉
+	  */
+	extend: function() {
+		var object = {},
+			length = arguments.length;
+	  	if (!length) return object;
+
+	  	for (var index = 0; index < length; index++) {
+		    var source = arguments[index],
+		    	keys = [];
+		    for (key in source) {
+		    	if(source.hasOwnProperty(key)) keys.push(key);   // 自身属性
+		    }
+		    for (var i = 0, l = keys.length; i < l; i++) {
+		      	var key = keys[i];
+		      	object[key] = source[key];
+		    }
+		}
+	    return object;
+	},
+
+	extendDeep: function() {
+		var object = {},
+			length = arguments.length;
+	  	if (!length) return object;
+
+	  	for (var index = 0; index < length; index++) {
+		    var source = arguments[index],
+		    	keys = [];
+		    for (key in source) {
+		    	keys.push(key);                    // 自身属性，继承属性
+		    }
+		    for (var i = 0, l = keys.length; i < l; i++) {
+		      	var key = keys[i];
+		      	object[key] = source[key];
+		    }
+		}
+	    return object;
+	},
+
+
+	 
 };
