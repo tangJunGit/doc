@@ -35,5 +35,80 @@ var data = {
 
         var result = object == null ? undefined : _getValue(object, path);
         return result === undefined ? defaultValue : result;
-	}
+	},
+
+	/**
+	  * 通过真检查时，返回第一个索引值
+	  * 
+	  * array    数组
+	  * attrs    检查的键值对 
+	  */
+	findIndex: function(array, attrs){
+	    for (var i = 0, length = array.length; i < length; i++) {
+	       if (data.isMatch(array[i], attrs)) return i;
+	    }
+	    return -1;
+	},
+
+	/**
+	  * 键和值是否包含在object中
+	  * 
+	  * object   对象
+	  * attrs    匹配的键值对 
+	  */
+	isMatch: function(object, attrs) {
+	    var keys = Object.keys(attrs),
+	    	length = keys.length;
+	    if (object == null) return !length;
+
+	    for (var i = 0; i < length; i++) {
+	      var key = keys[i];
+	      if (attrs[key] !== object[key] || !(key in object)) return false;
+	    }
+	    return true;
+	},
+
+	/**
+	  * 对象属性覆盖掉
+	  */
+	extend: function() {
+		var object = {},
+			length = arguments.length;
+	  	if (!length) return object;
+
+	  	for (var index = 0; index < length; index++) {
+		    var source = arguments[index],
+		    	keys = [];
+		    for (key in source) {
+		    	if(source.hasOwnProperty(key)) keys.push(key);   // 自身属性
+		    }
+		    for (var i = 0, l = keys.length; i < l; i++) {
+		      	var key = keys[i];
+		      	object[key] = source[key];
+		    }
+		}
+	    return object;
+	},
+
+	extendDeep: function() {
+		var object = {},
+			length = arguments.length;
+	  	if (!length) return object;
+
+	  	for (var index = 0; index < length; index++) {
+		    var source = arguments[index],
+		    	keys = [];
+		    for (key in source) {
+		    	keys.push(key);                    // 自身属性，继承属性
+		    }
+		    for (var i = 0, l = keys.length; i < l; i++) {
+		      	var key = keys[i];
+		      	object[key] = source[key];
+		    }
+		}
+	    return object;
+	},
+
+
+	 
 };

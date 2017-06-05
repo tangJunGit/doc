@@ -1,14 +1,32 @@
 // ======================  data
 
 // ----  get -----
-
-var object = { 'a': [{ 'b': { 'c': 3 } }] };
+var get = { 'a': [{ 'b': { 'c': 3 } }] };
  
-data.get(object, 'a[0].b.c');
+data.get(get, 'a[0].b.c');
 // => 3
 
-data.get(object, 'a.b.c', 'default');
+data.get(get, 'a.b.c', 'default');
 // => 'default'
+
+
+// ----  findIndex  -----
+var findIndex = [{'id': 1, 'name': 'Bob', 'last': 'Brown'},
+             {'id': 2, 'name': 'Ted', 'last': 'White'},
+             {'id': 3, 'name': 'Frank', 'last': 'James'},
+             {'id': 4, 'name': 'Ted', 'last': 'Jones'}];
+
+data.findIndex(findIndex, {
+  name: 'Ted'
+});
+// => 1
+
+// ----  isMatch -----
+var isMatch = {name: 'moe', age: 32};
+
+data.isMatch(isMatch, {age: 32});
+// =>  true
+
 
 // ======================  promise
 
