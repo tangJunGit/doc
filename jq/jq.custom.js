@@ -9,10 +9,14 @@
 		for (var i = 0, len = nodes.length; i < len; i++) {
 			this[i] = nodes[i];
 		}
+		this.selector = selector;
 		this.length = len;
 	};
 	
 	jQuery.fn = jQuery.prototype = {
+		constructor: jQuery,
+
+
 		
 	};
 
