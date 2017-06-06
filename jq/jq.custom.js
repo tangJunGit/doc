@@ -1,3 +1,4 @@
+// IE9及以上
 (function(window, undefined) {
 	var slice = Array.prototype.slice;
 
