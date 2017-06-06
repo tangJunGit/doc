@@ -1,4 +1,4 @@
-// ======================  data
+// ======================  数据 data
 
 // ----  get -----
 var get = { 'a': [{ 'b': { 'c': 3 } }] };
@@ -58,3 +58,14 @@ promise.start(function(){
 promise.then(function(){
 	// console.log('最后一个then调用');
 });
+
+
+// ======================  时间 time
+
+time.dateFormat();  
+// 当前日期
+// => "2017-06-07 00:05:02"
+
+var d = (new Date()).getTime();   // 当前时间戳
+time.dateFormat(d);
+// => "2017-06-07 00:05:02"
