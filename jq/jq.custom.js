@@ -17,44 +17,37 @@
 	
 	jQuery.fn = jQuery.prototype = {
 		constructor: jQuery,
-		/**
-		  * 转化成真正的数组
-		  */
+		// 转化成真正的数组
 		toArray: function(){
 			return slice.call(this, 0);
 		},
-		/**
-		  * 返回指定位置的元素
-		  */
+		// 返回指定位置的元素
 		get: function(num){
 			return num == null ? this.toArray() : (num < 0 ? this[this.length + num] : this[num]);
 		},
-		/**
-		  * 遍历迭代
-		  */
+		// 遍历迭代
 		each: function(callback){
 			return $.each(this, callback);
 		},
-		/**
-		  * 返回一个新数组
-		  */
+		// 返回一个新数组
 		map: function(callback){
 			return $.map(this, callback);
 		},
-		/**
-		  * 筛选
-		  */
+		// 筛选
 		eq: function(i){
 			i = +i;
 			return i === -1 ? slice.call(this, i) : slice.call(this, i, i+1);
+		},
+		// 属性
+		attr: function(name, value){
+			return value == null ? $.map(this, function(){return this.getAttribute(name)})
+								: $.each(this, function(){this.setAttribute(name, value+'')});
 		},
 	};
  
 	// =============================== 静态方法
 
-	/**
-	  * 遍历迭代
-	  */
+	// 遍历迭代
 	$.each = function(array, callback){
 		for (var i = 0; i < array.length; i++) {
 			callback.call(array[i], i, array[i], array);
@@ -62,9 +55,7 @@
 		return array;
 	};
 
-	/**
-	  * 返回一个新数组
-	  */
+	// 返回一个新数组
 	$.map = function(array, callback){
 		var result = [];
 		for (var i = 0; i < array.length; i++) {
@@ -72,7 +63,6 @@
 		}
 		return result;
 	};
-
 
 	window.jQuery = window.$ = $;
 
