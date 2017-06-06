@@ -6,13 +6,21 @@
 	};
 
 	var jQuery = function(selector, context) {
-		context = context || document;
-		var nodes = context.querySelectorAll(selector);
+		var nodes = [];
+		if(typeof selector ===  'string'){
+			context = context || document;
+			nodes = context.querySelectorAll(selector);
+			this.selector = selector;
+		}else if($.isArray(selector)){
+			nodes = selector;
+		}else if(typeof selector === 'object'){
+			nodes = [selector]
+		}
 		for (var i = 0, len = nodes.length; i < len; i++) {
 			this[i] = nodes[i];
 		}
-		this.selector = selector;
 		this.length = len;
+		
 	};
 	
 	jQuery.fn = jQuery.prototype = {
@@ -36,12 +44,17 @@
 		// 筛选
 		eq: function(i){
 			i = +i;
-			return i === -1 ? slice.call(this, i) : slice.call(this, i, i+1);
+			var nodes =  i === -1 ? slice.call(this, i) : slice.call(this, i, i+1);
+			return $(nodes);
 		},
-		// 属性
+		// 获取与设置属性
 		attr: function(name, value){
-			return value == null ? $.map(this, function(){return this.getAttribute(name)})
+			return value == null ? this[0].getAttribute(name)
 								: $.each(this, function(){this.setAttribute(name, value+'')});
+		},
+		// 删除属性
+		removeAttr: function(name){
+			return $.each(this, function(){this.removeAttribute(name)});
 		},
 	};
  
@@ -62,6 +75,11 @@
 			result.push(callback.call(array[i], i, array[i], array));
 		}
 		return result;
+	};
+
+	// 判断是否是数组
+	$.isArray = function(arg){
+		return Array.isArray ? Array.isArray(arg) : Object.prototype.toString.call(arg) === '[object Array]';
 	};
 
 	window.jQuery = window.$ = $;
