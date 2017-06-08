@@ -12,12 +12,6 @@
 		var nodes = [],
 			type = typeof selector;
 
-		// DOM加载完成执行
-		var completed = function(){
-			$(document).off("DOMContentLoaded", completed);
-			selector();
-		};
-
 		if(selector[0] === '#'){                               	// $('#id')
 			nodes = [document.getElementById(selector.slice(1))];
 		}else if(type ===  'string' && context == null){        // css选择器
@@ -26,8 +20,21 @@
 			nodes = context.find(selector);
 		}else if($.isArray(selector)){                        	// 将数组封装成jq对象
 			nodes = selector;
-		}else if(type === 'function'){                			// $(function(){})
-			$(document).on( "DOMContentLoaded", completed);
+		}else if(type === 'function'){                			// $(function(){})   DOM加载完成执行
+			var completed = function(e){
+				if ( document.removeEventListener || e.type === "load" || document.readyState === "complete" ) { 
+					//	解除绑定事件
+        			if ( document.removeEventListener ) { 
+				        document.removeEventListener( "DOMContentLoaded", completed, false ); 
+				        window.removeEventListener( "load", completed, false ); 
+				    } else if( document.detachEvent ) { 
+				        document.detachEvent( "onreadystatechange", completed ); 
+				        window.detachEvent( "onload", completed ); 
+				    } 
+					selector();
+    			} 
+			};
+			$(document).ready(completed);
 		}else if(type === 'object'){                			// $({})
 			nodes = [selector];
 		}
@@ -40,6 +47,20 @@
 	
 	jQuery.fn = jQuery.prototype = {
 		constructor: jQuery,
+
+		//  ready 事件
+		ready: function(fn){
+	        if ( document.readyState === "complete" ) {  				// 在 ready 事件过后被调用的时候，直接触发
+	            setTimeout( jQuery.ready ); 
+	        } else if ( document.addEventListener ) { 										// DOMContentLoaded 事件绑定
+	            document.addEventListener( "DOMContentLoaded", fn, false ); 			
+	            window.addEventListener( "load", fn, false ); 
+	        } else if( document.attachEvent ) { 																		// 低版本IE8
+	            document.attachEvent( "onreadystatechange", fn );	
+	            window.attachEvent( "onload", fn ); 
+	        }
+		},
+
 
 		// ===============================  筛选
 
