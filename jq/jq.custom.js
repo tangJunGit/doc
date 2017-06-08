@@ -9,40 +9,51 @@
 	};
 
 	var jQuery = function(selector, context) {
-		var nodes = [];
-		if(typeof selector ===  'string'){
-			context = context || document;
-			nodes = context.querySelectorAll(selector);
-			this.selector = selector;
-		}else if($.isArray(selector)){
+		var nodes = [],
+			type = typeof selector;
+
+		// DOM加载完成执行
+		var completed = function(){
+			$(document).off("DOMContentLoaded", completed);
+			selector();
+		};
+
+		if(selector[0] === '#'){                               	// $('#id')
+			nodes = [document.getElementById(selector.slice(1))];
+		}else if(type ===  'string' && context == null){        // css选择器
+			nodes = document.querySelectorAll(selector);
+		}else if(type ===  'string' && context.length > 0){     // 查找儿子节点                   
+			nodes = context.find(selector);
+		}else if($.isArray(selector)){                        	// 将数组封装成jq对象
 			nodes = selector;
-		}else if(typeof selector === 'object'){
-			nodes = [selector]
+		}else if(type === 'function'){                			// $(function(){})
+			$(document).on( "DOMContentLoaded", completed);
+		}else if(type === 'object'){                			// $({})
+			nodes = [selector];
 		}
+
 		for (var i = 0, len = nodes.length; i < len; i++) {
 			this[i] = nodes[i];
 		}
 		this.length = len;
-		
 	};
 	
 	jQuery.fn = jQuery.prototype = {
 		constructor: jQuery,
-		// 转化成真正的数组
-		toArray: function(){
-			return slice.call(this, 0);
-		},
+
+		// ===============================  筛选
+
 		// 返回指定位置的元素
 		get: function(num){
-			return num == null ? this.toArray() : (num < 0 ? this[this.length + num] : this[num]);
+			return num == null ? $.toArray(this) : (num < 0 ? this[this.length + num] : this[num]);
 		},
 		// 遍历迭代
-		each: function(callback){
-			return $.each(this, callback);
+		each: function(fn){
+			return $.each(this, fn);
 		},
 		// 返回一个新数组
-		map: function(callback){
-			return $.map(this, callback);
+		map: function(fn){
+			return $.map(this, fn);
 		},
 		// 筛选
 		eq: function(i){
@@ -50,6 +61,20 @@
 			var nodes =  i === -1 ? slice.call(this, i) : slice.call(this, i, i+1);
 			return $(nodes);
 		},
+		// 查找儿子节点
+		find: function(selector){
+			var nodes = [];
+			$.each(this, function(i, elem){
+				var elems = elem.querySelectorAll(selector);
+				$.each(elems, function(){
+					nodes.push(this);
+				});
+			});
+			return nodes;
+		},
+
+		// ===============================  属性
+
 		// 获取与添加属性
 		attr: function(name, value){
 			return value == null ? this[0].getAttribute(name)
@@ -63,39 +88,37 @@
 		addClass: function(value){
 			var cur, j, className, 
 				classNames = ( value || "" ).match( rnotwhite ) || [];
-			$.each(this, function(i, elem){
-				// 获取 class
-				cur = elem.nodeType === 1 && 
-						( elem.className ? ( " " + elem.className + " " ).replace( rclass, " " ) : " ");
-				if(!cur) return;
-				j = 0;
+			return $.each(this, function(i, elem){
+					// 获取 class
+					cur = elem.nodeType === 1 && 
+							( elem.className ? ( " " + elem.className + " " ).replace( rclass, " " ) : " ");
+					if(!cur) return;
+					j = 0;
 
-				// 处理 class
-				while ( (className = classNames[j++]) ) {
-					if ( cur.indexOf( " " + className + " " ) < 0 ) cur += className + " ";
-				}
-				elem.className = $.trim(cur);
-			});
-			return this;
+					// 处理 class
+					while ( (className = classNames[j++]) ) {
+						if ( cur.indexOf( " " + className + " " ) < 0 ) cur += className + " ";
+					}
+					elem.className = $.trim(cur);
+				});
 		},
 		// 删除class
 		removeClass: function(value){
 			var cur, j, className, 
 				classNames = ( value || "" ).match( rnotwhite ) || [];
-			$.each(this, function(i, elem){
-				// 获取 class
-				cur = elem.nodeType === 1 && 
-						( elem.className ? ( " " + elem.className + " " ).replace( rclass, " " ) : " ");
-				if(!cur) return;
-				j = 0;
+			return $.each(this, function(i, elem){
+					// 获取 class
+					cur = elem.nodeType === 1 && 
+							( elem.className ? ( " " + elem.className + " " ).replace( rclass, " " ) : " ");
+					if(!cur) return;
+					j = 0;
 
-				// 处理 class
-				while ( (className = classNames[j++]) ) {
-					if ( cur.indexOf( " " + className + " " ) >= 0 ) cur = cur.replace( " " + className + " ", " " );
-				}
-				elem.className = $.trim(cur);
-			});
-			return this;
+					// 处理 class
+					while ( (className = classNames[j++]) ) {
+						if ( cur.indexOf( " " + className + " " ) >= 0 ) cur = cur.replace( " " + className + " ", " " );
+					}
+					elem.className = $.trim(cur);
+				});
 		},
 		// 检验是否包含class
 		hasClass: function(value){
@@ -109,19 +132,42 @@
 		},
 		// 转换 class
 		toggleClass: function(value){
-			$.each(this, function(i, elem){
-				var className,
-					i = 0,
-					self = $(this),
-					classNames = value.match( rnotwhite ) || [];
+			return $.each(this, function(i, elem){
+					var className,
+						i = 0,
+						self = $(this),
+						classNames = value.match( rnotwhite ) || [];
 
-				while ( (className = classNames[ i++ ]) ) {
-					if ( self.hasClass( className ) ) {
-						self.removeClass( className );
-					} else {
-						self.addClass( className );
+					while ( (className = classNames[ i++ ]) ) {
+						if ( self.hasClass( className ) ) {
+							self.removeClass( className );
+						} else {
+							self.addClass( className );
+						}
 					}
-				}
+				});
+		},
+		// 取value值
+		val: function(value){
+			return value == null ? $.trim(this[0].value)
+								: $.each(this, function(i, elem){elem.value = value});
+		},
+
+
+		// ===============================  事件
+
+		// 绑定事件委托
+		on: function(types, selector, fn){
+			if(fn == null) fn = selector;
+			return $.each(this, function(i, elem) {
+				$.event.add( elem, types, fn, selector );
+			});
+		},
+		// 解除绑定事件
+		off: function(types, selector, fn){
+			if(fn == null) fn = selector;
+			return $.each(this, function(i, elem) {
+				$.event.remove( elem, types, fn, selector );
 			});
 		},
 
@@ -130,20 +176,25 @@
 	// =============================== 静态方法 (兼容IE8)
 
 	// 遍历迭代
-	$.each = function(array, callback){
+	$.each = function(array, fn){
 		for (var i = 0, len = array.length; i < len; i++) {
-			callback.call(array[i], i, array[i], array);
+			fn.call(array[i], i, array[i], array);
 		}
 		return array;
 	};
 
 	// 返回一个新数组
-	$.map = function(array, callback){
+	$.map = function(array, fn){
 		var result = [];
 		for (var i = 0, len = array.length; i < len; i++) {
-			result.push(callback.call(array[i], i, array[i], array));
+			result.push(fn.call(array[i], i, array[i], array));
 		}
 		return result;
+	};
+
+	// 转化成真正的数组
+	$.toArray = function(array){
+		return slice.call(array, 0);
 	};
 
 	// 去除字符串两段的空格
@@ -156,10 +207,38 @@
 		return Array.isArray ? Array.isArray(arg) : Object.prototype.toString.call(arg) === '[object Array]';
 	};
 
+	// 事件
+	$.event = {
+		add: function(elem, types, handler, selector){
+			types = types.split(" ");
+
+			$.each(types, function(i, type){
+				if ( elem.addEventListener ) {
+					elem.addEventListener( type, handler, false );
+				}else if( elem.attachEvent ) {
+					elem.attachEvent( "on" + type, handler );
+				}
+			});
+			
+		},
+		remove: function(elem, types, handler, selector){
+			types = types.split(" ");
+
+			$.each(types, function(i, type){
+				if ( elem.removeEventListener ) {
+					elem.removeEventListener( type, handler, false );
+				}else if( elem.attachEvent ) {
+					elem.detachEvent( "on" + type, handler );
+				}
+			});
+			
+		}
+	};
+
 	window.jQuery = window.$ = $;
 
-	if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
-		define( "jquery", [], function () { return jQuery; } );
+	if ( typeof define === "function" && define.amd && define.amd.$ ) {
+		define( "jquery", [], function () { return $; } );
 	}
     
 })(window);
