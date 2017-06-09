@@ -256,10 +256,12 @@
 		// ==================================  样式
 
 		// css
-		css: function(name, value){
-			value === undefined ?  return $.getStyle(elem).getPropertyValue(name) :
-				return $.each(this, function(i, elem){
-					
+		css: function(value){
+			return typeof value === 'string' ? $.getStyle(this[0], value) :
+				$.each($.toArray(this), function(i, elem){
+					$.each(value, function(key, val){
+						elem.style[key] = val;
+					});
 				});
 		},
 
@@ -268,19 +270,36 @@
 	// =============================== 静态方法 (兼容IE8)
 
 	// 遍历迭代
-	$.each = function(array, fn){
-		for (var i = 0, len = array.length; i < len; i++) {
-			fn.call(array[i], i, array[i], array);
+	$.each = function(object, fn){
+		if($.isArray(object)){
+			for (var i = 0, len = object.length; i < len; i++) {
+				fn.call(object[i], i, object[i], object);
+			}
+		}else if(typeof object === 'object'){
+			for (key in object) {
+				if(object.hasOwnProperty(key)){
+					fn.call(object[key], key, object[key], object);
+				}
+			}
 		}
-		return array;
+		return object;
 	};
 
 	// 返回一个新数组
-	$.map = function(array, fn){
+	$.map = function(object, fn){
 		var result = [];
-		for (var i = 0, len = array.length; i < len; i++) {
-			result.push(fn.call(array[i], i, array[i], array));
+		if($.isArray(object)){
+			for (var i = 0, len = object.length; i < len; i++) {
+				result.push(fn.call(object[i], i, object[i], object));
+			}
+		}else if(typeof object === 'object'){
+			for (key in object) {
+				if(object.hasOwnProperty(key)){
+					result.push(fn.call(object[key], key, object[key], object));
+				}
+			}
 		}
+		
 		return result;
 	};
 
@@ -331,13 +350,18 @@
 	};
 
 
-	// 获取css样式
-	$.getStyle = function(elem){
-		if ( elem.ownerDocument.defaultView.opener ) {
-			return elem.ownerDocument.defaultView.getComputedStyle( elem, null );
+	// 获取css样式表
+	$.getStyle = function(elem, name){
+		if (elem.style[name]){				// 存在于style[]中
+			return elem.style[name];
+		}else if(elem.currentStyle){		// IE的方式
+			elem.currentStyle[name];
+		}else if(document.defaultView && document.defaultView.getComputedStyle){		// W3C的方法
+			name = name.replace(/([A-Z])/g,"-$1").toLowerCase();						// 转化成"text-align"风格
+			var style = document.defaultView.getComputedStyle(elem, "");    			// 获取style对象
+			return style && style.getPropertyValue(name);								// 取得属性的值
 		}
-
-		return window.getComputedStyle( elem, null );
+		return null;
 	};
 
 
