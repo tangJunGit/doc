@@ -264,6 +264,15 @@
 					});
 				});
 		},
+		// 隐藏
+		hide: function(){
+			return this.css({display: 'none'});
+		},
+		// 显示
+		show: function(){
+			return this.css({display: 'block'});
+		},
+		
 
 	};
  
@@ -318,6 +327,20 @@
 		return Array.isArray ? Array.isArray(arg) : Object.prototype.toString.call(arg) === '[object Array]';
 	};
 
+	// 获取css样式表
+	$.getStyle = function(elem, name){
+		if (elem.style[name]){				// 存在于style[]中
+			return elem.style[name];
+		}else if(elem.currentStyle){		// IE的方式
+			elem.currentStyle[name];
+		}else if(document.defaultView && document.defaultView.getComputedStyle){		// W3C的方法
+			name = name.replace(/([A-Z])/g,"-$1").toLowerCase();						// 转化成"text-align"风格
+			var style = document.defaultView.getComputedStyle(elem, "");    			// 获取style对象
+			return style && style.getPropertyValue(name);								// 取得属性的值
+		}
+		return null;
+	};
+
 	// 事件
 	$.event = {
 		// 绑定事件
@@ -349,20 +372,6 @@
 		},
 	};
 
-
-	// 获取css样式表
-	$.getStyle = function(elem, name){
-		if (elem.style[name]){				// 存在于style[]中
-			return elem.style[name];
-		}else if(elem.currentStyle){		// IE的方式
-			elem.currentStyle[name];
-		}else if(document.defaultView && document.defaultView.getComputedStyle){		// W3C的方法
-			name = name.replace(/([A-Z])/g,"-$1").toLowerCase();						// 转化成"text-align"风格
-			var style = document.defaultView.getComputedStyle(elem, "");    			// 获取style对象
-			return style && style.getPropertyValue(name);								// 取得属性的值
-		}
-		return null;
-	};
 
 
 	window.jQuery = window.$ = $;
