@@ -227,7 +227,7 @@
 			$.each(types, function(i, type){
 				if ( elem.removeEventListener ) {
 					elem.removeEventListener( type, handler, false );
-				}else if( elem.attachEvent ) {
+				}else if( elem.detachEvent ) {
 					elem.detachEvent( "on" + type, handler );
 				}
 			});
