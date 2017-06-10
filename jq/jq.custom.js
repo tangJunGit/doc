@@ -92,7 +92,7 @@
 					nodes.push(this);
 				});
 			});
-			return nodes;
+			return $(nodes);
 		},
 
 		// ===============================  属性
@@ -451,7 +451,7 @@
 		},
 		// 解绑事件
 		remove: function(elem, types, handler, selector){
-			var fnData, j = 0;
+			var fnData, j = 0, jq = 'jQuery';
 			types = types.split(" ");
 
 			$.each(types, function(i, type){
@@ -468,7 +468,8 @@
 				}else if( elem.detachEvent ) {
 					elem.detachEvent( "on" + type, fnData[j].fn );
 				}
-				fnData.splice(0, 1);
+
+				// elem[jq][type].splice(j, 1);
 			});
 		},
 		// 添加 fn 到 elem
