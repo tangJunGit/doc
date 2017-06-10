@@ -174,6 +174,61 @@
 			return value == null ? $.trim(this[0].value)
 								: $.each(this, function(i, elem){elem.value = value});
 		},
+
+
+		// ===============================  操作
+
+		// 从内部最后面插入子节点
+		append: function(nodes){
+			if(typeof nodes === 'string') nodes = [$.buildFragment(nodes)];
+			return $.each(this, function(i, elem){
+				$.each(nodes, function(j, node){
+					elem.appendChild(node.cloneNode(true));  // 同一个元素无法重复插入，需要克隆一份，不然直接 append 表示移动节点
+				});
+				
+			});
+		},
+		// 从内部最前面插入节点
+		prepend: function(nodes){
+			if(typeof nodes === 'string') nodes = [$.buildFragment(nodes)];
+			return $.each(this, function(i, elem){
+				$.each(nodes, function(j, node){
+					elem.insertBefore(node.cloneNode(true), elem.firstChild); 
+				});
+			});
+		},
+		// 从外部最前面插入兄弟节点
+		before: function(nodes){
+			if(typeof nodes === 'string') nodes = [$.buildFragment(nodes)];
+			return $.each(this, function(i, elem){
+				$.each(nodes, function(j, node){
+					elem.parentNode.insertBefore(node.cloneNode(true), elem);  
+				});
+			});
+		},
+		// 从外部最后面插入兄弟节点
+		after: function(nodes){
+			if(typeof nodes === 'string') nodes = [$.buildFragment(nodes)];
+			return $.each(this, function(i, elem){
+				$.each(nodes, function(j, node){
+					elem.parentNode.insertBefore(node.cloneNode(true), elem.nextSibling); 
+				});
+			});
+		},
+		// 删除节点
+		remove: function(){
+			return $.each(this, function(i, elem){
+				elem.parentNode.removeChild(elem); 
+			});
+		},
+		// 克隆
+		clone: function(deep){
+			deep = deep || false;
+			var nodes = $.map(this, function(i, elem){
+				return elem.cloneNode(deep); 
+			});
+			return $(nodes);
+		},
 		// html
 		html: function(html){
 			return html == null ? this[0].innerHTML
@@ -269,7 +324,21 @@
 		},
 	};
  
-	// =============================== 静态方法 (兼容IE8)
+	// =============================== 静态方法 
+
+	// 创建文档碎片
+	$.buildFragment = function(html){
+		if (typeof html !== 'string') return '';
+		var temp = document.createElement('div');
+		temp.innerHTML = html;
+
+		// 防止元素太多 进行提速
+		var frag = document.createDocumentFragment();
+		while (temp.firstChild) {
+			frag.appendChild(temp.firstChild);
+		}
+		return frag;
+	};
 
 	// 遍历迭代
 	$.each = function(object, fn){
@@ -359,7 +428,7 @@
 						target.nodeName.toLowerCase() === selector ||                    // 委托元素
 						selector.slice(1) !== '' && target.className.indexOf(selector.slice(1)) !== -1)     // 委托 class
 					{
-						handler(e);
+						handler.call(elem, e);
 					}
 				};
 
