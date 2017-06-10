@@ -16,7 +16,7 @@
 </head>
 <body>
 	<div id="jq">
-		<ul id="ul1" class="ul" style="width:1000px;height:200px;">
+		<ul id="ul1" class="ul">
 			<li class="list list1">list1</li>
 			<li class="list list2">list2</li>
 			<li class="list list3">list3</li>
@@ -45,8 +45,11 @@
 	<script src="jq.custom.js"></script>
 	<script>
 		$(function(){
-			$('.list').css({fontSize:'20px', color: 'red'});
-			console.log($('.list').css('background-color'));
+			var fn = function(e){
+				alert('ddddd');
+				$('.list').off('click', fn);
+			};
+			$('.list').on('click', fn);
 		});
 	</script>
 </body>

@@ -100,7 +100,7 @@
 		// 获取与添加属性
 		attr: function(name, value){
 			return value == null ? this[0].getAttribute(name)
-								: $.each(this, function(i, elem){elem.setAttribute(name.tolowercase(), value+'')});
+								: $.each(this, function(i, elem){elem.setAttribute(name.toLowerCase(), value+'')});
 		},
 		// 删除属性
 		removeAttr: function(name){
@@ -190,7 +190,7 @@
 
 		// 绑定事件委托   selector 只包括 元素（如div），class名
 		on: function(types, selector, fn){
-			if(!fn){
+			if(fn === undefined){
 				fn = selector;
 				selector = undefined;
 			};
@@ -212,43 +212,38 @@
 		// ==================================  数据存储
 
 		// 获取与添加数据   
-		data: function(name, value, typeName){
-			var index, jqNameObj, typeNameObj,
-				jqName = 'jQuery';
-				typeName = typeName || 'data';
+		data: function(name, value){
+			var index,
+				jq = 'jQuery';
 
 			if(value === undefined){
-				index = this.hasData(name, typeName);
-				return  index !== -1? this[index][jqName][typeName][name] : undefined;
+				index = this.hasData(name);
+				return  index !== -1? this[index][jq][name] : null;
 			}
 
 			return $.map(this, function(i, elem){
-				jqNameObj = elem[jqName] || (elem[jqName] = {}),
-			 	typeNameObj = jqNameObj[typeName] || (elem[jqName][typeName] = {});
-					
-				elem[jqName][typeName][name] = value;
+				if(!elem[jq]) elem[jq] = {};
+				elem[jq][name] = value;
 				return elem;
 			});
 		},
 		// 删除存储数据
-		removeData: function(name, typeName){
-			var jqName = 'jQuery';
-				typeName = typeName || 'data';
+		removeData: function(name){
+			var jq = 'jQuery';
 
 			return $.map(this, function(i, elem){
-				if($(elem).hasData(name, typeName) !== -1){
-					delete elem[jqName][typeName][name];
+				if($(elem).hasData(name) !== -1){
+					delete elem[jq][name];
 				}
 				return elem;
 			});
 		},
 		// 检验是否存在数据
-		hasData: function(name, typeName){
-			var jqName = 'jQuery';
-			typeName = typeName || 'data';
+		hasData: function(name){
+			var jq = 'jQuery';
 
 			for (var i = 0; i < this.length; i++) {
-				if(this[i][jqName] && this[i][jqName][typeName] &&  this[i][jqName][typeName][name]) return i;
+				if(this[i][jq] && this[i][jq] &&  this[i][jq][name]) return i;
 			}
 			return -1;
 		},
@@ -272,17 +267,16 @@
 		show: function(){
 			return this.css({display: 'block'});
 		},
-		
-
 	};
  
 	// =============================== 静态方法 (兼容IE8)
 
 	// 遍历迭代
 	$.each = function(object, fn){
-		if($.isArray(object)){
-			for (var i = 0, len = object.length; i < len; i++) {
-				fn.call(object[i], i, object[i], object);
+		if($.isArrayLike(object)){
+			var arr = $.toArray(object);
+			for (var i = 0, len = arr.length; i < len; i++) {
+				fn.call(arr[i], i, arr[i], arr);
 			}
 		}else if(typeof object === 'object'){
 			for (key in object) {
@@ -297,24 +291,19 @@
 	// 返回一个新数组
 	$.map = function(object, fn){
 		var result = [];
-		if($.isArray(object)){
-			for (var i = 0, len = object.length; i < len; i++) {
-				result.push(fn.call(object[i], i, object[i], object));
+		if($.isArrayLike(object)){
+			var arr = $.toArray(object);
+			for (var i = 0, len = arr.length; i < len; i++) {
+				result.push(fn.call(arr[i], i, arr[i], arr));
 			}
 		}else if(typeof object === 'object'){
 			for (key in object) {
-				if(object.hasOwnProperty(key)){
+				if(key >= 0 && object.hasOwnProperty(key)){
 					result.push(fn.call(object[key], key, object[key], object));
 				}
 			}
 		}
-		
 		return result;
-	};
-
-	// 转化成真正的数组
-	$.toArray = function(array){
-		return slice.call(array, 0);
 	};
 
 	// 去除字符串两段的空格
@@ -322,9 +311,20 @@
 		return String.prototype.trim ? value.trim() : value.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
 	};
 
+	// 转化成真正的数组
+	$.toArray = function(array){
+		return slice.call(array, 0);
+	};
+
 	// 判断是否是数组
-	$.isArray = function(arg){
-		return Array.isArray ? Array.isArray(arg) : Object.prototype.toString.call(arg) === '[object Array]';
+	$.isArray = function(object){
+		return Array.isArray ? Array.isArray(object) : Object.prototype.toString.call(object) === '[object Array]';
+	};
+
+	// 判断是否是类数组
+	$.isArrayLike = function(object){
+		var length = object.length;
+		return length && typeof length === "number" && ( length - 1 ) in object;
 	};
 
 	// 获取css样式表
@@ -343,32 +343,74 @@
 
 	// 事件
 	$.event = {
-		// 绑定事件
+		// 绑定事件 
 		add: function(elem, types, handler, selector){
+			var fn, fnData, target;
 			types = types.split(" ");
 
 			$.each(types, function(i, type){
+				// 处理后的函数
+				fn = function(e){
+					e = e || window.event; 
+					target = e.target || e.srcElement;
 
+					// 处理事件委托的判断
+					if( selector === undefined ||                  // 不委托
+						target.nodeName.toLowerCase() === selector ||                    // 委托元素
+						selector.slice(1) !== '' && target.className.indexOf(selector.slice(1)) !== -1)     // 委托 class
+					{
+						handler(e);
+					}
+				};
+
+				// 存储函数
+				fnData = {
+					selector: selector,
+					type: type,
+					handler: handler,
+					fn: fn
+				};
+				$.event.data(elem, type, fnData);
+
+				// 监听
 				if ( elem.addEventListener ) {
-					elem.addEventListener( type, handler, false );
+					elem.addEventListener( type, fnData.fn, false );
 				}else if( elem.attachEvent ) {
-					elem.attachEvent( "on" + type, handler );
+					elem.attachEvent( "on" + type, fnData.fn );
 				}
 			});
-			
 		},
 		// 解绑事件
 		remove: function(elem, types, handler, selector){
+			var fnData, j = 0;
 			types = types.split(" ");
 
 			$.each(types, function(i, type){
-				if ( elem.removeEventListener ) {
-					elem.removeEventListener( type, handler, false );
-				}else if( elem.detachEvent ) {
-					elem.detachEvent( "on" + type, handler );
+				fnData = $(elem).data(type);
+
+				// 匹配监听的函数
+				while(fnData[j].handler !== handler){
+					j++;
 				}
+
+				// 取消监听
+				if ( elem.removeEventListener ) {
+					elem.removeEventListener( type, fnData[j].fn, false );
+				}else if( elem.detachEvent ) {
+					elem.detachEvent( "on" + type, fnData[j].fn );
+				}
+				fnData.splice(0, 1);
 			});
-			
+		},
+		// 添加 fn 到 elem
+		data: function(elem, type, fn){
+			var index,
+				jq = 'jQuery';
+
+			if(!elem[jq]) elem[jq] = {};
+			if(!elem[jq][type]) elem[jq][type] = [];
+			elem[jq][type].push(fn);
+			return fn;
 		},
 	};
 
