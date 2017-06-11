@@ -47,13 +47,9 @@
 		$(function(){
 			var fn = function(e){
 				alert('sddddd');
-				$('.list1').off('click', fn);
 			};
-			var fn2 = function(e){
-				alert('ssss');
-			};
-			$('.list').on('click', fn);
-			$('.list').on('click', fn2);
+			
+			$('.list').one('click', fn);
 		});
 	</script>
 </body>
