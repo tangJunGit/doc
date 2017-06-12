@@ -92,7 +92,7 @@
 					nodes.push(this);
 				});
 			});
-			return nodes;
+			return $(nodes);
 		},
 
 		// ===============================  属性
@@ -263,6 +263,17 @@
 				$.event.remove( elem, types, fn, selector );
 			});
 		},
+		// 绑定一次事件
+		one: function(types, selector, fn){
+			var self = this;
+			if(fn === undefined){
+				fn = selector;
+				selector = undefined;
+			};
+			return $.each(this, function(i, elem) {
+				$.event.add( elem, types, fn, selector, self, true );
+			});
+		},
 
 		// ==================================  数据存储
 
@@ -413,7 +424,7 @@
 	// 事件
 	$.event = {
 		// 绑定事件 
-		add: function(elem, types, handler, selector){
+		add: function(elem, types, handler, selector, elems, one){
 			var fn, fnData, target;
 			types = types.split(" ");
 
@@ -429,6 +440,10 @@
 						selector.slice(1) !== '' && target.className.indexOf(selector.slice(1)) !== -1)     // 委托 class
 					{
 						handler.call(elem, e);
+						// 绑定一次解绑
+						if(one){
+							elems.off(type, handler, selector);
+						}
 					}
 				};
 
@@ -451,7 +466,7 @@
 		},
 		// 解绑事件
 		remove: function(elem, types, handler, selector){
-			var fnData, j = 0;
+			var fnData, j = 0, jq = 'jQuery';
 			types = types.split(" ");
 
 			$.each(types, function(i, type){
@@ -468,7 +483,9 @@
 				}else if( elem.detachEvent ) {
 					elem.detachEvent( "on" + type, fnData[j].fn );
 				}
-				fnData.splice(0, 1);
+				if(fnData[j].handler !== handler){
+					elem[jq][type].splice(j, 1);
+				}
 			});
 		},
 		// 添加 fn 到 elem
