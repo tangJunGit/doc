@@ -9,9 +9,6 @@
     <link rel="icon" href="#">
 	<title>jq 自定义</title>
 	<style>
-		.ul{
-			width:900px;
-		}
 	</style>
 </head>
 <body>
@@ -24,8 +21,8 @@
 		</ul>
 		<ul id="ul2" class="ul">
 			<li class="list list1">list1</li>
-			<li class="list list2">list2</li>
 			<li class="list list3">list3</li>
+			<li class="list list2">list2</li>
 			<li class="list list4">list4</li>
 		</ul>
 	</div>
@@ -45,15 +42,7 @@
 	<script src="jq.custom.js"></script>
 	<script>
 		$(function(){
-			var fn = function(e){
-				alert('dddd');
-				$('.list1').off('click', fn);
-			};
-			var fn2 = function(e){
-				alert('ssss');
-			};
-			$('.list').on('click', fn);
-			$('.list').on('click', fn2);
+			
 		});
 	</script>
 </body>

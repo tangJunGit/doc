@@ -94,7 +94,39 @@
 			});
 			return $(nodes);
 		},
-
+		// 父节点
+		parent: function() {
+			return $.sibling(this, "parentNode");
+		},
+		parents: function() {
+			return $.dir(this, "parentNode");
+		},
+		// 前一个节点
+		prev: function() {
+			return $.sibling(this, "previousSibling");
+		},
+		prevAll: function() {
+			return $.dir(this, "previousSibling");
+		},
+		// 后一个节点
+		next: function() {
+			return $.sibling(this, "nextSibling");
+		},
+		nextAll: function() {
+			return $.dir(this, "nextSibling");
+		},
+		// 兄弟节点
+		siblings: function() {
+			return $.sibling2(this, 'parentNode firstChild');
+		},
+		// 儿子节点
+		children: function() {
+			return $.sibling2(this, "firstChild");
+		},
+		// 第一个儿子节点
+		firstChild: function(){
+			return $.sibling2(this, "firstChild");
+		},
 		// ===============================  属性
 
 		// 获取与添加属性
@@ -224,10 +256,9 @@
 		// 克隆
 		clone: function(deep){
 			deep = deep || false;
-			var nodes = $.map(this, function(i, elem){
+			return $.map(this, function(i, elem){
 				return elem.cloneNode(deep); 
 			});
-			return $(nodes);
 		},
 		// html
 		html: function(html){
@@ -333,6 +364,49 @@
 		show: function(){
 			return this.css({display: 'block'});
 		},
+
+		// ==================================  位置
+
+		// 在当前视口的相对偏移
+		offset: function(){
+			var docElem, scroll,
+				elem = this[ 0 ],
+				box = { top: 0, left: 0 };
+
+
+			// getBoundingClientRect() 返回元素的大小及其相对于视口的位置
+			if ( elem.getBoundingClientRect !== undefined ) {
+				box = elem.getBoundingClientRect();
+			}
+
+			docElem = document.documentElement || document.body.parentNode;
+			scroll = {
+				top: window.pageYOffset || docElem.scrollTop,
+				left: window.pageXOffset || docElem.scrollLeft
+			};
+
+			return {
+				top: box.top + scroll.top - elem.clientTop,
+				left: box.left + scroll.left - elem.clientLeft
+			};
+		},
+		// 相对父元素的偏移
+		position: function(){
+			var elem = this[ 0 ];
+
+			return {
+				top: elem.offsetTop,
+				left: elem.offsetLeft
+			};
+		},
+		// 获取宽
+		width: function(){
+			return parseFloat(this.eq(0).css('width'));
+		},
+		//获取高
+		height: function(){
+			return parseFloat(this.eq(0).css('height'));
+		},
 	};
  
 	// =============================== 静态方法 
@@ -383,7 +457,7 @@
 				}
 			}
 		}
-		return result;
+		return $(result);
 	};
 
 	// 去除字符串两段的空格
@@ -412,7 +486,7 @@
 		if (elem.style[name]){				// 存在于style[]中
 			return elem.style[name];
 		}else if(elem.currentStyle){		// IE的方式
-			elem.currentStyle[name];
+			return elem.currentStyle.width;
 		}else if(document.defaultView && document.defaultView.getComputedStyle){		// W3C的方法
 			name = name.replace(/([A-Z])/g,"-$1").toLowerCase();						// 转化成"text-align"风格
 			var style = document.defaultView.getComputedStyle(elem, "");    			// 获取style对象
@@ -420,7 +494,41 @@
 		}
 		return null;
 	};
+	// 
+	$.dir = function( elems, dir ) {
+		var matched = [];
 
+		$.each(elems, function(i, elem){
+			while ((elem = elem[dir]) && elem.nodeType !== 9 ) {
+				if (elem && elem.nodeType === 1) {
+					matched.push(elem);
+				}
+			}
+		});
+		return $(matched);
+	};
+	$.sibling = function( elems, dir ) {
+		return $.map(elems, function(i, elem){
+			while ((elem = elem[dir]) && elem.nodeType !== 1 ) {}
+			return elem;
+		});
+	};
+	$.sibling2 = function( elems, dir ) {
+		var matched = []
+			dir = dir.split(' ');
+
+		$.each(elems, function(i, elem){
+			for (var i = 0; i < dir.length; i++) {
+				elem = elem[dir[i]];
+			}
+			for ( ; elem; elem = elem.nextSibling ) {
+				if ( elem.nodeType === 1) {
+					matched.push( elem );
+				}
+			}
+		});
+		return $(matched);
+	};
 	// 事件
 	$.event = {
 		// 绑定事件 
