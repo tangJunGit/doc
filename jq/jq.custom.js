@@ -96,36 +96,32 @@
 		},
 		// 父节点
 		parent: function() {
-			return $.sibling(this, "parentNode");
+			return $.matchNodes(this, 'sibling', "parentNode");
 		},
 		parents: function() {
-			return $.dir(this, "parentNode");
+			return $.matchNodes(this, 'dir', "parentNode");
 		},
 		// 前一个节点
 		prev: function() {
-			return $.sibling(this, "previousSibling");
+			return $.matchNodes(this, 'sibling', "previousSibling");
 		},
 		prevAll: function() {
-			return $.dir(this, "previousSibling");
+			return $.matchNodes(this, 'dir', "previousSibling");
 		},
 		// 后一个节点
 		next: function() {
-			return $.sibling(this, "nextSibling");
+			return $.matchNodes(this, 'sibling', "nextSibling");
 		},
 		nextAll: function() {
-			return $.dir(this, "nextSibling");
-		},
-		// 兄弟节点
-		siblings: function() {
-			return $.sibling2(this, 'parentNode firstChild');
-		},
-		// 儿子节点
-		children: function() {
-			return $.sibling2(this, "firstChild");
+			return $.matchNodes(this, 'dir', "nextSibling");
 		},
 		// 第一个儿子节点
 		firstChild: function(){
-			return $.sibling2(this, "firstChild");
+			return $.matchNodes(this, 'sibling', "nextSibling", 'firstChild');
+		},
+		// 最后一个儿子节点
+		lastChild: function(){
+			return $.matchNodes(this, 'sibling', "previousSibling", 'lastChild');
 		},
 		// ===============================  属性
 
@@ -274,7 +270,7 @@
 
 		// ===============================  事件
 
-		// 绑定事件委托   selector 只包括 元素（如div），class名
+		// 绑定事件委托   selector 只包括 class名
 		on: function(types, selector, fn){
 			if(fn === undefined){
 				fn = selector;
@@ -494,38 +490,26 @@
 		}
 		return null;
 	};
-	// 
-	$.dir = function( elems, dir ) {
+	// 处理查询节点
+	$.dir = function( elem, dir ) {
 		var matched = [];
 
-		$.each(elems, function(i, elem){
-			while ((elem = elem[dir]) && elem.nodeType !== 9 ) {
-				if (elem && elem.nodeType === 1) {
-					matched.push(elem);
-				}
+		while ((elem = elem[dir]) && elem.nodeType !== 9 ) {
+			if (elem && elem.nodeType === 1) {
+				matched.push(elem);
 			}
-		});
-		return $(matched);
+		}
+		return matched;
 	};
-	$.sibling = function( elems, dir ) {
-		return $.map(elems, function(i, elem){
-			while ((elem = elem[dir]) && elem.nodeType !== 1 ) {}
-			return elem;
-		});
+	$.sibling = function( elem, dir ) {
+		while ((elem = elem[dir]) && elem.nodeType !== 1 ) {}
+		return elem;
 	};
-	$.sibling2 = function( elems, dir ) {
-		var matched = []
-			dir = dir.split(' ');
-
+	$.matchNodes = function(elems, method, sibling, dir){
+		var matched = [];
 		$.each(elems, function(i, elem){
-			for (var i = 0; i < dir.length; i++) {
-				elem = elem[dir[i]];
-			}
-			for ( ; elem; elem = elem.nextSibling ) {
-				if ( elem.nodeType === 1) {
-					matched.push( elem );
-				}
-			}
+			if(dir) elem = elem[dir];
+			matched = matched.concat($[method](elem, sibling));
 		});
 		return $(matched);
 	};
@@ -543,9 +527,7 @@
 					target = e.target || e.srcElement;
 
 					// 处理事件委托的判断
-					if( selector === undefined ||                  // 不委托
-						target.nodeName.toLowerCase() === selector ||                    // 委托元素
-						selector.slice(1) !== '' && target.className.indexOf(selector.slice(1)) !== -1)     // 委托 class
+					if(selector === undefined || $(target).hasClass(selector.slice(1)))     // 委托 class
 					{
 						handler.call(elem, e);
 						// 绑定一次解绑
