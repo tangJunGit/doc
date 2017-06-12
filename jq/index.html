@@ -45,9 +45,15 @@
 	<script src="jq.custom.js"></script>
 	<script>
 		$(function(){
-			$('.list').on('click', function(e){
-				console.log(e);
-			});
+			var fn = function(e){
+				alert('dddd');
+				$('.list1').off('click', fn);
+			};
+			var fn2 = function(e){
+				alert('ssss');
+			};
+			$('.list').on('click', fn);
+			$('.list').on('click', fn2);
 		});
 	</script>
 </body>
