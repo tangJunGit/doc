@@ -77,6 +77,10 @@
 		map: function(fn){
 			return $.map(this, fn);
 		},
+		// 过滤数组
+		filter: function(fn){
+			return $.filter(this, fn);
+		},
 		// 筛选
 		eq: function(i){
 			i = +i;
@@ -86,10 +90,10 @@
 		// 查找儿子节点
 		find: function(selector){
 			var nodes = [];
-			$.each(this, function(i, elem){
+			$.map(this, function(i, elem){
 				var elems = elem.querySelectorAll(selector);
-				$.each(elems, function(){
-					nodes.push(this);
+				$.each(elems, function(i, node){
+					nodes.push(node);
 				});
 			});
 			return $(nodes);
@@ -122,6 +126,10 @@
 		// 最后一个儿子节点
 		lastChild: function(){
 			return $.matchNodes(this, 'sibling', "previousSibling", 'lastChild');
+		},
+		// 全部儿子节点
+		children: function(){
+			return $.matchNodes(this, 'dir', "nextSibling", 'firstChild');
 		},
 		// ===============================  属性
 
@@ -403,6 +411,42 @@
 		height: function(){
 			return parseFloat(this.eq(0).css('height'));
 		},
+
+		// ==================================  AJAX
+
+		// 序列化
+		serialize: function() {
+			return $.param(this.serializeArray());
+		},
+		serializeArray: function(){
+			var elements;
+			if(window.addEventListener){
+				elements = this.map(function(i, elem){
+					return elem.elements;
+				});
+			}else{                    // ie8
+				elements = [];
+				this.each(function(i, elem){
+					elements = elements.concat(
+						elem.querySelectorAll('input'), 
+						elem.querySelectorAll('select'), 
+						elem.querySelectorAll('textarea')
+					);
+				});
+			}
+			return $.makeArray(elements).filter(function(i, elem){
+				return elem.name 
+						&& (elem.type !== 'radio' && elem.type !== 'checkbox')
+						|| elem.checked;
+			})
+			.map(function(i, elem){
+				return {
+					name: elem.name,
+					value: $.trim(elem.value)
+				};
+			})
+			.get();
+		},
 	};
  
 	// =============================== 静态方法 
@@ -420,6 +464,30 @@
 		}
 		return frag;
 	};
+	
+	// 转化成单个数组
+	$.makeArray = function(object){
+		var result = [];
+		$.each(object, function(i, obj){
+			for (var i = 0; i < obj.length; i++) {
+				result = result.concat(obj[i]);
+			}
+		});
+		return $(result);
+	};
+
+	// 转化
+	$.param = function(array){
+		if(!$.isArray(array)) return '';
+		var result = [],
+			add = function( key, value ) {
+				result[result.length] = encodeURIComponent( key ) + "=" + encodeURIComponent( value );
+			};
+		$.each(array, function(i, obj){
+			add(obj.name, obj.value);
+		});
+		return result.join("&");
+	},
 
 	// 遍历迭代
 	$.each = function(object, fn){
@@ -451,6 +519,18 @@
 				if(key >= 0 && object.hasOwnProperty(key)){
 					result.push(fn.call(object[key], key, object[key], object));
 				}
+			}
+		}
+		return $(result);
+	};
+
+	// 过滤数组
+	$.filter = function(object, fn){
+		var result = [];
+		if($.isArrayLike(object)){
+			var arr = $.toArray(object);
+			for (var i = 0, len = arr.length; i < len; i++) {
+				if(fn.call(arr[i], i, arr[i], arr)) result.push(arr[i]);
 			}
 		}
 		return $(result);
