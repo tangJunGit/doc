@@ -768,7 +768,7 @@
 
         //jsonp的回调函数
         window[callbackName] = function(json){  
-        	window[callbackName] = undefined;
+        	delete window[callbackName];
             head.removeChild(script);  
             success(json);
         };  
