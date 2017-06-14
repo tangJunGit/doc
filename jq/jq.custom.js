@@ -55,13 +55,12 @@
 	            setTimeout( jQuery.ready ); 
 	        } else if ( document.addEventListener ) { 										// DOMContentLoaded 事件绑定
 	            document.addEventListener( "DOMContentLoaded", fn, false ); 			
-	            window.addEventListener( "load", fn, false ); 
-	        } else if( document.attachEvent ) { 																		// 低版本IE8
+	            // window.addEventListener( "load", fn, false ); 
+	        } else if( document.attachEvent ) { 											// 低版本IE8
 	            document.attachEvent( "onreadystatechange", fn );	
-	            window.attachEvent( "onload", fn ); 
+	            // window.attachEvent( "onload", fn ); 
 	        }
 		},
-
 
 		// ===============================  筛选
 
@@ -221,7 +220,6 @@
 				$.each(nodes, function(j, node){
 					elem.appendChild(node.cloneNode(true));  // 同一个元素无法重复插入，需要克隆一份，不然直接 append 表示移动节点
 				});
-				
 			});
 		},
 		// 从内部最前面插入节点
@@ -412,7 +410,7 @@
 			return parseFloat(this.eq(0).css('height'));
 		},
 
-		// ==================================  AJAX
+		// ==================================  序列化
 
 		// 序列化
 		serialize: function() {
@@ -464,7 +462,7 @@
 		}
 		return frag;
 	};
-	
+
 	// 转化成单个数组
 	$.makeArray = function(object){
 		var result = [];
@@ -477,24 +475,49 @@
 	};
 
 	// 转化
-	$.param = function(array){
-		if(!$.isArray(array)) return '';
+	$.param = function(object){
 		var result = [],
 			add = function( key, value ) {
 				result[result.length] = encodeURIComponent( key ) + "=" + encodeURIComponent( value );
 			};
-		$.each(array, function(i, obj){
-			add(obj.name, obj.value);
-		});
+
+		if($.isArray(object)){
+			$.each(object, function(i, obj){
+				add(obj.name, obj.value);
+			});
+		}else{
+			$.each(object, function(key, value){
+				add(key, value);
+			});
+		}
 		return result.join("&");
-	},
+	};
+
+	// 覆盖属性
+	$.extend = function() {
+		var object = {},
+			length = arguments.length;
+	  	if (!length) return object;
+
+	  	for (var index = 0; index < length; index++) {
+		    var source = arguments[index],
+		    	keys = [];
+		    for (key in source) {
+		    	if(source.hasOwnProperty(key)) keys.push(key);   // 自身属性
+		    }
+		    for (var i = 0, l = keys.length; i < l; i++) {
+		      	var key = keys[i];
+		      	object[key] = source[key];
+		    }
+		}
+	    return object;
+	};
 
 	// 遍历迭代
 	$.each = function(object, fn){
 		if($.isArrayLike(object)){
-			var arr = $.toArray(object);
-			for (var i = 0, len = arr.length; i < len; i++) {
-				fn.call(arr[i], i, arr[i], arr);
+			for (var i = 0, len = object.length; i < len; i++) {
+				fn.call(object[i], i, object[i], object);
 			}
 		}else if(typeof object === 'object'){
 			for (key in object) {
@@ -510,9 +533,8 @@
 	$.map = function(object, fn){
 		var result = [];
 		if($.isArrayLike(object)){
-			var arr = $.toArray(object);
-			for (var i = 0, len = arr.length; i < len; i++) {
-				result.push(fn.call(arr[i], i, arr[i], arr));
+			for (var i = 0, len = object.length; i < len; i++) {
+				result.push(fn.call(object[i], i, object[i], object));
 			}
 		}else if(typeof object === 'object'){
 			for (key in object) {
@@ -588,7 +610,14 @@
 	$.matchNodes = function(elems, method, sibling, dir){
 		var matched = [];
 		$.each(elems, function(i, elem){
-			if(dir) elem = elem[dir];
+			if(dir){
+				elem = elem[dir];
+				// ie8
+				if(!window.addEventListener && elem.nodeType === 1) {
+					matched = matched.concat(elem);
+					if(method === 'sibling') return $(matched);
+				}
+			};
 			matched = matched.concat($[method](elem, sibling));
 		});
 		return $(matched);
@@ -671,6 +700,79 @@
 	};
 
 
+
+	// =============================== AJAX 
+
+	$.ajax = function(option){
+		if(!option.url) return;
+		var xhr,
+			type,
+			params,
+			url,
+			defaultOption = {
+				type: 'get',
+				data: undefined,
+				dataType: 'json',
+				async : true,  
+				contentType: 'application/x-www-form-urlencoded'
+			};
+		option = $.extend(defaultOption, option);
+		type = option.type.toUpperCase();
+
+		if(option.data && typeof option.data !== 'string'){
+			params = $.param(option.data);   					// 转化成 &name=value
+		}else{
+			params = option.data;
+		}
+
+		if(type == 'GET') url = option.url + (params? '?' + params : '');     // 拼接 url
+
+		if(option.dataType === 'json'){
+			// step1: 创建对象
+			xhr = new XMLHttpRequest();
+
+	        // step4: 接收
+	        xhr.onreadystatechange = function(){
+	            if(xhr.readyState == 4){
+	                if(xhr.status == 200){
+	                    option.success && option.success(JSON.parse(xhr.responseText));
+	                }else{
+	                    option.error && option.error(JSON.parse(xhr.responseText));
+	                }
+	            }
+	        };
+
+	        // step2 step3: 连接和发送
+	        if(type == 'GET'){
+	            xhr.open(type, url, option.async);
+	            xhr.send(null);
+	        }else if(type == 'POST'){
+	            xhr.open(type, option.url, option.async);
+	            xhr.setRequestHeader('Content-Type', option.contentType);   
+	            xhr.send(params);
+	        }
+		}else{
+			$.getScript(url, option.success);
+		}
+    };
+
+    $.getScript = function(url, success){
+    	var head = document.getElementsByTagName("head")[0], 
+        	script = document.createElement("script"),
+        	callbackName = 'jsonpcallback' + new Date().getTime();
+
+        // 创建一个script元素
+        script.type="text/javascript";
+        script.src = url + (url.indexOf("?") === -1 ? "?" : "&") +'callback=' + callbackName;  
+        head.insertBefore(script, head.firstChild);  
+
+        //jsonp的回调函数
+        window[callbackName] = function(json){  
+        	window[callbackName] = undefined;
+            head.removeChild(script);  
+            success(json);
+        };  
+    };
 
 	window.jQuery = window.$ = $;
 

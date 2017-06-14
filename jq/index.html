@@ -8,49 +8,55 @@
     <meta name="author" content="">
     <link rel="icon" href="#">
 	<title>jq 自定义</title>
-	<style>
-		.ul{
-			width:900px;
-		}
-	</style>
 </head>
 <body>
-	<div id="jq">
-		<ul id="ul1" class="ul">
-			<li class="list list1">list1</li>
-			<li class="list list2">list2</li>
-			<li class="list list3">list3</li>
-			<li class="list list4">list4</li>
-		</ul>
-		<ul id="ul2" class="ul">
-			<li class="list list1">list1</li>
-			<li class="list list2">list2</li>
-			<li class="list list3">list3</li>
-			<li class="list list4">list4</li>
-		</ul>
-	</div>
-
-	<form action="" id="form">
-		<input type="radio" name="radio" value="radio1" checked="true">radio1
-		<input type="radio" name="radio" value="radio2">radio2
-		<input type="checkbox" name="checkbox"  value="checkbox1">checkbox1
-		<input type="checkbox" name="checkbox"  value="checkbox2">checkbox2
-		<input type="text" name="text" value="text">
-		<input type="text" name="text2" value="text2">
-		<input type="text" value="no">
-		<select name="select">
-			<option value="select1">select1</option>
-			<option value="select2">select2</option>
-			<option value="select3">select3</option>
+<div id="jq">
+	<ul class="ul">
+		<li class="list list1">list1</li>
+		<li class="list list2">list2</li>
+		<li class="list list3">list3</li>
+		<li class="list list4">list4</li>
+		<li class="list list5">list5</li>
+	</ul>
+	<form action="">
+		<input type="text" name="textType" value="text value">
+		<input type="radio" name="radioType" value="radio value1" checked="checked">value1
+		<input type="radio" name="radioType" value="radio value2">value2
+		<input type="checkbox" name="checkboxType" value="checkbox value1">value1
+		<input type="checkbox" name="checkboxType" value="checkbox value2">value2
+		<input type="hidden" name="hiddenType" value="hidden value">
+		<select name="selectType">
+			<option value="select value1">value1</option>
+			<option value="select value2">value2</option>
+			<option value="select value3">value3</option>
 		</select>
-		<textarea name="textarea" id="" cols="30" rows="10">textarea</textarea>
-		<input type="button" id="btn" value="send">
+		<textarea name="textareaType" cols="10" rows="5">textarea value</textarea>
 	</form>
-	<script src="jq.custom.js"></script>
-	<script>
-		$(function(){
-			
+</div>
+<script src="jq.custom.js"></script>
+<script>
+	$(function(){
+		// ajax  jsonp ...
+
+		$.ajax({
+			type: 'get',
+			url: 'http://api.qunar.com/cdnWebservices.jcp',
+			data: {
+				from: "北京",
+				count: 27
+			},
+			dataType: 'jsonp', 
+			success: function(data){
+				console.log(data);
+			}
 		});
-	</script>
+
+		// 或者
+		// $.getScript('http://api.qunar.com/cdnWebservices.jcp?from=北京&count=27', function(data){
+		// 	console.log(data);
+		// });
+
+	});
+</script>
 </body>
 </html>
