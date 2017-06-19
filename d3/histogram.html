@@ -9,25 +9,29 @@
     <link rel="icon" href="#"> 
 	<title>柱形图</title>
 	<style type="text/css">
-		svg{
+		svg.histogram{
 			background: #eee; 
 		}
-
-		.axis path,
-		.axis line{
+		.histogram .axis path,
+		.histogram .axis line{
 			fill: none;
 			stroke: black;
 			shape-rendering: crispEdges;
 		}
-		.axis text {
+		.histogram .axis text {
 			font-family: sans-serif;
 			font-size: 11px;
 		}
-
-		.rect {
+		.histogram .axis.x .axislabel{
+			text-anchor: start;
+		}
+		.histogram .axis.y .axislabel{
+			text-anchor: middle;
+		}
+		.histogram .rect {
 			fill: steelblue;
 		}
-		.text {
+		.histogram .text {
 			fill: white;
 			text-anchor: middle;
 		}
@@ -44,20 +48,33 @@
 	var svg = d3.select('.histogram');
 	var width = svg.attr('width');
 	var height = svg.attr('height');
-	var padding = {left: 40, right: 20, top: 20, bottom: 40};	// svg padding
+	var padding = {left: 40, right: 40, top: 30, bottom: 30};	// svg padding
 
-	// 定义数据和比例尺
-	var dataset = [56, 87, 96, 77, 89, 73, 61, 40];
+	// 定义数据
+	var dataset = [
+					{id: 1, name: '一班',　score: 87},
+					{id: 2, name: '二班',　score: 67},
+					{id: 3, name: '三班',　score: 95},
+					{id: 4, name: '四班',　score: 81},
+					{id: 5, name: '五班',　score: 77},
+				  ];
+    var scores = dataset.map(function(d){return d.score});
+    var classNames = dataset.map(function(d){return d.name});
+
+    // 定义比例尺
 	var xScale = d3.scale.ordinal()
 					.domain(d3.range(dataset.length))
 					.rangeRoundBands([0, width - padding.left - padding.right]);
 	var yScale = d3.scale.linear()
-					.domain([0, d3.max(dataset)])
+					.domain([0, d3.max(scores)])
 					.range([height - padding.top - padding.bottom, 0]);
 
 	// 定义坐标轴
 	var xAxis = d3.svg.axis()
 					.scale(xScale)
+					.tickFormat(function(d, i) {         // 格式化横坐标
+						return classNames[i];
+					})
 					.orient('bottom');
 	var yAxis = d3.svg.axis()
 					.scale(yScale)
@@ -65,9 +82,9 @@
 					.orient('left');
 
 	// 添加矩形
-	var rectPadding = 6;   			// 矩形空白间隔
+	var rectPadding = 8;   			// 矩形空白间隔
 	var rects = svg.selectAll('.rect')
-					.data(dataset)
+					.data(scores)
 					.enter()
 					.append('rect')
 					.attr('class', 'rect')
@@ -85,7 +102,7 @@
 
 	// 添加文字
 	var texts = svg.selectAll('.text')
-					.data(dataset)
+					.data(scores)
 					.enter()
 					.append('text')
 					.attr('class', 'text')
@@ -108,13 +125,25 @@
 
 	// 添加坐标轴
 	svg.append('g')
-		.attr('class', 'axis')
+		.attr('class', 'axis x')
 		.attr('transform', 'translate('+padding.left+', '+(height - padding.bottom)+')')
 		.call(xAxis);
 	svg.append('g')
-		.attr('class', 'axis')
+		.attr('class', 'axis y')
 		.attr('transform', 'translate('+padding.left+', '+padding.top+')')
 		.call(yAxis);
+	svg.select('g.axis.x')
+		.append("text")  
+        .attr("class", "axislabel")  
+        .attr("x", width - padding.left - padding.right + 5)  
+        .attr("y", 5)  
+        .text("班级");
+    svg.select('g.axis.y')
+		.append("text")  
+        .attr("class", "axislabel")  
+        .attr("x", 0)  
+        .attr("y", -5)  
+        .text("平均成绩");
 </script>
 </body>
 </html>
