@@ -45,7 +45,7 @@
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script type="text/javascript">
 	// 获取画布信息
-	var svg = d3.select('.histogram');
+	var svg = d3.select('svg.histogram');
 	var width = svg.attr('width');
 	var height = svg.attr('height');
 	var padding = {left: 40, right: 40, top: 30, bottom: 30};	// svg padding
@@ -62,29 +62,31 @@
     var scores = dataset.map(function(d){return d.score});
     var classNames = dataset.map(function(d){return d.name});
 
-    // 定义比例尺
+    // 构造比例尺
 	var xScale = d3.scale.ordinal()            									// 序数比例尺  离散型
 					.domain(d3.range(dataset.length))							// 定义域
 					.rangeRoundBands([0, width - padding.left - padding.right]);		// 值域
+
 	var yScale = d3.scale.linear()            											// 线性比例尺  
 					.domain([0, d3.max(scores)])
 					.range([height - padding.top - padding.bottom, 0]);
 
-	// 定义坐标轴
+	// 创建轴生成器
 	var xAxis = d3.svg.axis()
 					.scale(xScale)							// 设置比例尺
 					.tickFormat(function(d, i) {         	// 格式化横坐标
 						return classNames[i];
 					})
 					.orient('bottom');						// 设置轴的方向
+
 	var yAxis = d3.svg.axis()
 					.scale(yScale)
 					.ticks(10)								// 生成刻度值			
 					.orient('left');
 
-	// 添加矩形
+	// 绘画矩形
 	var rectPadding = 8;   					// 矩形空白间隔
-	svg.selectAll('.rect')
+	svg.selectAll('rect.rect')
 		.data(scores)			// 设置一组元素的数据
 		.enter()
 		.append('rect')
@@ -120,15 +122,15 @@
 	svg.selectAll('.rect')
 		.on("mouseover", function(d, i){   		
 	        d3.select(this)
-	            .attr("fill", "skyblue");
+	            .attr("fill", "brown");
 	    })
 	    .on("mouseout", function(d, i){
 	        d3.select(this)
 	            .attr("fill", "steelblue");
 	    });
 
-	// 添加文字
-	svg.selectAll('.text')
+	// 绘画文字
+	svg.selectAll('text.text')
 		.data(scores)
 		.enter()
 		.append('text')
@@ -160,15 +162,17 @@
 			return d;
 		});
 
-	// 添加坐标轴
+	// 绘画坐标轴
 	svg.append('g')
 		.attr('class', 'axis x')
 		.attr('transform', 'translate('+padding.left+', '+(height - padding.bottom)+')')
 		.call(xAxis);
+
 	svg.append('g')
 		.attr('class', 'axis y')
 		.attr('transform', 'translate('+padding.left+', '+padding.top+')')
 		.call(yAxis);
+
 	svg.select('g.axis.x')
 		.append("text")  
         .attr("class", "axislabel")  
@@ -176,6 +180,7 @@
         .attr("y", 0)
         .attr("dy", 5)    
         .text("班级");
+        
     svg.select('g.axis.y')
 		.append("text")  
         .attr("class", "axislabel")  
