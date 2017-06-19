@@ -29,7 +29,7 @@
 			text-anchor: middle;
 		}
 		.histogram .rect {
-			fill: steelblue;
+			/*fill: steelblue;*/
 		}
 		.histogram .text {
 			fill: white;
@@ -52,76 +52,113 @@
 
 	// 定义数据
 	var dataset = [
-					{id: 1, name: '一班',　score: 87},
-					{id: 2, name: '二班',　score: 67},
-					{id: 3, name: '三班',　score: 95},
-					{id: 4, name: '四班',　score: 81},
-					{id: 5, name: '五班',　score: 77},
+					{name: '一班',　score: 87},
+					{name: '二班',　score: 67},
+					{name: '三班',　score: 95},
+					{name: '四班',　score: 81},
+					{name: '五班',　score: 77},
+					{name: '六班',　score: 58},
 				  ];
     var scores = dataset.map(function(d){return d.score});
     var classNames = dataset.map(function(d){return d.name});
 
     // 定义比例尺
-	var xScale = d3.scale.ordinal()
-					.domain(d3.range(dataset.length))
-					.rangeRoundBands([0, width - padding.left - padding.right]);
-	var yScale = d3.scale.linear()
+	var xScale = d3.scale.ordinal()            									// 序数比例尺  离散型
+					.domain(d3.range(dataset.length))							// 定义域
+					.rangeRoundBands([0, width - padding.left - padding.right]);		// 值域
+	var yScale = d3.scale.linear()            											// 线性比例尺  
 					.domain([0, d3.max(scores)])
 					.range([height - padding.top - padding.bottom, 0]);
 
 	// 定义坐标轴
 	var xAxis = d3.svg.axis()
-					.scale(xScale)
-					.tickFormat(function(d, i) {         // 格式化横坐标
+					.scale(xScale)							// 设置比例尺
+					.tickFormat(function(d, i) {         	// 格式化横坐标
 						return classNames[i];
 					})
-					.orient('bottom');
+					.orient('bottom');						// 设置轴的方向
 	var yAxis = d3.svg.axis()
 					.scale(yScale)
-					.ticks(10)
+					.ticks(10)								// 生成刻度值			
 					.orient('left');
 
 	// 添加矩形
-	var rectPadding = 8;   			// 矩形空白间隔
-	var rects = svg.selectAll('.rect')
-					.data(scores)
-					.enter()
-					.append('rect')
-					.attr('class', 'rect')
-					.attr('transform', 'translate('+padding.left+', '+padding.top+')')
-					.attr('x', function(d, i){
-						return xScale(i) + rectPadding/2;
-					})
-					.attr('y', function(d, i){
-						return yScale(d);
-					})
-					.attr('width', xScale.rangeBand() - rectPadding)
-					.attr('height', function(d){
-						return height - yScale(d) - padding.top - padding.bottom;
-					});
+	var rectPadding = 8;   					// 矩形空白间隔
+	svg.selectAll('.rect')
+		.data(scores)			// 设置一组元素的数据
+		.enter()
+		.append('rect')
+		.attr('class', 'rect')
+		.attr('transform', 'translate('+padding.left+', '+padding.top+')')
+		.attr('x', function(d, i){
+			return xScale(i) + rectPadding/2;
+		})
+		.attr("y",function(d){					// 初始值
+			var min = yScale.domain()[0];
+			return yScale(min);
+		})
+		.attr('width', xScale.rangeBand() - rectPadding)
+		.attr("height", function(d){
+			return 0;
+		})
+		.attr("fill", "steelblue")       		// 需要计算的填充颜色，不能写在CSS里
+		.transition()                           // 过渡
+		.delay(function(d, i){					// 延迟的时间
+			return i * 200;
+		})
+		.duration(2000)							// 持续时间
+		.ease("bounce")							// 过渡的方式
+		.attr('y', function(d, i){
+			return yScale(d);
+		})
+		.attr('height', function(d){
+			return height - yScale(d) - padding.top - padding.bottom;
+		});
+	
+	// 监听事件
+	// 注意 on事件不能放在 transition() 后，不然会报错
+	svg.selectAll('.rect')
+		.on("mouseover", function(d, i){   		
+	        d3.select(this)
+	            .attr("fill", "skyblue");
+	    })
+	    .on("mouseout", function(d, i){
+	        d3.select(this)
+	            .attr("fill", "steelblue");
+	    });
 
 	// 添加文字
-	var texts = svg.selectAll('.text')
-					.data(scores)
-					.enter()
-					.append('text')
-					.attr('class', 'text')
-					.attr('transform', 'translate('+padding.left+', '+padding.top+')')
-					.attr('x', function(d, i){
-						return xScale(i) + rectPadding/2;
-					})
-					.attr('y', function(d){
-						return yScale(d);
-					})
-					.attr('dx', function(){
-						return (xScale.rangeBand() - rectPadding)/2;
-					})
-					.attr('dy', function(d){
-						return 20;
-					})
-					.text(function(d){
-						return d;
-					});
+	svg.selectAll('.text')
+		.data(scores)
+		.enter()
+		.append('text')
+		.attr('class', 'text')
+		.attr('transform', 'translate('+padding.left+', '+padding.top+')')
+		.attr('x', function(d, i){
+			return xScale(i) + rectPadding/2;
+		})
+		.attr("y",function(d){					// 初始值
+			var min = yScale.domain()[0];
+			return yScale(min);
+		})
+		.attr('dx', function(){
+			return (xScale.rangeBand() - rectPadding)/2;
+		})
+		.attr('dy', function(d){
+			return 20;
+		})
+		.transition()                           // 过渡
+		.delay(function(d, i){					// 延迟的时间
+			return i * 200;
+		})
+		.duration(2000)							// 持续时间
+		.ease("bounce")							// 过渡的方式
+		.attr('y', function(d){
+			return yScale(d);
+		})
+		.text(function(d){
+			return d;
+		});
 
 	// 添加坐标轴
 	svg.append('g')
@@ -136,14 +173,17 @@
 		.append("text")  
         .attr("class", "axislabel")  
         .attr("x", width - padding.left - padding.right + 5)  
-        .attr("y", 5)  
+        .attr("y", 0)
+        .attr("dy", 5)    
         .text("班级");
     svg.select('g.axis.y')
 		.append("text")  
         .attr("class", "axislabel")  
         .attr("x", 0)  
-        .attr("y", -5)  
+        .attr("y", 0)  
+        .attr("dy", -5)  
         .text("平均成绩");
+
 </script>
 </body>
 </html>
