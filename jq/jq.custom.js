@@ -269,8 +269,8 @@
 		},
 		// 文本
 		text: function(text){
-			return text == null ? this[0].innerText
-								: $.each(this, function(i, elem){elem.innerText = text});
+			return text == null ? this[0].textContent
+								: $.each(this, function(i, elem){elem.textContent = text});
 		},
 
 
