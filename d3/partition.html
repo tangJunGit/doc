@@ -37,9 +37,9 @@
                               .value(function(d) { return 1; });  // 设定表示分区大小的值
 
     // 获取数据
-    d3.json("city.json", function(error, root) {
+    d3.json("data/city.json", function(error, root) {
         if(error){
-          console.log(error);
+            console.log(error);
         }
         var nodes = partition.nodes(root);
         var links = partition.links(nodes);
@@ -60,23 +60,23 @@
               .style("fill", function(d) { return color((d.children ? d : d.parent).name); })
               .on("mouseover",function(d){
                   d3.select(this)
-                    .style("fill", "yellow");
+                      .style("fill", "yellow");
               })
               .on("mouseout",function(d){
                   d3.select(this)
-                    .style("fill", function(d) { 
-                      return color((d.children ? d : d.parent).name); 
-                    });
+                      .style("fill", function(d) { 
+                          return color((d.children ? d : d.parent).name); 
+                      });
               });
 
         // 绘画描述文字
         rects.append("text")  
               .attr("class", "node_text")
               .attr("transform",function(d, i){
-                return "translate(" + (d.x+20) + "," + (d.y+20) + ")";
+                  return "translate(" + (d.x+20) + "," + (d.y+20) + ")";
               }) 
               .text(function(d, i) {
-                return d.name;  
+                  return d.name;  
               });
     });
 
