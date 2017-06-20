@@ -59,8 +59,6 @@
 					{name: '五班',　score: 77},
 					{name: '六班',　score: 58},
 				  ];
-    var scores = dataset.map(function(d){return d.score});
-    var classNames = dataset.map(function(d){return d.name});
 
     // 构造比例尺
 	var xScale = d3.scale.ordinal()            									// 序数比例尺  离散型
@@ -68,14 +66,16 @@
 					.rangeRoundBands([0, width - padding.left - padding.right]);		// 值域
 
 	var yScale = d3.scale.linear()            											// 线性比例尺  
-					.domain([0, d3.max(scores)])
+					.domain([0, d3.max(
+						dataset.map(function(d){return d.score})
+					)])
 					.range([height - padding.top - padding.bottom, 0]);
 
 	// 创建轴生成器
 	var xAxis = d3.svg.axis()
 					.scale(xScale)							// 设置比例尺
 					.tickFormat(function(d, i) {         	// 格式化横坐标
-						return classNames[i];
+						return dataset[i].name;
 					})
 					.orient('bottom');						// 设置轴的方向
 
@@ -87,7 +87,7 @@
 	// 绘画矩形
 	var rectPadding = 8;   					// 矩形空白间隔
 	svg.selectAll('rect.rect')
-		.data(scores)			// 设置一组元素的数据
+		.data(dataset)			// 设置一组元素的数据
 		.enter()
 		.append('rect')
 		.attr('class', 'rect')
@@ -111,10 +111,10 @@
 		.duration(2000)							// 持续时间
 		.ease("bounce")							// 过渡的方式
 		.attr('y', function(d, i){
-			return yScale(d);
+			return yScale(d.score);
 		})
 		.attr('height', function(d){
-			return height - yScale(d) - padding.top - padding.bottom;
+			return height - yScale(d.score) - padding.top - padding.bottom;
 		});
 	
 	// 监听事件
@@ -131,7 +131,7 @@
 
 	// 绘画文字
 	svg.selectAll('text.text')
-		.data(scores)
+		.data(dataset)
 		.enter()
 		.append('text')
 		.attr('class', 'text')
@@ -156,10 +156,10 @@
 		.duration(2000)							// 持续时间
 		.ease("bounce")							// 过渡的方式
 		.attr('y', function(d){
-			return yScale(d);
+			return yScale(d.score);
 		})
 		.text(function(d){
-			return d;
+			return d.score;
 		});
 
 	// 绘画坐标轴
