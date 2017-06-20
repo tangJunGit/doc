@@ -44,10 +44,13 @@
 
 
     // 布局
+    // 与树状图只是布局不一样
     var cluster = d3.layout.cluster()
                             .size([width, height - 200]);
 
-    d3.json("data/city.json", function(error, root) {       // 获取数据
+
+    // 获取数据
+    d3.json("data/city.json", function(error, root) {      
       var nodes = cluster.nodes(root);
       var links = cluster.links(nodes);
       
