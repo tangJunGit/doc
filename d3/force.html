@@ -105,6 +105,32 @@
         svg_texts.attr("x", function(d){ return d.x; })         // 更新文字坐标
                     .attr("y", function(d){ return d.y; });
      });
+
+    // 布局事件
+    // force.on("start", function(){
+    //     console.log("开始");
+    // });
+    
+    // force.on("end", function(){
+    //     console.log("结束");
+    // });
+    
+    // force.on("tick", function(){
+    //     console.log("进行中");
+    // });
+
+
+    // 拖拽事件
+    // var drag = force.drag()
+    //                 .on("dragstart",function(d, i){
+    //                     console.log("拖拽状态：开始");
+    //                 })
+    //                 .on("dragend",function(d, i){
+    //                     console.log("拖拽状态：结束");
+    //                 })
+    //                 .on("drag",function(d, i){
+    //                     console.log("拖拽状态：进行中");
+    //                 });
 </script>
 </body>
 </html>
