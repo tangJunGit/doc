@@ -9,29 +9,29 @@
     <link rel="icon" href="#"> 
 	<title>柱形图</title>
 	<style type="text/css">
-		svg.histogram{
+		svg.diagram{
 			background: #eee; 
 		}
-		.histogram .axis path,
-		.histogram .axis line{
+		.diagram .axis path,
+		.diagram .axis line{
 			fill: none;
 			stroke: black;
 			shape-rendering: crispEdges;
 		}
-		.histogram .axis text {
+		.diagram .axis text {
 			font-family: sans-serif;
 			font-size: 11px; 
 		}
-		.histogram .axis.x .axislabel{
+		.diagram .axis.x .axislabel{
 			text-anchor: start;
 		}
-		.histogram .axis.y .axislabel{
+		.diagram .axis.y .axislabel{
 			text-anchor: middle;
 		}
-		.histogram .rect {
+		.diagram .rect {
 			/*fill: steelblue;*/
 		}
-		.histogram .text {
+		.diagram .text {
 			fill: white;
 			text-anchor: middle;
 		}
@@ -40,12 +40,12 @@
 </head>
 <body>
 
-<svg class="histogram" width="400" height="400"></svg>
+<svg class="diagram" width="400" height="400"></svg>
 
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script type="text/javascript">
 	// 获取画布信息
-	var svg = d3.select('svg.histogram');
+	var svg = d3.select('svg.diagram');
 	var width = svg.attr('width');
 	var height = svg.attr('height');
 	var padding = {left: 40, right: 40, top: 30, bottom: 30};	// svg padding
