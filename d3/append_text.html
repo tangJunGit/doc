@@ -28,13 +28,15 @@
     var width = svg.attr('width');
     var height = svg.attr('height');
 
-    appendMultiText(svg, {
+    var multext = appendMultiText(svg, {
         str: '封装文本自动换行',
         x: 20,
         y: 20,
         width: 32,
         fontsize: 16
     });
+
+    multext.attr("transform","rotate(-20)");
 </script>
 </body>
 </html>
