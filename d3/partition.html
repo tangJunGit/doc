@@ -70,13 +70,25 @@
               });
 
         // 绘画描述文字
-        rects.append("text")  
+        var texts = rects.append("text")  
               .attr("class", "node_text")
               .attr("transform",function(d, i){
-                  return "translate(" + (d.x+20) + "," + (d.y+20) + ")";
+                  return "translate(" + (d.x+8) + "," + (d.y+10) + ")";
               }) 
-              .text(function(d, i) {
-                  return d.name;  
+              // .text(function(d, i) {
+              //     return d.name;  
+              // });
+
+        // 描述文字换行
+        texts.each(function(d, i){
+                  for (var i = 0, len = d.name.length; i < len; i++) {
+                    d3.select(this).append('tspan')
+                                    .attr("x", 0)
+                                    .attr("dy","1em")
+                                    .text(function(){
+                                      return d.name[i];
+                                    });
+                  }
               });
     });
 
