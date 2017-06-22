@@ -8,20 +8,16 @@
 		fontsize: 14 	// text的字体大小
 	};
 
-	var appendMultiText = function(nodes, option){
-		return new MultiTextConstructor(nodes, option);
-	};
-
 	// 多行文本构造器
-	var MultiTextConstructor = function(nodes, option){
+	var AppendMultiText = function(nodes, option){
 		if(!option.str) return;
 		this.nodes = nodes;
 		this.option = this.extend({}, defaultOption, option);
 		return this.init();
 	};
 	// 方法
-	MultiTextConstructor.prototype = {
-		constructor: MultiTextConstructor,
+	AppendMultiText.prototype = {
+		constructor: AppendMultiText,
 
 		init: function(){
 			this.tspans = this.splitByLine();
@@ -101,6 +97,6 @@
 		}
 	};
 
-	window.appendMultiText = appendMultiText;
+	window.AppendMultiText = AppendMultiText;
 
 }(window));
