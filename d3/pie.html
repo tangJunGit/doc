@@ -19,6 +19,19 @@
             font-family: sans-serif;
             font-size: 16px;
         }
+        .tooltip{
+            position: absolute;
+            width: 120px;
+            height: auto;
+            padding: 5px;
+            font-family: 'simsun';
+            font-size: 14px;
+            text-align: center;
+            border-style: solid; 
+            border-width: 1px;
+            background-color: white;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
@@ -31,6 +44,12 @@
     var svg = d3.select('svg.pie');
     var width = svg.attr('width');
     var height = svg.attr('height');
+
+    // 添加提示框
+    var tooltip = d3.select("body")
+                    .append("div")
+                    .attr("class","tooltip")
+                    .style("opacity",0.0);
 
     // 定义数据
     var dataset = [ 30 , 10 , 43 , 55 , 13 ];
@@ -73,6 +92,23 @@
         .text(function(d){
             return d.data;
         });
+
+
+
+    // 提示框的文字
+    arcs.on("mouseover",function(d){
+        tooltip.html('提示的数据'+d.data )
+                    .style("left", (d3.event.pageX) + "px")
+                    .style("top", (d3.event.pageY + 20) + "px")
+                    .style("opacity",1.0);
+    })
+    .on("mousemove",function(d){
+        tooltip.style("left", (d3.event.pageX) + "px")
+                .style("top", (d3.event.pageY + 20) + "px");
+    })
+    .on("mouseout",function(d){
+        tooltip.style("opacity",0.0);
+    })
 </script>
 </body>
 </html>
