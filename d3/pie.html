@@ -31,6 +31,7 @@
             border-width: 1px;
             background-color: white;
             border-radius: 5px;
+            display: none;
         }
     </style>
 </head>
@@ -48,8 +49,7 @@
     // 添加提示框
     var tooltip = d3.select("body")
                     .append("div")
-                    .attr("class","tooltip")
-                    .style("opacity",0.0);
+                    .attr("class","tooltip");
 
     // 定义数据
     var dataset = [ 30 , 10 , 43 , 55 , 13 ];
@@ -100,14 +100,14 @@
         tooltip.html('提示的数据'+d.data )
                     .style("left", (d3.event.pageX) + "px")
                     .style("top", (d3.event.pageY + 20) + "px")
-                    .style("opacity",1.0);
+                    .style("display", 'block');
     })
     .on("mousemove",function(d){
         tooltip.style("left", (d3.event.pageX) + "px")
                 .style("top", (d3.event.pageY + 20) + "px");
     })
     .on("mouseout",function(d){
-        tooltip.style("opacity",0.0);
+        tooltip.style("display", 'none');
     })
 </script>
 </body>
