@@ -60,6 +60,23 @@ promise.then(function(){
 });
 
 
+// ======================  队列  queue
+var q = new TQueue();
+
+q.queue(function(){
+	console.log('第一个队列执行');
+})
+.delay(2000)
+.queue(function(){
+	console.log('第二个队列执行');
+})
+.delay(5000)
+.queue(function(){
+	console.log('第三个队列执行');
+})
+.dequeue();
+
+
 // ======================  时间 time
 
 time.dateFormat();  
