@@ -4,34 +4,36 @@
 
 	var Promise = function(){
 		this.state = state[0];
-        this.thenArr = [];
+        this.thenFnList = [];
 	};
 
 
 	Promise.prototype = {
+        constructor: Promise,
+
 		//promise开始调用的函数
         start: function(callback){
-            var that = this;
+            var self = this;
             setTimeout(function(){
-                callback.call(that);
+                callback.call(self);
             }, 0);
             return this;
         },
         //then方法添加回调
         then:function(successFn, errorFn, finalFn){
-            var obj={
+            var obj = {
                 success: successFn,
                 error: errorFn,
                 final: finalFn
             };
-            this.thenArr.push(obj);
+            this.thenFnList.push(obj);
             return this;
         },
         //执行then添加的回调函数
         execThen:function(fnArr, message){
             this.state = state[0];
-            if(!this.thenArr.length) return;
-            var thenFn = this.thenArr.shift();
+            if(!this.thenFnList.length) return;
+            var thenFn = this.thenFnList.shift();
 
             for (var i = 0, len = fnArr.length; i < len; i++) {
                 if (thenFn[fnArr[i]]) {
