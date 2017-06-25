@@ -79,10 +79,10 @@
 
         // 绘画刷子
         var brush = d3.brush()
-                    .extent([[0,0],[width-padding.left-padding.right, height-padding.top-padding.bottom]])
-                    .on('brush',function(){
+                    .extent([[0,0],[width-padding.left-padding.right, height-padding.top-padding.bottom]])      // 范围区间
+                    .on('brush',function(){                                                                     // 刷子事件
                         points.attr('fill','steelblue')
-                            .filter((d)=>{
+                            .filter((d)=>{                                                                      // 过滤不在区间的点
                                 return  (xScale(d.x)>=d3.event.selection[0][0] && xScale(d.x)<=d3.event.selection[1][0]) &&
                                         (yScale(d.y)>=d3.event.selection[0][1] && yScale(d.y)<=d3.event.selection[1][1])
                             })
