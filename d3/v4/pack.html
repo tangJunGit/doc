@@ -13,6 +13,10 @@
         svg.pack{
             background: #eee;
         }
+        .pack .nodes text{
+            font-size: 10px;
+            fill: black;
+        }
     </style>
 </head>
 <body>
@@ -51,6 +55,7 @@
             // 创建每个包裹圆的g元素
             var update = svg.selectAll('g.nodes')
                             .data(pack(root).descendants());            // 排序
+            console.log(pack(root).descendants());
 
             update.exit().remove();
             var g_nodes = update.enter()
@@ -72,16 +77,25 @@
                                 })
                                 .on('mouseover',function(){
                                     d3.select(this)
-                                        .attr('stroke','#fff')
+                                        .attr('stroke','black')
                                         .attr('stroke-width',1);
                                 })
                                 .on('mouseout',function(){
                                     d3.select(this)
                                         .attr('stroke','null');
                                 });
-            
+            // 绘画文本
+            g_nodes.append('text')
+                    .attr("dx", -12)
+                    .attr("dy", 3)
+                    .text(function(d){
+                        return d.children ? '' : d.data.name;
+                    });
+
             g_nodes.append('title')
-                    .text(function(d) { return d.data.name});
+                    .text(function(d) { 
+                        return d.data.name;
+                    });
             }
 
         // 绘画图形
