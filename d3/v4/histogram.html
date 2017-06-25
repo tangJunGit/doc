@@ -30,28 +30,27 @@
             height = svg.attr('height'),
             padding = {left: 40, right: 40, top: 30, bottom: 30};
 
-        // 创建 0 到 10 的随机数
-        var data = d3.range(0,20).map(function(){
+        // 创建0到10的50个随机数
+        var data = d3.range(0,50).map(function(){
             return {
                 value: d3.randomUniform(10)()
             }
         })
         // console.log(data);
 
+        // 布局
+        var histogram = d3.histogram()
+                        .value(function(d){return d.value})
+                        .domain([0,10])
+                        .thresholds(10);
+        var bins = histogram(data);
+        // console.log(bins);
+
         // 线性比例尺
         var xscale = d3.scaleLinear()
                     .domain([0,10])
                     .range([0,width-padding.left-padding.right]);
 
-        // 布局
-        var histogram = d3.histogram()
-                        .value(function(d){return d.value})
-                        .domain(xscale.domain())
-                        .thresholds(xscale.ticks());
-        var bins = histogram(data);
-        // console.log(bins);
-
-        // 线性比例尺
         var yscale = d3.scaleLinear()
                     .domain([0,d3.max(bins, function(d){
                         return d.length;
@@ -60,9 +59,11 @@
 
 
         // 绘画坐标轴
+        var xAxis = d3.axisBottom(xscale).ticks(10);
+
         svg.append('g').attr('class','axis')
                     .attr('transform','translate('+ padding.left +','+(height-padding.bottom)+')')
-                    .call(d3.axisBottom(xscale));
+                    .call(xAxis);
 
         // 绘画图形
         var update = svg.selectAll(".bin")
