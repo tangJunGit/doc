@@ -38,19 +38,20 @@
         })
         // console.log(data);
 
-        // 布局
-        var histogram = d3.histogram()
-                        .value(function(d){return d.value})
-                        .domain([0,10])
-                        .thresholds(10);
-        var bins = histogram(data);
-        // console.log(bins);
-
         // 线性比例尺
         var xscale = d3.scaleLinear()
                     .domain([0,10])
                     .range([0,width-padding.left-padding.right]);
 
+        // 布局
+        var histogram = d3.histogram()
+                        .value(function(d){return d.value})
+                        .domain(xscale.domain())
+                        .thresholds(xscale.ticks());
+        var bins = histogram(data);
+        // console.log(bins);
+
+        // 线性比例尺
         var yscale = d3.scaleLinear()
                     .domain([0,d3.max(bins, function(d){
                         return d.length;
