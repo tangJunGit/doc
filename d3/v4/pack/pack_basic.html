@@ -56,9 +56,9 @@
                         .padding(2);                // 间距
 
             // 创建每个包裹圆的g元素
+            console.log(pack(root).descendants());
             var update = svg.selectAll('g.nodes')
                             .data(pack(root).descendants());            // ============ 排序
-            // console.log(pack(root).descendants());
 
             update.exit().remove();
             var g_nodes = update.enter()
