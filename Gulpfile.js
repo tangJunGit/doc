@@ -11,7 +11,7 @@ var gulp = require('gulp'),
 gulp.task('server', function () {
     browserSync.init({
         server: {
-            baseDir: "./jq",
+            baseDir: "./",
             index: 'index.html',
             // middleware: [proxy]         
         },
