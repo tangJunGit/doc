@@ -39,13 +39,13 @@
         });
         // console.log(data);
 
-        // 布局
+        // 数据转化
         var histogram = d3.histogram()
                         .value(function(d){return d.value})
                         .domain([0,10])
                         .thresholds(10);
         var bins = histogram(data);
-        // console.log(bins);
+        console.log(bins);
 
         // 线性比例尺
         var xscale = d3.scaleLinear()
