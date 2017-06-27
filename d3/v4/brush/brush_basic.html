@@ -10,19 +10,19 @@
     <link rel="icon" href="#">
     <title>刷子</title>
     <style type="text/css">
-        svg.brush{
+        .svg_brush{
             background: #eee;
         }
     </style>
 </head>
 <body>
     <h3>简单的刷子</h3>
-   <svg class="brush" width="400" height="400"></svg>
+   <svg class="svg_brush" width="400" height="400"></svg>
 
    <script src="https://d3js.org/d3.v4.min.js"></script>
    <script>
         // 获取svg信息
-        var svg = d3.select('.brush')
+        var svg = d3.select('.svg_brush')
             width = svg.attr('width'),
             height = svg.attr('height'),
             padding = {left: 40, right: 40, top: 30, bottom: 30},
