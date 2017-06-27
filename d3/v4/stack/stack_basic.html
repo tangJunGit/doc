@@ -25,7 +25,13 @@
         var svg = d3.select('.stack')
             width = svg.attr('width'),
             height = svg.attr('height')
-            padding = {top: 20, right: 30, bottom: 30, left: 60};
+            padding = {top: 20, right: 30, bottom: 30, left: 60},
+            stack_w = width - padding.left - padding.right,
+            stack_h = height - padding.top - padding.bottom;
+
+        // 创建容器
+        var g = svg.append('g')
+                    .attr('transform', 'translate(' + padding.left + ',' + padding.top + ')');
 
         // 创建数据
         var data = [
@@ -35,24 +41,22 @@
           {month: '2017', apples:  320, bananas:  480, cherries: 640, dates: 400}
         ];
 
-        // 数据转换
+        // 定义stack生成器
         var series = d3.stack()
                     .keys(['apples', 'bananas', 'cherries', 'dates'])    // keys是以数组的形式指定
-                    .offset(d3.stackOffsetDiverging)
-                    (data);
+                    .offset(d3.stackOffsetDiverging);
 
-        console.log(series);
+        var stackData = series(data);        // 数据转换
 
-
-        // 比例尺
+        // 定义比例尺
         var x = d3.scaleBand()
                 .domain(data.map(function(d) { return d.month; }))
-                .rangeRound([0, width - padding.right - padding.left])
+                .rangeRound([0, stack_w])
                 .padding(0.1);
 
         var y = d3.scaleLinear()
-                .domain([d3.min(series, stackMin), d3.max(series, stackMax)])
-                .rangeRound([height - padding.bottom - padding.top, 0]);
+                .domain([d3.min(stackData, stackMin), d3.max(stackData, stackMax)])
+                .rangeRound([stack_h, 0]);
 
         
         // serie 表示每个系列的数据
@@ -69,20 +73,19 @@
         // 定义颜色
         var color = d3.scaleOrdinal(d3.schemeCategory10); 
 
+
         // 绘画坐标轴
-        svg.append('g')
-            .attr('transform', 'translate('+padding.left+',' + (height - padding.bottom) + ')')
+        g.append('g')
+            .attr('transform', 'translate(0,' + stack_h + ')')
             .call(d3.axisBottom(x));
 
-        svg.append('g')
-            .attr('transform', 'translate(' + padding.left + ','+padding.top+')')
+        g.append('g')
             .call(d3.axisLeft(y));
 
         // 绘画图形
-        var g_serie = svg.append('g')
-                        .attr('transform','translate('+ padding.left +','+padding.top+')')
+        var g_serie = g.append('g')
                         .selectAll('g')
-                        .data(series)
+                        .data(stackData)
                         .enter()
                         .append('g')
                         .attr('fill', function(d) { return color(d.key); });
