@@ -41,13 +41,13 @@
             .append("rect")
             .attr("width", zoom_w)
             .attr("height", zoom_h);
-            
+
         // 容器
         var g = svg.append('g')
                     .attr('transform', 'translate(' + padding.left + ',' + padding.top + ')');
 
         // 时间格式
-        var parseDate = d3.timeParse('%b %Y');
+        var parseDate = d3.timeParse('%Y-%m');   // 时间格式与csv数据的date相对应, 如2009-01
 
         // 比例尺
         var x = d3.scaleTime().range([0, zoom_w]),           // 时间比例尺
@@ -55,7 +55,8 @@
 
 
         // 坐标轴
-        var xAxis = d3.axisBottom(x),
+        var xAxis = d3.axisBottom(x)
+                        .tickFormat(d3.timeFormat("%Y-%m")),
             yAxis = d3.axisLeft(y);
 
         // 定义缩放图
@@ -99,8 +100,7 @@
 
         //在加载csv数据时，先处理数据 
         function type(d) {
-            d.date = parseDate(d.date); 
-            // console.log(d.date);
+            d.date = parseDate(d.date);    // 转化成定义域的时间格式
             d.price = +d.price;
             return d;
         }
