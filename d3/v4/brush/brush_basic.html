@@ -25,45 +25,54 @@
         var svg = d3.select('.brush')
             width = svg.attr('width'),
             height = svg.attr('height'),
-            padding = {left: 40, right: 40, top: 30, bottom: 30};
+            padding = {left: 40, right: 40, top: 30, bottom: 30},
+            brush_w = width - padding.left - padding.right,
+            brush_h = height - padding.top - padding.bottom;
 
-        // 创建50个随机数
+        // 创建容器
+        var g = svg.append('g')
+                    .attr('transform', 'translate(' + padding.left + ',' + padding.top + ')');
+
+        // 创建0到10的50个随机数的点坐标
         var data = d3.range(0,200).map(function(d){
                         return {
-                            x:Math.random()*width,
-                            y:Math.random()*height
+                            x:Math.random()*10,
+                            y:Math.random()*10
                         }
                     });
         console.log(data);
 
 
-        // 线性比例尺
+        // 定义线性比例尺
         var xScale = d3.scaleLinear()
-                    .domain([0,width])
-                    .range([0,width-padding.left-padding.right]);
+                    .domain([0,10])
+                    .range([0,brush_w]);
 
         var yScale = d3.scaleLinear()
-                    .domain([0,height])
-                    .range([height-padding.top-padding.bottom,0]);
+                    .domain([0,10])
+                    .range([brush_h,0]);
 
 
         // 绘画坐标轴
-        var x_g = svg.append('g');
-        x_g.append('g').attr('transform','translate('+padding.left+','+padding.top+')')
-            .call(d3.axisTop(xScale));
-        x_g.append('g').attr('transform','translate('+padding.left+','+(height-padding.bottom)+')')
-            .call(d3.axisBottom(xScale));
+        var x_g = g.append('g');
+            x_g.append('g')
+                .call(d3.axisTop(xScale));
 
-        var y_g = svg.append('g');
-        y_g.append('g').attr('transform','translate('+padding.left+','+padding.top+')')
-            .call(d3.axisLeft(yScale));
-        y_g.append('g').attr('transform','translate('+(width-padding.right)+','+padding.top+')')
-            .call(d3.axisRight(yScale));
+            x_g.append('g')
+                .attr('transform','translate(0,'+brush_h+')')
+                .call(d3.axisBottom(xScale));
+
+        var y_g = g.append('g');
+            y_g.append('g')
+                .call(d3.axisLeft(yScale));
+
+            y_g.append('g')
+                .attr('transform','translate('+brush_w+',0)')
+                .call(d3.axisRight(yScale));
         
 
         // 绘画点
-        var circle_g = svg.append('g')
-                    .attr('transform','translate('+padding.left+','+padding.top+')');
+        var circle_g = g.append('g');
         var points = circle_g.selectAll('.points')
                         .data(data)
                         .enter()
@@ -78,19 +87,19 @@
                         })
                         .attr("fill","steelblue");
 
-        // ============  绘画刷子
+        // 绘画刷子
         var brush = d3.brush()
-                    .extent([[0,0],[width-padding.left-padding.right, height-padding.top-padding.bottom]])      // 范围区间
+                    .extent([[0,0],[brush_w, brush_h]])                 // 范围区间
                     .on('brush',function(){                                                                     // 刷子事件
                         points.attr('fill','steelblue')
-                            .filter((d)=>{                            // 过滤不在区间的点
+                            .filter((d)=>{                              // 过滤不在区间的点
                                 return  (xScale(d.x)>=d3.event.selection[0][0] && xScale(d.x)<=d3.event.selection[1][0]) &&
                                         (yScale(d.y)>=d3.event.selection[0][1] && yScale(d.y)<=d3.event.selection[1][1])
                             })
                             .attr('fill','red');
                     });
 
-        circle_g.append('g').call(brush);
+        circle_g.append('g').call(brush);       // 初始化刷子
 
    </script>
 </body>
