@@ -28,65 +28,76 @@
         // 获取svg信息
         var svg = d3.select('.pack')
             width = svg.attr('width'),
-            height = svg.attr('height');
+            height = svg.attr('height'),
+            padding = {top: 20, right: 20, bottom: 20, left: 20},
+            pack_w = width - padding.left - padding.right,
+            pack_h = height - padding.top - padding.bottom;
 
-        // 延迟加载数据
+        // 创建容器
+        var g = svg.append('g')
+                    .attr('transform', 'translate(' + padding.left + ',' + padding.top + ')');
+
+        // 定义颜色
         var color = d3.scaleSequential(d3.interpolatePlasma);
 
-        d3.queue()
-            .defer(d3.json, 'dataset/city.json')
-            .await(function(err, json) {
-                if (err) throw err;
+        // 加载数据
+        d3.json('dataset/city.json', function(error, data) {
+            if (error) throw error;
 
-                // =========== 数据转换
-                json = d3.hierarchy(json)
-                        .sum(function(d) {
-                            return d.value ? d.value : 1;
-                        });
+            // 数据转换
+            data = d3.hierarchy(data)
+                    .sum(function(d) {
+                        return d.value ? d.value : 1;
+                    });
+            // console.log(data);
 
-                // console.log(json);
-                color.domain([-json.height,json.height])
-                draw(json);
-            });
 
+            // 定义颜色定义域
+            color.domain([-data.height, data.height]);
+
+            //绘画图形
+            draw(data);
+        });
+      
         
-        function draw(root) {
+        function draw(data) {
+            // 定义pack生成器
             var pack = d3.pack()
-                        .size([width,height])
+                        .size([pack_w, pack_h])
                         .padding(2);                // 间距
 
-            // 创建每个包裹圆的g元素
-            console.log(pack(root).descendants());
-            var update = svg.selectAll('g.nodes')
-                            .data(pack(root).descendants());            // ============ 排序
+            var packData = pack(data).descendants();         // 数据转换
+            console.log(packData);
 
-            update.exit().remove();
-            var g_nodes = update.enter()
+
+            // 创建每个包裹圆的g元素
+            var g_nodes = g.selectAll('g.nodes')
+                            .data(packData)
+                            .enter()
                             .append('g')
                             .attr('class','nodes')
-                            .merge(update)
                             .attr('transform', function(d) {
                                 return 'translate(' + d.x + ',' + d.y + ')';
                             });
 
             // 绘画圆
-            g_nodes.selectAll('circle').remove();
-            var circles = g_nodes.append('circle')
-                                .attr('r', function(d,i) {
-                                    return d.r;
-                                })
-                                .style('fill', function(d) {
-                                    return color(d.depth);
-                                })
-                                .on('mouseover',function(){
-                                    d3.select(this)
-                                        .attr('stroke','black')
-                                        .attr('stroke-width',1);
-                                })
-                                .on('mouseout',function(){
-                                    d3.select(this)
-                                        .attr('stroke','null');
-                                });
+            g_nodes.append('circle')
+                    .attr('r', function(d,i) {
+                        return d.r;
+                    })
+                    .style('fill', function(d) {
+                        return color(d.depth);
+                    })
+                    .on('mouseover',function(){
+                        d3.select(this)
+                            .attr('stroke','black')
+                            .attr('stroke-width',1);
+                    })
+                    .on('mouseout',function(){
+                        d3.select(this)
+                            .attr('stroke','null');
+                    });
+
             // 绘画文本
             g_nodes.append('text')
                     .attr("dx", -12)
@@ -99,7 +110,7 @@
                     .text(function(d) { 
                         return d.data.name;
                     });
-            }
+        }
 
    </script>
 </body>
