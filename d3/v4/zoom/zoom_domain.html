@@ -42,19 +42,19 @@
             .attr("width", zoom_w)
             .attr("height", zoom_h);
 
-        // 容器
+        // 创建容器
         var g = svg.append('g')
                     .attr('transform', 'translate(' + padding.left + ',' + padding.top + ')');
 
-        // 时间格式
+        // 定义时间格式
         var parseDate = d3.timeParse('%Y-%m');   // 时间格式与csv数据的date相对应, 如2009-01
 
-        // 比例尺
+        // 定义比例尺
         var x = d3.scaleTime().range([0, zoom_w]),           // 时间比例尺
             y = d3.scaleLinear().range([zoom_h, 0]);
 
 
-        // 坐标轴
+        // 定义坐标轴
         var xAxis = d3.axisBottom(x)
                         .tickFormat(d3.timeFormat("%Y-%m")),
             yAxis = d3.axisLeft(y);
@@ -76,7 +76,7 @@
         }
 
 
-        // 面积图生成器
+        // 定义area生成器
         var area = d3.area()
                     .curve(d3.curveMonotoneX)               // d3.curveMonotoneX 为线条的连接方式
                     .x(function(d) { return x(d.date); })   // x0,x1都是时间轴
