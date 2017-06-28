@@ -2,7 +2,7 @@
     // 默认值
     var defaultOption = {
         tooltip: undefined,         // tooltip 选择器
-        duration: '200',            // 延迟时间
+        duration: 200,            // 延迟时间
         html: function(d){},        // tooltip 的提示的内容        
     };
 
