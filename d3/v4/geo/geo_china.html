@@ -33,13 +33,28 @@
             font-size: 12px;
             fill: black;
         }
+
+        .tooltip{
+            position: absolute;  
+            padding:4px;
+            border:1px solid grey;
+            border-radius:5px;         
+            text-align: center;
+            font-size:12px;
+            color:white;
+            background:rgba(0,0,0,0.9);
+            pointer-events: none; 
+            opacity:0;
+        }
     </style>
 </head>
 <body>
     <h3>中国地图</h3>
     <svg class="svg_geo" width="800" height="600"></svg>
+    <div id="tooltip" class="tooltip"></div>
 
     <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="../component/tooltip/tooltip.js"></script>
     <script>
         // 获取svg信息
         var svg = d3.select('.svg_geo')
@@ -88,17 +103,28 @@
 
         function draw(data){
             // 绘制地图
-            g.append('g')
-                .attr('class','map')
-                .selectAll('.province')
-                .data( data.features )
-                .enter()
-                .append('path')
-                .attr('class','province')
-                .attr('fill', function(d, i){
-                    return color(i);
-                })
-                .attr('d', path );  
+            var map = g.append('g')
+                        .attr('class','map');
+
+            var province = map.selectAll('.province')
+                            .data( data.features )
+                            .enter()
+                            .append('path')
+                            .attr('class','province')
+                            .attr('fill', function(d, i){
+                                return color(i);
+                            })
+                            .attr('d', path );  
+
+
+            // 省份提示
+            new Tooltip(province, {
+                tooltip: '#tooltip',
+                duration: '400',
+                html: function(d) {
+                    return d.properties.name;         
+                }
+            });
 
             // 绘画点, 自定义的marker
             var peking = [104.06, 30.67];
