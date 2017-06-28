@@ -86,7 +86,8 @@
       // console.log(root.features);
       
       // 绘制图形
-      var paths =  svg.selectAll("path")
+      var paths =  svg.append('g')
+                      .selectAll("path")
                       .data( root.features )
                       .enter()
                       .append("path")
