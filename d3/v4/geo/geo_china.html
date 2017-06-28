@@ -17,6 +17,9 @@
             stroke: #000;
             stroke-width: 1;
         }
+        .svg_geo .province:hover{
+            fill: yellow;
+        }
         .svg_geo .southsea {
             stroke: black;
             stroke-width: 1px;
@@ -85,20 +88,24 @@
 
         function draw(data){
             // 绘制地图
-            var paths =  g.append('g')
-                            .selectAll('path')
-                            .data( data.features )
-                            .enter()
-                            .append('path')
-                            .attr('fill', function(d, i){
-                                return color(i);
-                            })
-                            .attr('d', path );  
+            g.append('g')
+                .attr('class','map')
+                .selectAll('.province')
+                .data( data.features )
+                .enter()
+                .append('path')
+                .attr('class','province')
+                .attr('fill', function(d, i){
+                    return color(i);
+                })
+                .attr('d', path );  
 
-            // 绘画点marker
+            // 绘画点, 自定义的marker
             var peking = [104.06, 30.67];
             var proPeking = projection(peking);
-            var g_marker = g.append('g');
+            var g_marker = g.append('g')
+                            .attr('class','marker');
+
             g_marker.append("circle")
                   .attr("class", "point")
                   .attr("cx", proPeking[0])
