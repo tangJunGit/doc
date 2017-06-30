@@ -32,20 +32,18 @@ data.isMatch(isMatch, {age: 32});
 
 var promise = new TPromise();
 promise.start(function(){
-	var that = this;
 	// console.log('start函数开始');
 
 	setTimeout(function(){
-		that.resolve('then调用开始');
+		promise.resolve('then调用开始');
 	}, 3000);
 })
 .then(function(message){
-		var that = this;
 		// console.log(message);
 		// console.log('success函数执行');
 
 		setTimeout(function(){
-			that.resolve();
+			promise.resolve();
 		}, 3000);
 	}, 
 	function(){
