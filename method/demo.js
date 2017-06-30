@@ -64,17 +64,41 @@ promise.then(function(){
 var q = new TQueue();
 
 q.queue(function(){
-	console.log('第一个队列执行');
+	// console.log('第一个队列执行');
 })
 .delay(2000)
 .queue(function(){
-	console.log('第二个队列执行');
+	// console.log('第二个队列执行');
 })
 .delay(5000)
 .queue(function(){
-	console.log('第三个队列执行');
+	// console.log('第三个队列执行');
 })
 .dequeue();
+
+
+// ======================  观察者模式  subscribe
+var pub = new TSubject();
+
+var subscription = pub.subscribe( "hello", function(){			// 订阅
+	// console.log('订阅1');
+});	
+
+pub.subscribe( 'hello', function(topic, args){			// 订阅
+	// console.log('订阅2');
+	// console.log('topic:', topic);
+	// console.log('args:', args);
+});	
+
+pub.publish( 'hello', 'hello world!' );		// 发布
+
+pub.unsubscribe( subscription );			// 取消订阅1
+
+pub.publish( 'hello',  {					// 再次发布
+	name: 'TJ',
+	message: 'Hello again!'
+});		
+
 
 
 // ======================  时间 time
