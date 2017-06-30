@@ -30,12 +30,12 @@ data.isMatch(isMatch, {age: 32});
 
 // ======================  promise
 
-var promise = new TPromise();
-promise.start(function(){
+var promise1 = new TPromise();
+promise1.start(function(){
 	// console.log('start函数开始');
 
 	setTimeout(function(){
-		promise.resolve('then调用开始');
+		promise1.resolve('then调用开始');
 	}, 3000);
 })
 .then(function(message){
@@ -43,7 +43,7 @@ promise.start(function(){
 		// console.log('success函数执行');
 
 		setTimeout(function(){
-			promise.resolve();
+			promise1.resolve();
 		}, 3000);
 	}, 
 	function(){
@@ -53,8 +53,29 @@ promise.start(function(){
 		// console.log('final函数执行');
 	});
 
-promise.then(function(){
+promise1.then(function(){
 	// console.log('最后一个then调用');
+});
+
+
+// ======================  promise
+
+
+var promise2 = new TPromise2(function(resolve, reject) {
+  	console.log('Promise');
+  	reject('first');
+});
+
+promise2.then(function(data) {
+  	console.log('Resolved.');
+  	console.log('接受数据：', data);
+  	return {message: 'secound'};
+},function(error){
+	console.log('Rejected.');
+	console.log('错误信息：', error);
+})
+.then(function(data){
+	console.log(data);
 });
 
 
