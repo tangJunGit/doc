@@ -62,20 +62,47 @@ promise1.then(function(){
 
 
 var promise2 = new TPromise2(function(resolve, reject) {
-  	console.log('Promise');
-  	reject('first');
+  	// console.log('Promise');
+  	resolve('one');
 });
 
 promise2.then(function(data) {
-  	console.log('Resolved.');
-  	console.log('接受数据：', data);
-  	return {message: 'secound'};
+  	// console.log('Resolved.');
+  	// console.log('接受数据：', data);			// => 'one'
+  	return {message: 'two'};
 },function(error){
-	console.log('Rejected.');
-	console.log('错误信息：', error);
+	// console.log('Rejected.');
+	// console.log('错误信息：', error);
 })
 .then(function(data){
-	console.log(data);
+	// console.log(data);		// => {message: 'two'}
+});
+
+
+// promise.all
+var promise21 = new TPromise2(function(resolve, reject) {
+  	resolve('one');
+});
+var promise22 = new TPromise2(function(resolve, reject) {
+  	setTimeout(function(){
+  		resolve('two');
+  	}, 3000);
+});
+
+var obj = {
+	message: 'four',
+	then: function(resolve, reject){
+		resolve(this.message);
+	}
+};
+
+
+TPromise2.all([promise21, promise22, 'three', obj])
+.then(function(result){
+	console.log(result); 		// ["one", "two", "three", "four"]
+},
+function(error){
+	console.log(error);  
 });
 
 

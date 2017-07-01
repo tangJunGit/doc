@@ -34,7 +34,7 @@
             this.value = value;
             this.state = state[1];
             this.finale();
-           
+            return this;
         },
         
         // 失败
@@ -42,6 +42,7 @@
             this.value = reason;
             this.state = state[2];
             this.finale();
+            return this;
         },
 
         // 完成
@@ -68,6 +69,47 @@
             });
         }
 	};
+
+    Promise.all = function (arr) {
+        var args = Array.prototype.slice.call(arr);
+
+        return new Promise(function (resolve, reject) {
+            if (args.length === 0) return resolve([]);
+            var remaining = args.length;
+
+            function res(i, val) {
+                if(!val) return;
+                if (val && (typeof val === 'object' || typeof val === 'function')) {
+                    if (val instanceof Promise && val.then === Promise.prototype.then) {       // Promise
+                        val.then(function (val) {
+                            res(i, val);
+                        }, reject);
+                        return;
+                    }else{                  // object
+                        var then = val.then;
+                        if (typeof then === 'function') {
+                            var p = new Promise(then.bind(val));
+                            p.then(function (val) {
+                                res(i, val);
+                            }, reject);
+                            return;
+                        }
+                    }
+                }
+
+                args[i] = val;
+                if (--remaining === 0) {
+                    resolve(args);
+                }
+            }
+
+            for (var i = 0; i < args.length; i++) {
+                res(i, args[i]);
+            }
+
+        });
+
+    };
 
 	window.TPromise2 = Promise;
 })(window);
