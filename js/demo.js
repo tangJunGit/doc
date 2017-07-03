@@ -99,10 +99,10 @@ var obj = {
 
 TPromise2.all([promise21, promise22, 'three', obj])
 .then(function(result){
-	console.log(result); 		// ["one", "two", "three", "four"]
+	// console.log(result); 		// ["one", "two", "three", "four"]
 },
 function(error){
-	console.log(error);  
+	// console.log(error);  
 });
 
 
