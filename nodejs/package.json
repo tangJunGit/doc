@@ -4,8 +4,7 @@
   "description": "nodejs",
   "main": "index.js",
   "scripts": {
-    "start": "npm run watch",
-    "watch": "supervisor -w lib, public, index.js "
+    "start": "supervisor lib, public, index.js index.js"
   },
   "keywords": [
     "nodejs"
