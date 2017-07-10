@@ -1,6 +1,9 @@
-include ./includes/head.jade
-    title Nodejs
+extends ./includes/extend.jade
 
-ul
-    li
-        a(href='dns/index') DNS查询工具
+block content
+    - var list = [{href:'dns/index', title:'DNS查询工具'}];
+
+    ul
+        - for(var i = 0, len = list.length; i<len; i++)
+            li
+                a(href=list[i].href) #{list[i].title}

@@ -1,6 +1,9 @@
-include ../includes/head.jade
-    title DNS
+extends ../includes/extend.jade
 
-div(style={'text-align':'center'})
-    p Domain：#{dns.domain}
-    p Ip：#{dns.addresses}
+block title
+    title DNS
+    
+block content
+    div(style={'text-align':'center'})
+        p Domain：#{dns.domain}
+        p Ip：#{dns.addresses}
