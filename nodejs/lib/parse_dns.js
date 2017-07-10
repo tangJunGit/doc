@@ -1,6 +1,7 @@
 var dns = require('dns'),
     querystring = require('querystring');
 
+var {goPage} = require('./go_page.js');
 /**
  * 解析DNS
  * 
@@ -16,10 +17,11 @@ function parseDns(req, res){
     req.on('end', function(){
         getDns(postData, function(domain, addresses){
             res.writeHead(200, {'Content-Type': 'text/html'});
-            res.end('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>DNS</title>'+
-                    '</head><body><div style="text-align:center">'+
-                    '<p>Domain：'+domain+'</p><p>Ip：'+addresses.join(', ')+'</p>'+
-                    '</div></body></html>');
+            var dns = {
+                domain: domain,
+                addresses: addresses
+            };
+            goPage(req, res, 'dns/parse_dns', {dns: dns});
             return;
         });
     });

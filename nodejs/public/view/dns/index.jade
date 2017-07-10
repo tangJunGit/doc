@@ -1,0 +1,9 @@
+include ../includes/head.jade
+    title DNS
+    
+h1(style={'text-align': 'center'}) DNS查询工具
+form(action='/dns/parse', method='post', style={'text-align': 'center'}) 
+    查询DNS：
+    input(type='text', name='search_dns')
+    input(type='submit', value='查询')
+

@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "jade": "^1.11.0",
     "supervisor": "^0.12.0"
   }
 }

@@ -1,6 +1,6 @@
 // 路由模块处理
-var ParseDns = require('./parse_dns.js'),
-    MainIndex = require('./main_index.js');
+var {parseDns} = require('./parse_dns.js'),
+    {goPage} = require('./go_page.js');
 
 /**
  * 路由
@@ -11,11 +11,13 @@ var ParseDns = require('./parse_dns.js'),
  */
 function router(req, res, pathname){
     switch(pathname){
-        case '/parse':
-            ParseDns.parseDns(req, res);        // 执行DNS解析
+        case '/dns/parse':
+            parseDns(req, res);                                 // 执行DNS解析
             break;
         default:
-            MainIndex.goIndex(req, res);        // 响应html页面到客户端
+            if(pathname === '/') pathname = 'index';
+            goPage(req, res, pathname);                         // 响应 html页面
+            break;
     }    
 }
 exports.router = router;
