@@ -4,6 +4,9 @@ var http = require('http'),
 // 路由模块
 var {router} = require('./lib/router.js');
 
+// socket模块
+var socket = require('./lib/socket.js');
+
 // 创建服务器
 var server = http.createServer(function(req, res){
     var pathname = url.parse(req.url).pathname;
@@ -12,4 +15,5 @@ var server = http.createServer(function(req, res){
     router(req, res, pathname);
 });
 
+socket.listen(server);
 server.listen(3001);

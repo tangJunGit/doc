@@ -9,10 +9,15 @@ var fs = require('fs'),
  * @param {any} res 
  */
 function goPage(req, res, url, params){
-    var readPath = 'public/view/'+url;                  // jade文件路径从public/view/下开始
-    var html = jade.renderFile(readPath+'.jade', params);
-    // var html = fs.readFileSync(readPath+'.html');
-    res.end(html);
+    var data,
+        readPath = 'public/'+url; 
+    if(/.js$/.test(url)){                                   // .js 文件
+        data = fs.readFileSync(readPath);
+    }else{                                                  // .html 文件
+        readPath += '.jade';               
+        data = jade.renderFile(readPath, params);           // 解析jade文件，并返回 html
+    }
+    res.end(data);
 }
 
 exports.goPage = goPage;

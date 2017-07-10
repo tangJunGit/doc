@@ -16,7 +16,7 @@ function router(req, res, pathname){
             break;
         default:
             if(pathname === '/') pathname = 'index';
-            goPage(req, res, pathname);                         // 响应 html页面
+            goPage(req, res, pathname);                         // 响应 html, css, js 静态文件
             break;
     }    
 }

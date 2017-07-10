@@ -1,0 +1,9 @@
+extends ./includes/extend.jade
+
+block content
+    - var list = [{href:'dns/index', title:'DNS查询工具'},{href:'socket/index', title:'socket.io'}];
+
+    ul
+        each v, i in list
+            li
+                a(href=v.href) #{v.title}

@@ -1,9 +1,0 @@
-extends ./includes/extend.jade
-
-block content
-    - var list = [{href:'dns/index', title:'DNS查询工具'}];
-
-    ul
-        - for(var i = 0, len = list.length; i<len; i++)
-            li
-                a(href=list[i].href) #{list[i].title}
