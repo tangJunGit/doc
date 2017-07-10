@@ -1,5 +1,6 @@
 // 路由模块处理
 var {parseDns} = require('./parse_dns.js'),
+    Request = require('./request.js'),
     {goPage} = require('./go_page.js');
 
 /**
@@ -13,6 +14,9 @@ function router(req, res, pathname){
     switch(pathname){
         case '/dns/parse':
             parseDns(req, res);                                 // 执行DNS解析
+            break;
+        case '/request/get':
+            Request.get(req, res);                              // Request模块请求数据
             break;
         default:
             if(pathname === '/') pathname = 'index';

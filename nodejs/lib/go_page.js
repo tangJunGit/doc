@@ -10,12 +10,13 @@ var fs = require('fs'),
  */
 function goPage(req, res, url, params){
     var data,
+        reg = /\.\w+$/,                                     // 匹配文件拓展名
         readPath = 'public/'+url; 
-    if(/.js$/.test(url)){                                   // .js 文件
-        data = fs.readFileSync(readPath);
-    }else{                                                  // .html 文件
+    if(!reg.test(url)){                                     // .jade 文件
         readPath += '.jade';               
         data = jade.renderFile(readPath, params);           // 解析jade文件，并返回 html
+    }else{                                                  // 静态文件
+        data = fs.readFileSync(readPath);
     }
     res.end(data);
 }

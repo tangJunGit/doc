@@ -17,3 +17,4 @@ var server = http.createServer(function(req, res){
 
 socket.listen(server);
 server.listen(3001);
+console.log('Server running at http://http://localhost:3001/');
