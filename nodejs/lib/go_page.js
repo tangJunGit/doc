@@ -15,6 +15,7 @@ function goPage(req, res, url, params){
     if(!reg.test(url)){                                     // .jade 文件
         readPath += '.jade';               
         data = jade.renderFile(readPath, params);           // 解析jade文件，并返回 html
+        res.writeHead(200, {'Content-Type': 'text/html'});
     }else{                                                  // 静态文件
         data = fs.readFileSync(readPath);
     }
