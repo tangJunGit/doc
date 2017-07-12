@@ -1,6 +1,6 @@
 var socketio = require('socket.io');
 
-exports.listen = function(server){
+function listen(server){
     var io = socketio.listen(server);               // 启动socket.io搭建在已有的HTTP上
 
     io.sockets.on('connection', function(socket){
@@ -11,3 +11,5 @@ exports.listen = function(server){
         });
     });
 }
+
+exports.listen = listen;
