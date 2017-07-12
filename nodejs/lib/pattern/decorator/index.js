@@ -1,0 +1,1 @@
+// $ node lib/pattern/decorator/index.js
