@@ -15,7 +15,7 @@ var server = http.createServer(function(req, res){
     if(!reg.test(pathname)){                                // 调用模块
         router(req, res, pathname);                         // 调用路由的方法
     }else{                                                  // 静态文件
-        file.getStaticFile(res, pathname);                  // 调用获取静态文件的方法
+        file.getStaticFile(req, res, pathname);             // 调用获取静态文件的方法
     }
 });
 
