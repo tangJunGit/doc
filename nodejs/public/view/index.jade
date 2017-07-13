@@ -1,0 +1,13 @@
+extends ./includes/extend.jade
+
+block content
+    - var list = []
+    - list.push({href:'dns', title:'DNS查询工具'})
+    - list.push({href:'socket', title:'socket.io'})
+    - list.push({href:'request', title:'Request模块'})
+    - list.push({href:'formidable', title:'Formidable模块'})
+
+    ul
+        each v, i in list
+            li
+                a(href=v.href) #{v.title}

@@ -1,0 +1,14 @@
+extends ../includes/extend.jade
+
+block title
+    title Formidable模块
+
+block content
+    form(action="/formidable/upload", enctype="multipart/form-data", method="post")
+        input(type="text",  name="title")
+        br
+        input(type="file" name="upload" multiple="multiple")
+        br
+        input(type="submit" value="上传")
+
+
