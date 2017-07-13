@@ -7,7 +7,7 @@ var http = require('http'),
 // 路由模块
 var router = require('./lib/router');
 
-// 创建服务器
+// 创建服务器 
 var server = http.createServer(function(req, res){
     var reg = /\.\w+$/,
         pathname = url.parse(req.url).pathname;
