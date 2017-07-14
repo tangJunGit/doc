@@ -1,5 +1,4 @@
 var util = require('util'),
-    formidable = require('formidable'),
     page = require('../util/page'),
     {parseForm} = require('./parseForm');
 

@@ -9,6 +9,7 @@ var fs = require('fs'),
  * @param {any} path 
  */
 function getStaticFile(req, res, pathname){
+    pathname = decodeURI(pathname);                 // 解码中文字符
     var realPath = CONF.STATIC + pathname;          // 静态文件路径
 
     fs.exists(realPath, function(exists){
