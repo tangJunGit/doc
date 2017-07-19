@@ -66,7 +66,7 @@ module.exports = function(){
 
     // 数据条件查询接口
     this.find = function(tableName, whereJson, orderByJson, limitArr, fieldArr, callback) {
-        // 复杂代码
+        // code ...
     };
 
     function _constructor(){
