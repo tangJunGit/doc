@@ -114,7 +114,7 @@ module.exports = function(){
 
     // 数据条件查询接口
     this.find = function(tableName, whereJson, orderByJson, limitJson, fieldJson, callback) {
-        // ...
+        // code ...
     };
 
     // 数据转化
