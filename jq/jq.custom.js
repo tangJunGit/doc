@@ -46,7 +46,7 @@
 		this.length = len;
 	};
 	
-	jQuery.fn = jQuery.prototype = {
+	jQuery.prototype = {
 		constructor: jQuery,
 
 		//  ready 事件
@@ -699,6 +699,14 @@
 		},
 	};
 
+	// ================================ extend
+	$.fn = {
+		extend: function(object){
+			return $.each(object, function(name, fn){
+				jQuery.prototype[name] = fn;
+			});
+		}
+	};
 
 
 	// =============================== AJAX 
