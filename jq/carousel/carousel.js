@@ -25,13 +25,13 @@
     
     // 滑动方向
     var Direction = {
-        L: 'prev',
-        R: 'next',
+        L: 'prev',                  // 调用 prev 方法
+        R: 'next',                  // 调用 next 方法
     };
 
     // 动画
     var Animation = {
-    	FADE: 'fade'
+    	FADE: 'fade'               // fade 动画效果
     };
 
 
@@ -52,6 +52,11 @@
 
 	    init: function(){
 	    	var _this = this;
+
+            // 给导航添加 data-index 属性
+            _this.nav.each(function(i){
+                $(this).attr(Attribute.INDEX, i);
+            });
 
 	    	_this.handler(_this.index);
 			_this.addEventListeners();
