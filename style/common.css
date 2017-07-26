@@ -632,9 +632,9 @@ button.close {
 
 /*layout
    ============================================================*/
-
 .container {
-  max-width: 1200px;
+  padding-right: 15px;
+  padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
 }
@@ -659,6 +659,8 @@ button.close {
 
 .container-fluid {
   width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
 }
