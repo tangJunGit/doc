@@ -27,7 +27,7 @@
 
             setTimeout(function(){
                 _this.items.eq(index).addClass(Attribute.ACTIVE);
-            }, 0);
+            }, 15);
         },
 
 	}

@@ -154,7 +154,9 @@
 
 	    // 暂停播放
         pause: function(){
-            clearInterval(this.isInterval);
+            var _this = this;
+            
+            clearInterval(_this.isInterval);
         },
 
 	    // 下一页
