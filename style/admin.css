@@ -1,9 +1,5 @@
-html, body {
-	height: 100% !important;
-}
-
 body {
-    background-color: #e4e5e6;
+    background-color: #ecf0f5;
 }
 
 a:visited,
@@ -13,59 +9,115 @@ a:focus {
 	text-decoration: none;
 }
 
-/*  header
-    ============================================*/
+
+/*=============================================
+=            头部           =
+=============================================*/
+
+
 .app-header {
 	position: fixed;
-    z-index: 999;
-    width: 100%;
-	height: 55px;
-    border-bottom: 1px solid #cfd8dc;
-    background-color: #fff;
+    z-index: 1003;
+    left: 0;
+    right: 0;
+	height: 50px;
+    background-color: #3c8dbc;
 }
+.app-header a:hover{
+    background-color: #367fa9;
+}
+
+/*----------  左侧 logo  ----------*/
+
+
 .navbar-brand {
-    display: inline-block;
+    float: left;
+    width: 230px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
     font-size: 20px;
-    color: #000;
-    height: 55px;
-    margin-left: 10px;
-    line-height: 55px;
+    color: #fff;
+    background-color: #367fa9;
 }
+a.navbar-brand:hover{
+    color: #fff;
+    background-color: #357ca5;
+}
+
+.navbar-zoom{
+    float: left;
+    width: 40px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+}
+
+
+/*----------  右侧 列表  ----------*/
+
+
 .navbar-nav {
 	position: absolute;
 	top: 0;
-	right: 15px;
-	height: 55px;
-    line-height: 55px;
+	right: 0;
+	height: 50px;
+    line-height: 50px;
 }
-.navbar-nav li {
-	padding: 0 10px;
+.navbar-nav li>a{
+    display: block;
+    height: 50px;
+    padding: 0 10px;
+    color: #fff;
+}
+.navbar-nav li>a>img{
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+    border-radius: 50%;
 }
 
-/*========== header end  ==============*/
+
+
+/*=====  End of header  ======*/
+
+
+
+
+/*=============================================
+=            左侧            =
+=============================================*/
+
+
+
 
 .app-body {
-	position: relative;
-	padding-top: 55px;
-	overflow-x: hidden;
+    position: relative;
+    padding-top: 50px;
+    padding-left: 230px;
 }
 
-/*  左侧菜单
-    ===============================  */
+/*----------  菜单  ----------*/
+
+
 .app-body .sidebar {
-	position: fixed;
-    height: 100% !important;
-    width: 220px;
+    position: fixed;
+    top: 50px;
+    bottom: 0;
+    left: 0;
+    z-index: 1001;
+    width: 230px;
     color: #fff;
     background: #263238;
+    overflow: auto;
 }
 
-.sidebar .sidebar-nav {
+/* .sidebar .sidebar-nav {
 	position: relative;
     overflow-x: hidden;
     overflow-y: auto;
     ms-overflow-style: -ms-autohiding-scrollbar;
-    width: 220px;
+    width: 230px;
     height: 100% !important;
 }
 .sidebar .nav .nav-title {
@@ -77,7 +129,7 @@ a:focus {
 .sidebar .nav .nav-item {
     position: relative;
     font-size: 16px;
-    transition: background .3s ease-in-out;
+    transition: background-color .3s ease-in-out;
 }
 .sidebar .nav .nav-item.open{
     background: rgba(0, 0, 0, 0.2);
@@ -94,10 +146,13 @@ a:focus {
 }
 .sidebar .nav .nav-item .nav-link:hover {
 	background: #20a8d8;
-}
+} */
 
 
-/*滚动条*/
+
+/*----------  滚动条  ----------*/
+
+/* 
 .sidebar .sidebar-nav::-webkit-scrollbar {
     position: absolute;
     width: 10px;
@@ -116,31 +171,44 @@ a:focus {
     background-color: #304047;
     border-right: 1px solid #1c2429;
     border-left: 1px solid #1c2429;
-}
+} */
 
-/*========== 左侧菜单 end  ==============*/
+
+/*=====  End of 左侧  ======*/
+
+
+
+
+
+/*=============================================
+=            主体            =
+=============================================*/
 
 
 
 .app-body .main {
-    margin-left: 220px !important;
     padding: 15px;
+    overflow: auto;
 }
 
-/*  主要内容
-    ========================*/
 
-/*表格*/
-.main>table {
+
+/*----------  表格  ----------*/
+
+
+/* .main>table {
 	background-color: #fff;
 }
 .main>table>caption {
 	color: #000;
 	padding: 10px;
 	background-color: #d2d9de;
-}
+} */
 
-/*面包屑*/
+
+/*----------  面包屑  ----------*/
+
+/* 
 .breadcrumb {
 	padding: 10px;
 	background-color: #fff;
@@ -154,6 +222,7 @@ a:focus {
 }
 .breadcrumb-item.active {
     color: #b0bec5;
-}
+} */
 
-/*========== 主要内容 end  ==============*/
+/*=====  End of 主体  ======*/
+
