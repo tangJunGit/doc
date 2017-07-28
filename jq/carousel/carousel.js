@@ -37,7 +37,6 @@
     	SEAMLESS: 'seamless',      	// seamless 动画效果
     };
 
-
 	var Carousel = function(element, options) {
 		var _this = this;
 
@@ -47,6 +46,7 @@
         _this.items = element.find(Selector.ITEM);		// 幻灯片的节点数组
 		_this.nav = element.find(Selector.NAV);			// 导航的节点数组
 		_this.isAnimation = false;						// 是否还在动画中
+		_this.prevIndex = options.index;				// 上个幻灯片的 index
 
 		_this.init();
 	};
@@ -54,7 +54,10 @@
 	Carousel.prototype = {
 	    constructor: Carousel,
 
-		// 初始化函数
+		/**
+		 * 初始化函数
+		 * 
+		 */
 	    init: function(){
 	    	var _this = this;
 
@@ -63,7 +66,10 @@
 			_this.addEventListeners();
 		},
 		
-		// 设定样式
+		/**
+		 * 设定样式
+		 * 
+		 */
 		setStyle: function(){
 			var _this = this;
 
@@ -76,7 +82,10 @@
 			});
 		},
 
-	    // 事件监听
+		/**
+		 * 事件监听
+		 * 
+		 */
 	    addEventListeners: function(){
 	    	var _this = this,
 	    		_element = _this.element,
@@ -115,37 +124,54 @@
 
            	// 点击导航
            	_this.nav.on('click', function(){
-           		var index = $(this).attr(Attribute.INDEX);
-           		if(index) _this.handler(index);
+           		_this.index = $(this).attr(Attribute.INDEX);
+           		if(_this.index) _this.handler(_this.index);
            	});
 	    },
 
-	    // 跳到第几张幻灯片
+		/**
+		 * 跳到第几张幻灯片
+		 * 
+		 * @param {*} direction 滑动的方向
+		 */
 	    jump: function(direction){
 	    	var _this = this,
 	    		_options = _this.options;
 
+			// 获取页码
+			_this.index = _this[direction](_this.prevIndex, _this.items.length, _options.loop); 	
+			if(_this.index == _this.prevIndex) return;
+
+			// 判断是否在动画中，如果是就返回，不执行
 			if(_this.isAnimation){
 				return;
 			}else{
 				_this.isAnimation = true;
 			} 
-	    	_this.index = _this[direction](_this.index, _this.items.length, _options.loop); 	// 获取页码
 	    	
 	    	_this.handler(_this.index, direction);
 	    },
 
-	    // 执行幻灯片
+		/**
+		 * 执行幻灯片
+		 * 
+		 * @param {*} index 当前幻灯片的 index
+		 * @param {*} direction 滑动的方向
+		 */
 	    handler: function(index, direction){
 	    	var _this = this,
 	    		_effect = _this.options.effect || Animation.FADE;
 
 	    	var options = {
 				index: index
-	    	};
+			};
+					
+			// 判断幻灯片移动的方向
+			if(!direction) direction =  _this.prevIndex > index ? Direction.L : Direction.R;
 
+			// 动画处理
 	    	if(!_this.animation){
-	    		_this.element.addClass(_effect);				// 添加动画的class
+	    		_this.element.addClass(_effect);				// 添加动画的 class
 
 	    		// 创建幻灯片动画
 	    		switch(_effect){
@@ -161,17 +187,24 @@
 	    				break;
 	    		}
 	    	}else{
-	    		_this.animation.exec(index, direction);	// 执行动画效果
+	    		_this.animation.exec(index, _this.prevIndex, direction);			// 执行动画效果
 			}
-					
+
+			_this.prevIndex = index;		// 赋值给上个幻灯片 index
+			
+			// 结束动画的状态
 			setTimeout(function() {
 				_this.isAnimation = false;
 			}, _this.options.animTime);
 
+			//　导航的样式
             if(_this.nav) _this.nav.removeClass(Attribute.ACTIVE).eq(index).addClass(Attribute.ACTIVE);
 	    },
 
-	    // 循环播放
+		/**
+		 * 循环播放
+		 * 
+		 */
 	    cycle: function(){
 	    	var _this = this;
 
@@ -180,14 +213,23 @@
 				                }, _this.options.interval);
 	    },
 
-	    // 暂停播放
+		/**
+		 * 暂停播放
+		 * 
+		 */
         pause: function(){
             var _this = this;
             
             clearInterval(_this.isInterval);
         },
 
-	    // 下一页
+		/**
+		 * 返回下一页的页码
+		 * 
+		 * @param {*} page  页码
+		 * @param {*} length 幻灯片的长度
+		 * @param {*} loop 幻灯片是否循环
+		 */
         next: function(page, length, loop){
             page++;
             if(page >= length){
@@ -196,7 +238,13 @@
             return page;
         },
 
-        // 上一页
+		/**
+		 * 返回上一页的页码
+		 * 
+		 * @param {*} page  页码
+		 * @param {*} length 幻灯片的长度
+		 * @param {*} loop 幻灯片是否循环
+		 */
         prev: function(page, length, loop){
             page--;
             if(page < 0){

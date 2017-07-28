@@ -8,10 +8,10 @@
   overflow: hidden;
   filter: alpha(opacity=100);
   opacity: 0;
-  -webkit-transition: opacity .4s ease-in-out, filter .3s ease-in-out;
-  -moz-transition: opacity .4s ease-in-out, filter .3s ease-in-out;
-  -o-transition: opacity .4s ease-in-out, filter .3s ease-in-out;
-  transition: opacity .4s ease-in-out, filter .3s ease-in-out;
+  -webkit-transition: opacity .4s ease-in-out, filter .4s ease-in-out;
+  -moz-transition: opacity .4s ease-in-out, filter .4s ease-in-out;
+  -o-transition: opacity .4s ease-in-out, filter .4s ease-in-out;
+  transition: opacity .4s ease-in-out, filter .4s ease-in-out;
 }
 .carousel.fade .item.hide{
   display: none;

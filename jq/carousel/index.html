@@ -156,23 +156,22 @@
         	pause: true,
 		});
 
-
 		$('#carouselSlide').carousel({
 			index: 0,
 			loop: true,
 			interval: 3000,
-			animTime: 800,			// 需要与 css 的动画时间相同
+			animTime: 800,			
 			effect: 'slide',
         	pause: true,
 		});
 
 		$('#carouselSeamless').carousel({
-			index: 0,
-			loop: true,
-			interval: 3000,
-			animTime: 800,	
-			effect: 'seamless',
-        	pause: true,
+			index: 0,						// 第几张幻灯片
+			loop: true,						// 幻灯片是否循环
+			interval: 3000,					// 幻灯片自动播放时间
+			animTime: 800,					// 需要与 css 的动画时间相同
+			effect: 'seamless',				// 幻灯片切换效果
+        	pause: true,					// 鼠标 mouseover 时暂停
 		});
 
 	});
