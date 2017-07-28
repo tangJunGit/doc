@@ -1,12 +1,17 @@
-/*淡入淡出*/
-.carousel.fade .item {
+
+/*=============================================
+=            淡入淡出            =
+=============================================*/
+
+.carousel.fade .item{
   position: relative;
+  overflow: hidden;
   filter: alpha(opacity=100);
   opacity: 0;
-  -webkit-transition: all .3s linear;
-  -moz-transition: all .3s linear;
-  -o-transition: all .3s linear;
-  transition: all .3s linear;
+  -webkit-transition: opacity .4s ease-in-out, filter .3s ease-in-out;
+  -moz-transition: opacity .4s ease-in-out, filter .3s ease-in-out;
+  -o-transition: opacity .4s ease-in-out, filter .3s ease-in-out;
+  transition: opacity .4s ease-in-out, filter .3s ease-in-out;
 }
 .carousel.fade .item.hide{
   display: none;
@@ -15,3 +20,57 @@
   filter: alpha(opacity=100);
   opacity: 1;
 }
+
+/*=====  End of 淡入淡出  ======*/
+
+
+
+
+/*=============================================
+=            滑动            =
+=============================================*/
+
+
+.carousel.slide .carousel-inner{
+  -webkit-transition: -webkit-transform .8s ease-in-out;
+  -moz-transition: -moz-transform .8s ease-in-out;
+  -o-transition: -o-transform .8s ease-in-out;
+  transition: transform .8s ease-in-out;
+}
+.carousel.slide .item{
+  position: relative;
+  float: left;
+  overflow: hidden;
+}
+
+/*=====  End of 滑动  ======*/
+
+
+
+
+/*=============================================
+=            无缝滑动 Seamless            =
+=============================================*/
+
+
+.carousel.seamless .carousel-inner.anim{
+  -webkit-transition: -webkit-transform .8s ease-in-out;
+  -moz-transition: -moz-transform .8s ease-in-out;
+  -o-transition: -o-transform .8s ease-in-out;
+  transition: transform .8s ease-in-out;
+}
+.carousel.seamless .carousel-inner{
+  transition-duration: 0;
+  -moz-transition-duration: 0; 
+  -webkit-transition-duration: 0; 
+  -o-transition-duration: 0; 
+}
+.carousel.seamless .item{
+  position: relative;
+  float: left;
+  overflow: hidden;
+}
+
+
+/*=====  End of 无缝滑动 Seamless  ======*/
+

@@ -16,7 +16,8 @@
 	</style>
 </head>
 <body>
-<div id="carousel" class="carousel">
+<!--  ================== 淡入淡出 fade   ================== -->
+<div id="carouselFade" class="carousel">
 	 <!-- 轮播结构 -->
 	 <div class="carousel-inner">
 	    <div class="item">
@@ -54,18 +55,126 @@
 	    <span>&#62;</span>
 	 </a>
 </div>
+
+<hr>
+
+<!-- ===================  滑动 slide  ================== -->
+<div id="carouselSlide" class="carousel">
+	 <!-- 轮播结构 -->
+	 <div class="carousel-inner">
+	    <div class="item">
+	      	<img src="../images/1.jpg" alt="">
+	      	<div class="carousel-caption">
+	        	1
+	      	</div>
+	    </div>
+	    <div class="item">
+	      	<img src="../images/2.jpg" alt="">
+	      	<div class="carousel-caption">
+	        	2
+	      	</div>
+	    </div>
+	    <div class="item">
+	      	<img src="../images/3.jpg" alt="">
+	      	<div class="carousel-caption">
+	        	3
+	      	</div>
+	    </div>
+	 </div>
+		
+	<!-- 导航 -->
+	 <ol class="carousel-indicators">
+	    <li class="nav"></li>
+	    <li class="nav"></li>
+	    <li class="nav"></li>
+	 </ol>
+
+	  <!-- 控制按钮 -->
+	 <a class="prev carousel-control">
+	    <span>&#60;</span>
+	 </a>
+	 <a class="next carousel-control">
+	    <span>&#62;</span>
+	 </a>
+</div>
+
+<hr>
+
+<!-- ===================  无缝滑动 Seamless  ================== -->
+<div id="carouselSeamless" class="carousel">
+	 <!-- 轮播结构 -->
+	 <div class="carousel-inner">
+	    <div class="item">
+	      	<img src="../images/1.jpg" alt="">
+	      	<div class="carousel-caption">
+	        	1
+	      	</div>
+	    </div>
+	    <div class="item">
+	      	<img src="../images/2.jpg" alt="">
+	      	<div class="carousel-caption">
+	        	2
+	      	</div>
+	    </div>
+	    <div class="item">
+	      	<img src="../images/3.jpg" alt="">
+	      	<div class="carousel-caption">
+	        	3
+	      	</div>
+	    </div>
+	 </div>
+		
+	<!-- 导航 -->
+	 <ol class="carousel-indicators">
+	    <li class="nav"></li>
+	    <li class="nav"></li>
+	    <li class="nav"></li>
+	 </ol>
+
+	  <!-- 控制按钮 -->
+	 <a class="prev carousel-control">
+	    <span>&#60;</span>
+	 </a>
+	 <a class="next carousel-control">
+	    <span>&#62;</span>
+	 </a>
+</div>
+
+
 <script src="../jq.custom.js"></script>
 <script src="animation.js"></script>
 <script src="carousel.js"></script>
 <script type="text/javascript">
 	$(function(){
-		$('#carousel').carousel({
+
+		$('#carouselFade').carousel({
 			index: 0,
 			loop: true,
 			interval: 3000,
+			animTime: 400,
 			effect: 'fade',
         	pause: true,
 		});
+
+
+		$('#carouselSlide').carousel({
+			index: 0,
+			loop: true,
+			interval: 3000,
+			animTime: 800,			// 需要与 css 的动画时间相同
+			effect: 'slide',
+        	pause: true,
+		});
+
+		$('#carouselSeamless').carousel({
+			index: 0,
+			loop: true,
+			interval: 3000,
+			animTime: 800,	
+			effect: 'seamless',
+        	pause: true,
+		});
+
 	});
 </script>
 </body>

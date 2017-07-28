@@ -4,7 +4,8 @@
         index: 0,                  	// 第几张幻灯片    
         loop: true,                	// 幻灯片是否循环
         interval: undefined,       	// 幻灯片自动播放时间
-        effect: 'fade',         	// 幻灯片切换效果
+		effect: 'fade',         	// 幻灯片切换效果
+		animTime: 15,				// 动画时间
         pause: true,        		// 鼠标 mouseover 时暂停
     };
 
@@ -31,7 +32,9 @@
 
     // 动画
     var Animation = {
-    	FADE: 'fade'               // fade 动画效果
+    	FADE: 'fade',              	// fade 动画效果
+    	SLIDE: 'slide',           	// slide 动画效果
+    	SEAMLESS: 'seamless',      	// seamless 动画效果
     };
 
 
@@ -39,10 +42,11 @@
 		var _this = this;
 
 		_this.options = options;
-		_this.index = options.index;
-		_this.element = element;
-        _this.items = element.find(Selector.ITEM);
-        _this.nav = element.find(Selector.NAV);
+		_this.index = options.index;					// 当前的幻灯片的 index
+		_this.element = element;						// 当前 element
+        _this.items = element.find(Selector.ITEM);		// 幻灯片的节点数组
+		_this.nav = element.find(Selector.NAV);			// 导航的节点数组
+		_this.isAnimation = false;						// 是否还在动画中
 
 		_this.init();
 	};
@@ -50,17 +54,27 @@
 	Carousel.prototype = {
 	    constructor: Carousel,
 
+		// 初始化函数
 	    init: function(){
 	    	var _this = this;
 
-            // 给导航添加 data-index 属性
-            _this.nav.each(function(i){
-                $(this).attr(Attribute.INDEX, i);
-            });
-
+			_this.setStyle();
 	    	_this.handler(_this.index);
 			_this.addEventListeners();
-	    },
+		},
+		
+		// 设定样式
+		setStyle: function(){
+			var _this = this;
+
+			// 设置 items 的宽度
+			_this.items.css({'width': _this.element.width() + 'px'});
+
+			// 给导航添加 data-index 属性
+            _this.nav.each(function(i){
+                $(this).attr(Attribute.INDEX, i);
+			});
+		},
 
 	    // 事件监听
 	    addEventListeners: function(){
@@ -111,19 +125,23 @@
 	    	var _this = this,
 	    		_options = _this.options;
 
+			if(_this.isAnimation){
+				return;
+			}else{
+				_this.isAnimation = true;
+			} 
 	    	_this.index = _this[direction](_this.index, _this.items.length, _options.loop); 	// 获取页码
 	    	
-	    	_this.handler(_this.index);
+	    	_this.handler(_this.index, direction);
 	    },
 
 	    // 执行幻灯片
-	    handler: function(index){
+	    handler: function(index, direction){
 	    	var _this = this,
-	    		_fade = 'fade',
 	    		_effect = _this.options.effect || Animation.FADE;
 
 	    	var options = {
-	    		index: index
+				index: index
 	    	};
 
 	    	if(!_this.animation){
@@ -131,14 +149,24 @@
 
 	    		// 创建幻灯片动画
 	    		switch(_effect){
+					case Animation.SEAMLESS:
+						_this.animation = new Seamless(_this.items, options);
+						break;
+					case Animation.SLIDE:
+						_this.animation = new Slide(_this.items, options);
+						break;
 	    			case Animation.FADE:
 	    			default:
 	    				_this.animation = new Fade(_this.items, options);			
 	    				break;
 	    		}
 	    	}else{
-	    		_this.animation.exec(index);	// 执行动画效果
-	    	}
+	    		_this.animation.exec(index, direction);	// 执行动画效果
+			}
+					
+			setTimeout(function() {
+				_this.isAnimation = false;
+			}, _this.options.animTime);
 
             if(_this.nav) _this.nav.removeClass(Attribute.ACTIVE).eq(index).addClass(Attribute.ACTIVE);
 	    },

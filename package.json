@@ -8,5 +8,7 @@
     "gulp": "^3.9.1",
     "http-proxy-middleware": "^0.17.4"
   },
-  "scripts": {}
+  "scripts": {
+    "start": "gulp server"
+  }
 }

@@ -1,4 +1,11 @@
-/*样式布局*/ 
+
+/**
+ *
+ * 样式布局
+ *
+ */
+
+
 .carousel {
   position: relative;
   overflow: hidden;
@@ -16,7 +23,14 @@
 }
 
 
-/*控制按钮*/
+
+/**
+ *
+ * 控制按钮
+ *
+ */
+
+
 .carousel-control {
   position: absolute;
   top: 50%;
@@ -49,7 +63,14 @@
 
 
 
-/*导航*/
+
+/**
+ *
+ * 导航
+ *
+ */
+
+
 .carousel-indicators {
   position: absolute;
   bottom: 10px;
@@ -78,7 +99,14 @@
 }
 
 
-/*文字内容*/
+
+/**
+ *
+ * 文字内容
+ *
+ */
+
+
 .carousel-caption {
   position: absolute;
   left: 15%;

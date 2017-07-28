@@ -99,7 +99,7 @@
 		},
 		// 父节点
 		parent: function() {
-			return $.matchNodes(this, 'sibling', "parentNode");
+			return $.matchNodes(this, 'sibling', "parentNode").eq(0);
 		},
 		parents: function() {
 			return $.matchNodes(this, 'dir', "parentNode");
