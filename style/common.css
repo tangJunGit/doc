@@ -336,14 +336,14 @@ label {
   background-color: #fff;
   background-image: none;
   border: 1px solid #ccc;
-  border-radius: 4px;
   -webkit-transition: border-color ease-in-out .15s;
   -o-transition: border-color ease-in-out .15s;
   transition: border-color ease-in-out .15s;
 }
 
 .form-control:focus {
-  border-color: #66afe9;
+    border-color: #3c8dbc;
+    box-shadow: none;
 }
 
 .form-inline .form-group {

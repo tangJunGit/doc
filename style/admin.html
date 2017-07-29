@@ -23,51 +23,95 @@
 	<div class="app-body">
 		<!-- 菜单 -->
 		<div class="sidebar">
-			<!-- <nav class="sidebar-nav">
+			<nav class="sidebar-nav">
 				<ul class="list-unstyled nav">
-					<li class="nav-title">菜单功能</li>
-					<li class="nav-item open">
-						<a href="#" class="nav-link">帐号管理</a>
+					<!-- 列表头 -->
+					<li class="nav-title">列表头</li>
+					<!-- 列表有子菜单关闭状态 -->
+					<li class="nav-item treeview">
+						<a href="#" class="nav-link">
+							<img class="link-photo" src="images/navbar-zoom.png" alt="">
+							<span>列表关闭状态</span>
+							<span class="caret left"></span>
+						</a>
 						<ul class="list-unstyled">
-							<li class="nav-item active"><a href="#" class="nav-link">修改帐号</a></li>
-							<li class="nav-item"><a href="#" class="nav-link">修改密码</a></li>
-							<li class="nav-item"><a href="#" class="nav-link">修改邮箱</a></li>
-							</ul>
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+						</ul>
 					</li>
-					</ul>
-			</nav> -->
+					<!-- 列表打开状态 -->
+					<li class="nav-item treeview open">
+						<a href="#" class="nav-link">
+							<img class="link-photo" src="images/navbar-zoom.png" alt="">
+							<span>列表打开状态</span>
+							<span class="caret"></span>
+						</a>
+						<ul class="list-unstyled">
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+						</ul>
+					</li>
+					<!-- 当前列表状态 -->
+					<li class="nav-item treeview active">
+						<a href="#" class="nav-link">
+							<img class="link-photo" src="images/navbar-zoom.png" alt="">
+							<span>当前列表状态</span>
+							<span class="caret"></span>
+						</a>
+						<ul class="list-unstyled">
+							<li class="nav-item active"><a href="#" class="nav-link">子菜单</a></li>
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+						</ul>
+					</li>
+					<!-- 列表无子菜单 -->
+					<li class="nav-item">
+						<a href="#" class="nav-link">
+							<img class="link-photo" src="images/navbar-zoom.png" alt="">
+							<span>列表无子菜单</span>
+						</a>
+					</li>
+					<li class="nav-item active">
+						<a href="#" class="nav-link">
+							<img class="link-photo" src="images/navbar-zoom.png" alt="">
+							<span>列表无子菜单</span>
+						</a>
+					</li>
+				</ul>
+			</nav> 
 		</div>  
 		<!-- 内容 -->
-			<main class="container-fluid main">
-			<!-- <ul class="list-inline breadcrumb">
+		<main class="container-fluid main">
+			<ul class="list-inline breadcrumb">
 				<li class="breadcrumb-item"><a href="#">首页</a></li>
 				<li class="breadcrumb-item active">表格</li>
 			</ul>
-			<table class="table table-bordered table-hover">
-					<caption>表格标题</caption>
-					<thead>
-						<tr>
-							<th>序号</th>
-							<th>用户名</th>
-							<th>密码</th>
-							<th>描述</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<th>1</th>
-							<td>张三</td>						
-							<td>123456</td>
-							<td>描述张三的文字</td>
-						</tr>
-						<tr>
-							<th>2</th>
-							<td>李四</td>
-							<td>lisi</td>
-							<td>描述李四的文字</td>
-						</tr>
-					</tbody>
-				</table>-->
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>序号</th>
+						<th>用户名</th>
+						<th>密码</th>
+						<th>描述</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th>1</th>
+						<td>张三</td>						
+						<td>123456</td>
+						<td>描述张三的文字</td>
+					</tr>
+					<tr>
+						<th>2</th>
+						<td>李四</td>
+						<td>456789</td>
+						<td>描述李四的文字</td>
+					</tr>
+				</tbody>
+			</table>
 		</main>  
 </div>
 </body>

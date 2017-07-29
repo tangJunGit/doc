@@ -108,51 +108,102 @@ a.navbar-brand:hover{
     z-index: 1001;
     width: 230px;
     color: #fff;
-    background: #263238;
+    background: #222d32;
     overflow: auto;
 }
 
-/* .sidebar .sidebar-nav {
+ .sidebar .sidebar-nav {
 	position: relative;
     overflow-x: hidden;
     overflow-y: auto;
     ms-overflow-style: -ms-autohiding-scrollbar;
     width: 230px;
-    height: 100% !important;
-}
-.sidebar .nav .nav-title {
-    padding: 10px;
-    font-size: 14px;
-    font-weight: 600;
-    color: #cfd8dc;
-}
-.sidebar .nav .nav-item {
-    position: relative;
-    font-size: 16px;
-    transition: background-color .3s ease-in-out;
-}
-.sidebar .nav .nav-item.open{
-    background: rgba(0, 0, 0, 0.2);
 }
 
-.sidebar .nav .nav-item .nav-link {
+
+/* 列表 */
+
+
+.sidebar .nav-title {
+    padding: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #4b646f;
+    background: #1a2226;
+}
+.sidebar .nav-item {
+    position: relative;
+    font-size: 14px;
+    transition: background-color .3s ease-in-out;
+}
+
+
+
+/* 列表有子菜单关闭状态 .treeview */
+
+.sidebar .nav-item.treeview>ul{
+    display: none;
+    background: #2c3b41;
+}
+
+.sidebar .nav-item.treeview.open>ul,
+.sidebar .nav-item.treeview.active>ul{
+    display: block;
+}
+
+
+
+/* 链接  a.nav-link */
+
+.sidebar .nav-item>.nav-link {
     display: block;
     padding: 15px 10px;
-    color: #fff;
+    border-left: 3px solid transparent;
+    color: #b8c7ce;
     background: transparent;
 }
-.sidebar .nav .nav-item.active .nav-link {
-	background: #304047;
+.sidebar .nav-item .link-photo{
+    widows: 20px;
+    margin-right: 5px;
 }
-.sidebar .nav .nav-item .nav-link:hover {
-	background: #20a8d8;
-} */
+.sidebar .nav-item .caret{
+    position: absolute;
+    top: 20px;
+    right: 10px;
+    border-width: 5px;
+}
+.caret.left{
+    transform:rotate(90deg);
+    -ms-transform:rotate(90deg); 	
+    -moz-transform:rotate(90deg); 	
+    -webkit-transform:rotate(90deg); 
+    -o-transform:rotate(90deg); 	
+}
+
+
+
+/* 链接  .open .active*/
+
+.sidebar .nav-item.open>.nav-link,
+.sidebar .nav-item.active>.nav-link,
+.sidebar .nav-item .nav-link:hover{
+    color: #fff;
+}
+.sidebar .nav>.nav-item.active>.nav-link{
+    border-left-color: #3c8dbc;
+}
+.sidebar .nav>.nav-item.open>.nav-link,
+.sidebar .nav>.nav-item.active>.nav-link,
+.sidebar .nav>.nav-item:hover>.nav-link{
+	background: #1e282c;
+}
+
 
 
 
 /*----------  滚动条  ----------*/
 
-/* 
+ 
 .sidebar .sidebar-nav::-webkit-scrollbar {
     position: absolute;
     width: 10px;
@@ -171,7 +222,7 @@ a.navbar-brand:hover{
     background-color: #304047;
     border-right: 1px solid #1c2429;
     border-left: 1px solid #1c2429;
-} */
+} 
 
 
 /*=====  End of 左侧  ======*/
@@ -196,33 +247,33 @@ a.navbar-brand:hover{
 /*----------  表格  ----------*/
 
 
-/* .main>table {
+ .main>table {
+    border-top: 3px solid #d2d6de;
 	background-color: #fff;
 }
-.main>table>caption {
-	color: #000;
-	padding: 10px;
-	background-color: #d2d9de;
-} */
+
 
 
 /*----------  面包屑  ----------*/
 
-/* 
+ 
 .breadcrumb {
-	padding: 10px;
-	background-color: #fff;
+    padding: 10px;
+    font-size: 16px;
 }
 .breadcrumb-item + .breadcrumb-item::before {
     display: inline-block;
-    padding-right: 0.5rem;
-    padding-left: 0.5rem;
+    padding-right: 2px;
+    padding-left: 2px;
     color: #b0bec5;
-    content: "/";
+    content: ">\00a0";
 }
 .breadcrumb-item.active {
     color: #b0bec5;
-} */
+} 
+.breadcrumb .breadcrumb-item>a {
+    color: #333;
+}
 
 /*=====  End of 主体  ======*/
 
