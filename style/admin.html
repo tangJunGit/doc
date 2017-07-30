@@ -27,41 +27,47 @@
 				<ul class="list-unstyled nav">
 					<!-- 列表头 -->
 					<li class="nav-title">列表头</li>
-					<!-- 列表有子菜单关闭状态 -->
-					<li class="nav-item treeview">
+					<!-- 列表打开以及选中状态 -->
+					<li class="nav-item treeview active open">
 						<a href="#" class="nav-link">
 							<img class="link-photo" src="images/navbar-zoom.png" alt="">
-							<span>列表关闭状态</span>
-							<span class="caret left"></span>
-						</a>
-						<ul class="list-unstyled">
-							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
-							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
-							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
-						</ul>
-					</li>
-					<!-- 列表打开状态 -->
-					<li class="nav-item treeview open">
-						<a href="#" class="nav-link">
-							<img class="link-photo" src="images/navbar-zoom.png" alt="">
-							<span>列表打开状态</span>
-							<span class="caret"></span>
-						</a>
-						<ul class="list-unstyled">
-							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
-							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
-							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
-						</ul>
-					</li>
-					<!-- 当前列表状态 -->
-					<li class="nav-item treeview active">
-						<a href="#" class="nav-link">
-							<img class="link-photo" src="images/navbar-zoom.png" alt="">
-							<span>当前列表状态</span>
+							<span>列表有子菜单</span>
 							<span class="caret"></span>
 						</a>
 						<ul class="list-unstyled">
 							<li class="nav-item active"><a href="#" class="nav-link">子菜单</a></li>
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+						</ul>
+					</li>
+					<!-- 列表有子菜单状态 -->
+					<li class="nav-item treeview">
+						<a href="#" class="nav-link">
+							<img class="link-photo" src="images/navbar-zoom.png" alt="">
+							<span>列表有子菜单</span>
+							<span class="caret"></span>
+						</a>
+						<ul class="list-unstyled">
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+						</ul>
+					</li>
+					<li class="nav-item treeview">
+						<a href="#" class="nav-link">
+							<img class="link-photo" src="images/navbar-zoom.png" alt="">
+							<span>列表有子菜单</span>
+							<span class="caret"></span>
+						</a>
+						<ul class="list-unstyled">
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
 							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
 							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
 						</ul>
@@ -73,7 +79,7 @@
 							<span>列表无子菜单</span>
 						</a>
 					</li>
-					<li class="nav-item active">
+					<li class="nav-item">
 						<a href="#" class="nav-link">
 							<img class="link-photo" src="images/navbar-zoom.png" alt="">
 							<span>列表无子菜单</span>
@@ -113,6 +119,19 @@
 				</tbody>
 			</table>
 		</main>  
-</div>
+	</div>
+
+	<script src="../jq/jq.custom.js"></script>
+	<script>
+		$(function(){
+			// 展开关闭菜单
+			$('.nav>.nav-item>.nav-link').on('click', function(event){
+				var parent = $(this).parent();
+				var isOpen = parent.hasClass('open');
+				$('.nav>.nav-item').removeClass('open');
+				if(!isOpen) parent.addClass('open');
+			});
+		});
+	</script>
 </body>
 </html>

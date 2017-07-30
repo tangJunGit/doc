@@ -118,6 +118,7 @@ a.navbar-brand:hover{
     overflow-y: auto;
     ms-overflow-style: -ms-autohiding-scrollbar;
     width: 230px;
+    height: 100%;
 }
 
 
@@ -146,8 +147,7 @@ a.navbar-brand:hover{
     background: #2c3b41;
 }
 
-.sidebar .nav-item.treeview.open>ul,
-.sidebar .nav-item.treeview.active>ul{
+.sidebar .nav-item.treeview.open>ul{
     display: block;
 }
 
@@ -171,13 +171,11 @@ a.navbar-brand:hover{
     top: 20px;
     right: 10px;
     border-width: 5px;
-}
-.caret.left{
     transform:rotate(90deg);
     -ms-transform:rotate(90deg); 	
     -moz-transform:rotate(90deg); 	
     -webkit-transform:rotate(90deg); 
-    -o-transform:rotate(90deg); 	
+    -o-transform:rotate(90deg); 
 }
 
 
@@ -197,18 +195,26 @@ a.navbar-brand:hover{
 .sidebar .nav>.nav-item:hover>.nav-link{
 	background: #1e282c;
 }
+.sidebar .nav-item.open .caret{
+    transform:rotate(0);
+    -ms-transform:rotate(0); 	
+    -moz-transform:rotate(0); 	
+    -webkit-transform:rotate(0); 
+    -o-transform:rotate(0); 
+}
 
 
 
 
 /*----------  滚动条  ----------*/
 
- 
+ /* webkit */
 .sidebar .sidebar-nav::-webkit-scrollbar {
     position: absolute;
     width: 10px;
     margin-left: -10px;
-    -webkit-appearance: none;
+    -webkit-appearance: none !important;
+    z-index: 999999999 !important; 
 }
 .sidebar .sidebar-nav::-webkit-scrollbar-thumb {
     height: 50px;
@@ -223,6 +229,13 @@ a.navbar-brand:hover{
     border-right: 1px solid #1c2429;
     border-left: 1px solid #1c2429;
 } 
+
+/* ie */
+.sidebar .sidebar-nav{
+    scrollbar-base-color: #304047;
+    scrollbar-track-color: #304047;
+    scrollbar-face-color:#11171a ;
+}
 
 
 /*=====  End of 左侧  ======*/
