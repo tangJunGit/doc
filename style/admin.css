@@ -45,7 +45,7 @@ a.navbar-brand:hover{
     background-color: #357ca5;
 }
 
-.navbar-zoom{
+.navbar-collapse{
     float: left;
     width: 40px;
     height: 50px;
@@ -109,7 +109,6 @@ a.navbar-brand:hover{
     width: 230px;
     color: #fff;
     background: #222d32;
-    overflow: auto;
 }
 
  .sidebar .sidebar-nav {
@@ -119,6 +118,11 @@ a.navbar-brand:hover{
     ms-overflow-style: -ms-autohiding-scrollbar;
     width: 230px;
     height: 100%;
+}
+
+ .sidebar .sidebar-nav .nav{
+    width: 230px;
+    overflow: hidden;
 }
 
 
@@ -135,6 +139,7 @@ a.navbar-brand:hover{
 .sidebar .nav-item {
     position: relative;
     font-size: 14px;
+    white-space: nowrap;
     transition: background-color .3s ease-in-out;
 }
 
@@ -163,13 +168,13 @@ a.navbar-brand:hover{
     background: transparent;
 }
 .sidebar .nav-item .link-photo{
-    widows: 20px;
+    width: 10px;
     margin-right: 5px;
 }
 .sidebar .nav-item .caret{
     position: absolute;
     top: 20px;
-    right: 10px;
+    right: 20px;
     border-width: 5px;
     transform:rotate(90deg);
     -ms-transform:rotate(90deg); 	
@@ -209,6 +214,7 @@ a.navbar-brand:hover{
 /*----------  滚动条  ----------*/
 
  /* webkit */
+.sidebar::-webkit-scrollbar,
 .sidebar .sidebar-nav::-webkit-scrollbar {
     position: absolute;
     width: 10px;
@@ -216,6 +222,7 @@ a.navbar-brand:hover{
     -webkit-appearance: none !important;
     z-index: 999999999 !important; 
 }
+.sidebar::-webkit-scrollbar-thumb,
 .sidebar .sidebar-nav::-webkit-scrollbar-thumb {
     height: 50px;
     background-color: #11171a;
@@ -224,6 +231,7 @@ a.navbar-brand:hover{
     border-style: solid;
     border-width: 1px 2px;
 }
+.sidebar::-webkit-scrollbar-track,
 .sidebar .sidebar-nav::-webkit-scrollbar-track {
     background-color: #304047;
     border-right: 1px solid #1c2429;
@@ -231,7 +239,7 @@ a.navbar-brand:hover{
 } 
 
 /* ie */
-.sidebar .sidebar-nav{
+.sidebar .sidebar-nav, .sidebar{
     scrollbar-base-color: #304047;
     scrollbar-track-color: #304047;
     scrollbar-face-color:#11171a ;
@@ -239,6 +247,64 @@ a.navbar-brand:hover{
 
 
 /*=====  End of 左侧  ======*/
+
+
+/*=============================================
+=            左侧菜单收缩            =
+=============================================*/
+.sidebar-collapse .app-body {
+    padding-left: 40px;
+    transition: padding-left .2s;
+    -moz-transition: padding-left .2s;
+    -webkit-transition: padding-left .2s;
+    -o-transition: padding-left .2s;
+    
+}
+.sidebar-collapse .sidebar{
+    width: 40px;
+    transition: width .2s;
+    -moz-transition: width .2s;
+    -webkit-transition: width .2s;
+    -o-transition: width .2s;
+}
+.sidebar-collapse .sidebar .sidebar-nav,
+.sidebar-collapse .sidebar .sidebar-nav .nav{
+     overflow: initial; 
+}
+
+
+/*----------  重新布局菜单  ----------*/
+
+.sidebar-collapse .nav>.nav-item{
+     width: 40px;
+     height: 50px;
+     overflow: hidden;
+}
+.sidebar-collapse .nav>.nav-item>ul{
+    margin-left: 40px;
+}
+.sidebar-collapse .nav>.nav-item .nav-link>.title{
+    margin-left: 20px;
+}
+.sidebar-collapse .nav-title,
+.sidebar-collapse .nav .nav-item>.nav-link>span.caret{
+     display: none; 
+}
+
+/*----------  hover效果  ----------*/
+
+.sidebar-collapse .nav>.nav-item:hover{
+     width: 230px;
+     overflow: visible;
+}
+.sidebar-collapse .nav-item:hover>ul {
+    display: block;
+}
+
+
+/*=====  End of 左侧菜单收缩  ======*/
+
+
 
 
 
