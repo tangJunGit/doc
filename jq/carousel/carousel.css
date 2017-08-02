@@ -42,7 +42,6 @@
   font-size: 18px;
   text-align: center;
   background-color: rgba(0,0,0,.2);
-  filter:progid:DXImageTransform.Microsoft.gradient(StartColorStr='#33000000', EndColorStr='#33000000');
 }
 .carousel-control.prev {
   left: 5px;
@@ -57,7 +56,6 @@
   text-decoration: none;
   color: #fff;
   background-color: rgba(0,0,0,.4);
-  filter:progid:DXImageTransform.Microsoft.gradient(StartColorStr='#66000000', EndColorStr='#66000000');
   cursor: pointer;
 }
 
@@ -95,7 +93,6 @@
   width: 8px;
   height: 8px;
   background-color: rgba(0,0,0,.6);
-  filter:progid:DXImageTransform.Microsoft.gradient(StartColorStr='#99000000', EndColorStr='#99000000');
 }
 
 

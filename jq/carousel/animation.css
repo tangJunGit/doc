@@ -6,18 +6,16 @@
 .carousel.fade .item{
   position: relative;
   overflow: hidden;
-  filter: alpha(opacity=100);
   opacity: 0;
-  -webkit-transition: opacity .4s ease-in-out, filter .4s ease-in-out;
-  -moz-transition: opacity .4s ease-in-out, filter .4s ease-in-out;
-  -o-transition: opacity .4s ease-in-out, filter .4s ease-in-out;
-  transition: opacity .4s ease-in-out, filter .4s ease-in-out;
+  -webkit-transition: opacity .4s ease-in-out;
+  -moz-transition: opacity .4s ease-in-out;
+  -o-transition: opacity .4s ease-in-out;
+  transition: opacity .4s ease-in-out;
 }
 .carousel.fade .item.hide{
   display: none;
 }
 .carousel.fade .item.active{
-  filter: alpha(opacity=100);
   opacity: 1;
 }
 
@@ -32,9 +30,9 @@
 
 
 .carousel.slide .carousel-inner{
-  -webkit-transition: -webkit-transform .8s ease-in-out;
-  -moz-transition: -moz-transform .8s ease-in-out;
-  -o-transition: -o-transform .8s ease-in-out;
+  -webkit-transition: transform .8s ease-in-out;
+  -moz-transition: transform .8s ease-in-out;
+  -o-transition: transform .8s ease-in-out;
   transition: transform .8s ease-in-out;
 }
 .carousel.slide .item{
@@ -54,16 +52,13 @@
 
 
 .carousel.seamless .carousel-inner.anim{
-  -webkit-transition: -webkit-transform .8s ease-in-out;
-  -moz-transition: -moz-transform .8s ease-in-out;
-  -o-transition: -o-transform .8s ease-in-out;
+  -webkit-transition: transform .8s ease-in-out;
+  -moz-transition: transform .8s ease-in-out;
+  -o-transition: transform .8s ease-in-out;
   transition: transform .8s ease-in-out;
 }
 .carousel.seamless .carousel-inner{
   transition-duration: 0;
-  -moz-transition-duration: 0; 
-  -webkit-transition-duration: 0; 
-  -o-transition-duration: 0; 
 }
 .carousel.seamless .item{
   position: relative;

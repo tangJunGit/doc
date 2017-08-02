@@ -122,10 +122,10 @@
 		 */
         transform: function(x){
             return {
-                '-webkit-transform': '-webkit-translate3d(-'+ x +'px, 0, 0)',
-                'moztransform': '-moz-translate3d(-'+ x +'px, 0, 0)',
-                '-ms-transform':'-ms-translate3d(-'+ x +'px, 0, 0)',
-                'transform': 'translate3d(-'+ x +'px, 0, 0)',
+                '-webkit-transform': '-webkit-translate(-'+ x +'px, 0)',
+                '-moz-transform': '-moz-translate(-'+ x +'px, 0)',
+                '-ms-transform':'-ms-translate(-'+ x +'px, 0)',
+                'transform': 'translate(-'+ x +'px, 0)',
             };
         },
 
@@ -249,10 +249,10 @@
 		 */
         transform: function(x){
             return {
-                '-webkit-transform': '-webkit-translate3d(-'+ x +'px, 0, 0)',
-                'moztransform': '-moz-translate3d(-'+ x +'px, 0, 0)',
-                '-ms-transform':'-ms-translate3d(-'+ x +'px, 0, 0)',
-                'transform': 'translate3d(-'+ x +'px, 0, 0)',
+                '-webkit-transform': 'translate(-'+ x +'px, 0)',
+                '-moz-transform': 'translate(-'+ x +'px, 0)',
+                '-ms-transform':'translate(-'+ x +'px, 0)',
+                'transform': 'translate(-'+ x +'px, 0)',
             };
         },
 
