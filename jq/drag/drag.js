@@ -91,7 +91,7 @@
 
             _this.offsetCurrentX = _clientX - _this.currentX + _this.offsetX;           // 计算离最开始偏移的 x 点
             _this.offsetCurrentY = _clientY - _this.currentY + _this.offsetY;           // 计算离最开始偏移的 y 点
-
+            
             _this.element.css(_this.transform(_this.offsetCurrentX,  _this.offsetCurrentY));
         },
 
@@ -104,16 +104,15 @@
 
             _this.offsetX = _this.offsetCurrentX;
             _this.offsetY = _this.offsetCurrentY;
-            
         },
 
         // 位移变化样式
         transform: function(x, y){
             return {
-                '-webkit-transform': '-webkit-translate3d('+ x +'px, '+ y +'px, 0)',
-                '-moz-transform': '-moz-translate3d('+ x +'px, '+ y +'px, 0)',
-                '-ms-transform':'-ms-translate3d('+ x +'px, '+ y +'px, 0)',
-                'transform': 'translate3d('+ x +'px, '+ y +'px, 0)',
+                '-webkit-transform': 'translate('+ x +'px, '+ y +'px)',
+                '-moz-transform': 'translate('+ x +'px, '+ y +'px)',
+                '-ms-transform':'translate('+ x +'px, '+ y +'px)',
+                'transform': 'translate('+ x +'px, '+ y +'px)',
             };
         },
 
