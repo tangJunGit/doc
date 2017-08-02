@@ -11,8 +11,8 @@
         _this.drag = options.drag ? $(options.drag) : _this.element;        // 拖拽的节点
         _this.currentX = 0;             // 开始计算的当前 x 点
         _this.currentY = 0;             // 开始计算的当前 y 点
-        _this.offsetX = 0;              // 计算的偏移 x 点
-        _this.offsetY = 0;              // 计算的偏移 y 点
+        _this.offsetX = 0;              // 计算的最终偏移 x 点
+        _this.offsetY = 0;              // 计算的最终偏移 y 点
         _this.isDrag = false;           // 是否在拖拽状态中
 
 		_this.init();
@@ -74,8 +74,8 @@
                     return false;
                 }; 
             }
-            _this.currentX = e.clientX;
-            _this.currentY = e.clientY;
+            _this.currentX = e.clientX;             // 开始的 x 点
+            _this.currentY = e.clientY;             // 开始的 y 点
         },
 
          /**
@@ -86,13 +86,13 @@
         offset: function(e){
             e = e || window.event;
             var _this = this,
-                _nowX = e.clientX,
-                _nowY = e.clientY;
+                _clientX = e.clientX,               // 当前偏移的 x 点
+                _clientY = e.clientY;               // 当前偏移的 y 点
 
-            _this.offsetTempX = _nowX - _this.currentX + _this.offsetX, 
-            _this.offsetTempY = _nowY - _this.currentY + _this.offsetY;
+            _this.offsetCurrentX = _clientX - _this.currentX + _this.offsetX;           // 计算离最开始偏移的 x 点
+            _this.offsetCurrentY = _clientY - _this.currentY + _this.offsetY;           // 计算离最开始偏移的 y 点
 
-            _this.element.css(_this.transform(_this.offsetTempX,  _this.offsetTempY));
+            _this.element.css(_this.transform(_this.offsetCurrentX,  _this.offsetCurrentY));
         },
 
         /**
@@ -102,17 +102,18 @@
         stop: function(){
             var _this = this;
 
-            _this.offsetX = _this.offsetTempX;
-            _this.offsetY = _this.offsetTempY;
+            _this.offsetX = _this.offsetCurrentX;
+            _this.offsetY = _this.offsetCurrentY;
+            
         },
 
         // 位移变化样式
         transform: function(x, y){
             return {
-                '-webkit-transform': '-webkit-translate('+ x +'px, '+ y +'px)',
-                '-moz-transform': '-moz-translate('+ x +'px, '+ y +'px)',
-                '-ms-transform':'-ms-translate('+ x +'px, '+ y +'px)',
-                'transform': 'translate('+ x +'px, '+ y +'px)',
+                '-webkit-transform': '-webkit-translate3d('+ x +'px, '+ y +'px, 0)',
+                '-moz-transform': '-moz-translate3d('+ x +'px, '+ y +'px, 0)',
+                '-ms-transform':'-ms-translate3d('+ x +'px, '+ y +'px, 0)',
+                'transform': 'translate3d('+ x +'px, '+ y +'px, 0)',
             };
         },
 
