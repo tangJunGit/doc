@@ -372,7 +372,7 @@
 		// 在当前视口的相对偏移
 		offset: function(){
 			var docElem, scroll,
-				elem = this[ 0 ],
+				elem = this[0],
 				box = { top: 0, left: 0 };
 
 
@@ -394,7 +394,7 @@
 		},
 		// 相对父元素的偏移
 		position: function(){
-			var elem = this[ 0 ];
+			var elem = this[0];
 
 			return {
 				top: elem.offsetTop,
@@ -403,11 +403,41 @@
 		},
 		// 获取宽
 		width: function(){
-			return parseFloat(this.eq(0).css('width'));
+			var elem = this[0];
+
+			return elem.clientWidth;
 		},
 		//获取高
 		height: function(){
-			return parseFloat(this.eq(0).css('height'));
+			var elem = this[0];
+
+			return elem.clientHeight;
+		},
+
+		// 获取宽
+		outerWidth: function(){
+			var elem = this[0];
+
+			return elem.offsetWidth;
+		},
+		//获取高
+		outerHeight: function(){
+			var elem = this[0];
+
+			return elem.offsetHeight;
+		},
+
+		// 获取滚动条 top
+		scrollTop: function(){
+			var elem = this[0];
+
+			return elem.scrollTop;
+		},
+		//获取滚动条 left
+		scrollLeft: function(){
+			var elem = this[0];
+
+			return elem.scrollLeft;
 		},
 
 		// ==================================  序列化
