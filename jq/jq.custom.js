@@ -89,7 +89,7 @@
 		// 查找儿子节点
 		find: function(selector){
 			var nodes = [];
-			$.map(this, function(i, elem){
+			$.each(this, function(i, elem){
 				var elems = elem.querySelectorAll(selector);
 				$.each(elems, function(i, node){
 					nodes.push(node);
@@ -258,9 +258,10 @@
 		// 克隆
 		clone: function(deep){
 			deep = deep || false;
-			return $.map(this, function(i, elem){
+			var elems = $.map(this, function(i, elem){
 				return elem.cloneNode(deep); 
 			});
+			return $(elems)
 		},
 		// html
 		html: function(html){
@@ -320,21 +321,19 @@
 				return  index !== -1? this[index][jq][name] : null;
 			}
 
-			return $.map(this, function(i, elem){
+			return $.each(this, function(i, elem){
 				if(!elem[jq]) elem[jq] = {};
 				elem[jq][name] = value;
-				return elem;
 			});
 		},
 		// 删除存储数据
 		removeData: function(name){
 			var jq = 'jQuery';
 
-			return $.map(this, function(i, elem){
+			return $.each(this, function(i, elem){
 				if($(elem).hasData(name) !== -1){
 					delete elem[jq][name];
 				}
-				return elem;
 			});
 		},
 		// 检验是否存在数据
@@ -573,7 +572,7 @@
 				}
 			}
 		}
-		return $(result);
+		return result;
 	};
 
 	// 过滤数组
@@ -585,7 +584,7 @@
 				if(fn.call(arr[i], i, arr[i], arr)) result.push(arr[i]);
 			}
 		}
-		return $(result);
+		return result;
 	};
 
 	// 去除字符串两段的空格
@@ -772,11 +771,13 @@
 	        // step4: 接收
 	        xhr.onreadystatechange = function(){
 	            if(xhr.readyState == 4){
+					var response = JSON.parse(xhr.responseText);
 	                if(xhr.status == 200){
-	                    option.success && option.success(JSON.parse(xhr.responseText));
+	                    option.success && option.success(response);
 	                }else{
-	                    option.error && option.error(JSON.parse(xhr.responseText));
-	                }
+	                    option.error && option.error(response);
+					}
+					option.complete && option.complete(response);
 	            }
 	        };
 
