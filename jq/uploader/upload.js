@@ -1,6 +1,7 @@
 ;(function($, window, undefined) {
     var Default = {
-        url: '/upload',
+        url: '/',
+        asyn: true,                                 // 是否异步  默认 true
         fileInput: undefined,                       // 文件控件 input.file
         textInput: undefined,                       // 文本控件 input.text
         selectFile: undefined,                      // 选择文件按钮 button
@@ -54,9 +55,9 @@
 		 */
         addEventListeners: function(){
             var _this = this,
-                _element = _this.element;
+                _element = _this.element,
                 _selectFile = _element.find(_this.options.selectFile || Selector.SELECT),
-                _uploadInput = _element.find(_this.options.uploadBtn || Selector.UPLAOD);
+                _uploadBtn = _element.find(_this.options.uploadBtn || Selector.UPLAOD);
 
             // 触发文件控件
             _selectFile.on('click', function(e){
@@ -70,7 +71,7 @@
             }); 
 
             // 上传文件
-            _uploadInput.on('click', function(e){
+            _uploadBtn.on('click', function(e){
                 _this.uploadFile();
                 e.preventDefault();
             });
@@ -85,6 +86,7 @@
             var _this = this,
                 _files = e.target.files || e.dataTransfer.files;            // 从事件中获取选中的所有文件
 
+            _files = $.toArray(_files);
             _this.uploadFileList = _files;
 
             _this.options.onSelect(_files);
@@ -111,25 +113,42 @@
             var _this = this,
                 _name = _this.fileInput[0].name,
                 _options = _this.options,
-                _FormData = new FormData();
-
-            $.each(_this.uploadFileList, function(i, file){
-                _FormData.append(_name, file);
-
-                $.ajax({
-                    url: _options.url,
-                    type: 'GET',
-                    data: _FormData,
-                    success: function(respond){
-                        _options.onSuccess(file, respond);
-                    },
-                    error: function(respond){
-                        _options.onFailure(file, respond);
-                    },
-                    complete: function(respond){
-                        _options.onComplete(file, respond);
-                    }
+                _FormData;
+            
+            if(_options.asyn){
+                $.each(_this.uploadFileList, function(i, file){
+                    _FormData = new FormData();
+                    _FormData.append(_name, file);
+                    _this.sendAjax(file, _FormData, _options);
                 });
+            }else{
+                _FormData = new FormData();
+                $.each(_this.uploadFileList, function(i, file){
+                    _FormData.append(_name, file);
+                });
+                _this.sendAjax(_this.uploadFileList, _FormData, _options);
+            }
+        },
+
+        /**
+         * ajax
+         * 
+         * @param formData
+         */
+        sendAjax: function(files, formData, options){
+            $.ajax({
+                url: options.url,
+                type: 'GET',
+                data: formData,
+                success: function(respond){
+                    options.onSuccess(files, respond);
+                },
+                error: function(respond){
+                    options.onFailure(files, respond);
+                },
+                complete: function(respond){
+                    options.onComplete(files, respond);
+                }
             });
         }
 

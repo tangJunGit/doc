@@ -3,14 +3,14 @@
 =            文件上传            =
 =============================================*/
 
-.upload-box{
+.uploader{
     position: relative;
 }
-.upload-box .input{
+.uploader .input{
     position: relative;
     float: left;
 }
-.upload-box input.fileInput{
+.uploader input.fileInput{
     position: absolute;
     left: 0;
     top: 0;

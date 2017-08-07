@@ -426,6 +426,19 @@
 			return elem.offsetHeight;
 		},
 
+		// 获取宽
+		innerWidth: function(){
+			var elem = this[0];
+
+			return elem.clientWidth - parseInt($(elem).css('padding-left'), 10) - parseInt($(elem).css('padding-right'), 10);
+		},
+		//获取高
+		innerHeight: function(){
+			var elem = this[0];
+
+			return elem.clientHeight - parseInt($(elem).css('padding-top'), 10) - parseInt($(elem).css('padding-bottom'), 10);
+		},
+
 		// 获取滚动条 top
 		scrollTop: function(){
 			var elem = this[0];
@@ -665,8 +678,10 @@
 					target = e.target || e.srcElement;
 
 					// 处理事件委托的判断
-					if(selector === undefined || $(target).hasClass(selector.slice(1)))     // 委托 class
-					{
+					var isDelegate = selector && $(target).hasClass(selector.slice(1));		// 只有委托 class
+					if(selector === undefined || isDelegate)     	
+					{	
+						if(isDelegate) elem = target;			// 如果是委托，就把 target 赋值给绑定事件节点
 						handler.call(elem, e);
 						// 绑定一次解绑
 						if(one){

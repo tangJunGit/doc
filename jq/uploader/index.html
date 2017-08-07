@@ -14,10 +14,10 @@
 <body>
 <form>
     <div class="form-group">
-        <div class="upload-box" id="upload">
+        <div class="uploader" id="upload">
             <div class="input">
                 <input type="text" name="text" class="form-control textInput"/>
-                <input type="file" name="file" class="form-control fileInput" multiple="" accept="image/png,image/jpg;"/>
+                <input type="file" name="file" class="form-control fileInput" multiple=""/>
             </div>
             <button class="btn btn-default selectFile">选择文件</button>
             <button class="btn btn-primary uploadBtn">开始上传</button>
@@ -33,10 +33,11 @@
 
 		$('#upload').uploader({
             url: '/upload',
-            fileInput: undefined,                       // 文件控件 默认 input.fileInput
-            textInput: undefined,                       // 文本控件 默认 input.textInput
-            selectFile: undefined,                      // 选择文件按钮 默认 .selectFile
-            uploadBtn: undefined,                       // 上传文件按钮 默认 .uploadBtn
+            // asyn: true,                                 // 是否异步  默认 true
+            // fileInput: undefined,                       // 文件控件 默认 input.fileInput
+            // textInput: undefined,                       // 文本控件 默认 input.textInput
+            // selectFile: undefined,                      // 选择文件按钮 默认 .selectFile
+            // uploadBtn: undefined,                       // 上传文件按钮 默认 .uploadBtn
             onSelect: function(files){                  // 文件选择后
                 console.log(files);
                 var info = $.map(files, function(i, v){
