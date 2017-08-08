@@ -6,10 +6,6 @@
   font-size: 12px;
   line-height: 1.4;
   opacity: 0;
-  -webkit-transition: opacity .2s ease-in-out;
-  -moz-transition: opacity .2s ease-in-out;
-  -o-transition: opacity .2s ease-in-out;
-  transition: opacity .3s ease-in-out;
 }
 
 
@@ -23,6 +19,10 @@
 .tooltip.top, 
 .tooltip.bottom {
   opacity: 0.9;
+  -webkit-transition: opacity .3s ease-in-out;
+  -moz-transition: opacity .3s ease-in-out;
+  -o-transition: opacity .3s ease-in-out;
+  transition: opacity .3s ease-in-out;
 }
 .tooltip.top {
   margin-top: -3px;

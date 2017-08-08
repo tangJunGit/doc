@@ -19,6 +19,7 @@
         _this.options = options;
 		_this.element = element;
 		_this.tooltip = null;					// tooltip 创建的节点
+		_this.tooltipTemplate = null;			// tooltip 创建的节点模板
 		_this.id = undefined; 					// tooltip 创建的节点的 id
 
 		_this.init();
@@ -34,7 +35,7 @@
 	    init: function(){
 			var _this = this;
 			
-			_this.tooltip = _this.buildFragment(TEMPLATE);
+			_this.tooltipTemplate = _this.buildFragment(TEMPLATE);
 
             _this.addEventListeners();
         },
@@ -64,19 +65,24 @@
 		create: function(){
 			var _this = this,
 				_element = _this.element,
-				_tooltip = _this.tooltip,
+				_tooltip = _this.tooltipTemplate,
 				_direction = _element.attr(Attribution.DIRECTION),		// 获取方向属性
 				_content = _element.attr(Attribution.CONTENT);			// 获取内容属性
 
 			_this.id = 'tooltip_'+ (new Date()).getTime();				// 设置 id
-			_tooltip.attr('id', _this.id).addClass(_direction).find(Attribution.INNER).html(_content);
+			_tooltip.attr('id', _this.id).find(Attribution.INNER).html(_content);
 
 			$('body').append(_tooltip);
 			_this.tooltip = $('#'+_this.id);
 
 			// 设置样式
+			_this.tooltip.addClass(_direction);
 			var styles = _this.setStyles(_direction);
-			_this.tooltip.css(styles);
+			_this.tooltip.removeClass(_direction).css(styles);
+
+			setTimeout(function() {
+					_this.tooltip.addClass(_direction);
+			}, 20);
 
 		},
 
