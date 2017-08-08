@@ -18,11 +18,6 @@
         SELECT: '.selectFile',                      // 选择文件按钮 button
         UPLAOD: '.uploadBtn',                       // 上传文件按钮 button
     };
-	
-	var Attribution = {
-       	
-	};
-	
 
 	var Uploader = function(element, options) {
         var _this = this;

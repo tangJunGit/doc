@@ -20,7 +20,7 @@
         DRAG: '.drag',                              // 拖拽的盒子
     };
 	
-	var Attribution = {
+	var Attribute = {
        	INDEX: 'data-index',                        // 文件的索引，删除时有用
         DRAPHOVER: 'drag-hover',                    // 拖拽到框里的样式
         FILEID: 'file-',                            // 设置文件的 id
@@ -106,9 +106,9 @@
             
             //删除文件
             _element.on('click', TemplateSelector.DELETE, function(e){
-                var index = $(this).attr(Attribution.INDEX);
+                var index = $(this).attr(Attribute.INDEX);
                 _this.deleteFile(index);
-                $('#'+ Attribution.FILEID + index).remove();
+                $('#'+ Attribute.FILEID + index).remove();
             });
 
             // 上传文件
@@ -126,11 +126,11 @@
             // 拖拽事件触发
             if (_options.drag) {
                 _drag.on("dragover", function(e) { 
-                    $(this).addClass(Attribution.DRAPHOVER);
+                    $(this).addClass(Attribute.DRAPHOVER);
                     e.preventDefault();
                 });
                 _drag.on("dragleave", function(e) { 
-                    $(this).removeClass(Attribution.DRAPHOVER);
+                    $(this).removeClass(Attribute.DRAPHOVER);
                     e.preventDefault();
                 });
                 _drag.on("click", function(e) { 
@@ -139,7 +139,7 @@
 
                 _drag.get(0).addEventListener("drop", function(e) { 
                     _this.getFile(e);
-                    $(this).removeClass(Attribution.DRAPHOVER);
+                    $(this).removeClass(Attribute.DRAPHOVER);
                     e.preventDefault();         
                     e.stopPropagation();          
                  }, false);
@@ -229,13 +229,13 @@
                 _style = _this.setPreviewStyle();
 
             // 添加属性
-            _creatPreview.attr('id', Attribution.FILEID + file.index).css(_style);
+            _creatPreview.attr('id', Attribute.FILEID + file.index).css(_style);
             _creatPreview.find(TemplateSelector.NAME).text(file.name).attr('title', file.name);
             _creatPreview.find(TemplateSelector.PHOTO).css(_style);
             _creatPreview.find(TemplateSelector.PHOTO+'>img').attr('src', e.target.result);
-            _creatPreview.find(TemplateSelector.SUCCESS).attr('id', Attribution.SUCCESS + file.index);
-            _creatPreview.find(TemplateSelector.ERROR).attr('id', Attribution.ERROR + file.index);
-            _creatPreview.find(TemplateSelector.DELETE).attr(Attribution.INDEX, file.index);
+            _creatPreview.find(TemplateSelector.SUCCESS).attr('id', Attribute.SUCCESS + file.index);
+            _creatPreview.find(TemplateSelector.ERROR).attr('id', Attribute.ERROR + file.index);
+            _creatPreview.find(TemplateSelector.DELETE).attr(Attribute.INDEX, file.index);
 
             // 设置图片宽高
             _this.setPhotoClass(e.target.result, function(photoClass){
@@ -256,7 +256,7 @@
             _img.src = src;
 
             _img.onload =function(){  
-                var _class = _img.width > _img.height ? Attribution.PHOTO[0] : Attribution.PHOTO[1];
+                var _class = _img.width > _img.height ? Attribute.PHOTO[0] : Attribute.PHOTO[1];
                 callback(_class);
             }  
         },
