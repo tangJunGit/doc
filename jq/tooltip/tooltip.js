@@ -3,7 +3,7 @@
         
 	};
 	
-	var Attribution = {
+	var Attribute = {
         CONTENT : 'data-content',               // 提示的内容
         INNER: '.tooltip-inner',				// 内容存放的选择器	
         TOP: 'top',                            	// 向上的样式
@@ -66,11 +66,11 @@
 			var _this = this,
 				_element = _this.element,
 				_tooltip = _this.tooltipTemplate,
-				_direction = _element.attr(Attribution.DIRECTION),		// 获取方向属性
-				_content = _element.attr(Attribution.CONTENT);			// 获取内容属性
+				_direction = _element.attr(Attribute.DIRECTION),		// 获取方向属性
+				_content = _element.attr(Attribute.CONTENT);			// 获取内容属性
 
 			_this.id = 'tooltip_'+ (new Date()).getTime();				// 设置 id
-			_tooltip.attr('id', _this.id).find(Attribution.INNER).html(_content);
+			_tooltip.attr('id', _this.id).find(Attribute.INNER).html(_content);
 
 			$('body').append(_tooltip);
 			_this.tooltip = $('#'+_this.id);
@@ -103,9 +103,9 @@
 				_css;
 
 
-			if(direction === Attribution.TOP){               		
+			if(direction === Attribute.TOP){               		
                 _css = {top: _elemOffset.top - _toolHeight + 'px'};
-            }else if(direction === Attribution.BOTTOM){              
+            }else if(direction === Attribute.BOTTOM){              
                 _css = {top: _elemOffset.top + _elemHeight + 'px'};
 			}
 			_css.left = _elemOffset.left + _elemWidth/2 - _toolWidth/2 + 'px';
