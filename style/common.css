@@ -50,6 +50,7 @@ figure {
 }
 img {
   vertical-align: middle;
+  border: none;
 }
 hr {
 	margin-top: 20px;
@@ -617,7 +618,7 @@ textarea.form-control {
 
 
 
-
+/* 文字 */
 .text-danger {
   color: #a94442;
 }
@@ -631,12 +632,18 @@ textarea.form-control {
 .bg-danger {
   background-color: #f2dede;
 }
+
+/* 删除 */
 button.close {
   -webkit-appearance: none;
   padding: 0;
   cursor: pointer;
   background: 0 0;
   border: 0;
+}
+button.close>span{
+  position: relative;
+  z-index: -1;
 }
 .close {
   font-size: 21px;
@@ -647,6 +654,8 @@ button.close {
   filter: alpha(opacity=20);
   opacity: .5;
 }
+
+/* 三角 */
 .caret {
   display: inline-block;
   width: 0;
@@ -657,19 +666,24 @@ button.close {
   border-right: 4px solid transparent;
   border-left: 4px solid transparent;
 }
+
+/* 居中 */
 .center-block {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
 }
+
+/* 清楚浮动 */
 .clearfix:after,.clearfix:before {
   display: table;
   content: " "
 }
-
 .clearfix:after {
   clear: both
 }
+
+/* 隐藏显示 */
 .show {
   display: block !important;
 }

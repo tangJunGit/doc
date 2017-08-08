@@ -626,7 +626,7 @@
 		if (elem.style[name]){				// 存在于style[]中
 			return elem.style[name];
 		}else if(elem.currentStyle){		// IE的方式
-			return elem.currentStyle.width;
+			return elem.currentStyle[name];
 		}else if(document.defaultView && document.defaultView.getComputedStyle){		// W3C的方法
 			name = name.replace(/([A-Z])/g,"-$1").toLowerCase();						// 转化成"text-align"风格
 			var style = document.defaultView.getComputedStyle(elem, "");    			// 获取style对象

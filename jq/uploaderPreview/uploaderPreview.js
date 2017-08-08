@@ -41,7 +41,7 @@
     var TEMPLATE = '<div class="upload-list">'+
                         '<div class="file-bar">'+
                             '<p class="file-name" title=""></p>'+
-                            '<button type="button" class="close file-del" title="删除"><span class="delete">×</span></button>'+
+                            '<button type="button" class="close file-del delete" title="删除"><span>×</span></button>'+
                     '</div>'+
                         '<a href="javascript:void(0)" class="photo">'+
                             '<img src="#">'+
@@ -228,7 +228,6 @@
                 _creatPreview = _this.buildFragment(TEMPLATE),
                 _style = _this.setPreviewStyle();
 
-            
             // 添加属性
             _creatPreview.attr('id', Attribution.FILEID + file.index).css(_style);
             _creatPreview.find(TemplateSelector.NAME).text(file.name).attr('title', file.name);
