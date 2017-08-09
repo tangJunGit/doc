@@ -130,6 +130,16 @@
 		children: function(){
 			return $.matchNodes(this, 'dir', "nextSibling", 'firstChild');
 		},
+		// 含有匹配后代的对象
+		has: function(node){
+			var children = $.matchNodes(this, 'children', "childNodes");
+			node = node[0];
+
+			for (var i = 0, len = children.length; i < len; i++) {
+				if(children[i] === node) return true;				
+			}
+			return false;
+		},
 		// ===============================  属性
 
 		// 获取与添加属性
@@ -637,7 +647,7 @@
 	// 处理查询节点
 	$.dir = function( elem, dir ) {
 		var matched = [];
-
+		
 		while ((elem = elem[dir]) && elem.nodeType !== 9 ) {
 			if (elem && elem.nodeType === 1) {
 				matched.push(elem);
@@ -648,6 +658,24 @@
 	$.sibling = function( elem, dir ) {
 		while ((elem = elem[dir]) && elem.nodeType !== 1 ) {}
 		return elem;
+	};
+	$.children = function( elem, dir ) {
+		var matched = [],
+			children = $(elem).children();
+
+		
+		$.each($.toArray(children), function(i, child){
+			if(child.nodeType !== 9 ) {
+				matched.push(child);	
+
+				if (child[dir].length) {
+					matched = matched.concat($.children(child, dir));
+				}
+			}
+		});
+		
+		
+		return matched;
 	};
 	$.matchNodes = function(elems, method, sibling, dir){
 		var matched = [];
@@ -660,8 +688,10 @@
 					if(method === 'sibling') return $(matched);
 				}
 			};
+
 			matched = matched.concat($[method](elem, sibling));
 		});
+		
 		return $(matched);
 	};
 	// 事件
