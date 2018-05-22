@@ -1,0 +1,25 @@
+html{
+  @firstViewportWidth: 1920px;     
+  @defaultFontSize: 100px;         
+  @media screen and (width: @firstViewportWidth){  
+    font-size: @defaultFontSize;
+    min-width: 100%;
+  };
+
+ .media(@viewportWidth,@firstViewportWidth:1920px){
+    @media screen and (min-width: @viewportWidth) {
+      font-size: @defaultFontSize / (@firstViewportWidth / @viewportWidth)!important;
+    }
+  };
+  .media(1024px);     
+  .media(1366px);
+  .media(1280px);
+  .media(1440px);
+  .media(1600px);
+  .media(1920px);
+}
+@media screen and (max-width: 1024px) {
+  html {
+    font-size: 53.33333333px !important;
+  }
+}
