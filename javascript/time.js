@@ -2,21 +2,35 @@ var time = {
     /**
      * 格式化时间
      *
-     * time UNIX时间戳 可选
-     * 返回时间 格式：yyyy-MM-dd HH:mm:ss 
+     * 返回时间 格式
      */
-    dateFormat: function (time) { 
-        var d = time ? new Date(parseInt(time)) : new Date();
-        var month = d.getMonth() + 1;
-        var day =  d.getDate();
-        var hour = d.getHours();
-        var minute = d.getMinutes();
-        var second = d.getSeconds();
-        month = month < 10 ? '0' + month : month;
-        day = day < 10 ? '0' + day : day;
-        hour = hour < 10 ? '0' + hour : hour;
-        minute = minute < 10 ? '0' + minute : minute;
-        second = second < 10 ? '0' + second : second;
-        return d.getFullYear() + '-' + month + '-' +  day + ' ' + hour + ':' + minute + ':' + second; 
-    }
+    dateFormat(date, format) {
+        if (format === undefined) {
+            format = date
+            date = new Date()
+        }
+        var map = {
+            'M': date.getMonth() + 1, // 月份
+            'd': date.getDate(), // 日
+            'h': date.getHours(), // 小时
+            'm': date.getMinutes(), // 分
+            's': date.getSeconds(), // 秒
+            'q': Math.floor((date.getMonth() + 3) / 3), // 季度
+            'S': date.getMilliseconds()
+        }
+        format = format.replace(/([yMdhmsqS])+/g, function(all, t) {
+            let v = map[t]
+            if (v !== undefined) {
+                if (all.length > 1) {
+                    v = '00' + v
+                    v = v.substr(v.length - (t == 'S' ? 3 : 2))
+                }
+                return v
+            } else if (t === 'y') {
+                return (date.getFullYear() + '').substr(4 - all.length)
+            }
+            return all
+        })
+        return format
+    },
 };
