@@ -34,3 +34,4 @@ var time = {
         return format
     },
 };
+
