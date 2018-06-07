@@ -37,4 +37,11 @@ Number.prototype.div = function(arg){
 	}
 }
 
+// 保留小数不四舍五入
+// @param digit 保留的小数位数
+Number.prototype.noRound = function(digit){
+	var temp = this.toFixed(digit+1);
+	return temp.substring(0,temp.lastIndexOf('.')+(digit+1))
+}
+
 
