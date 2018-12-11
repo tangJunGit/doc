@@ -1,1 +1,3 @@
 自定义、量小的 jq 库，只包含常用的操作，支持 IE8 及以上，现代浏览器
+
+[demo地址](https://tangjungit.github.io/jq/index.html)
