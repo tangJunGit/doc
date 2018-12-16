@@ -38,7 +38,7 @@ var data = {
 	},
 
 	/**
-	  * 通过真检查时，返回第一个索引值
+	  * 通过真检查时，返回第一个索引值 (需要isMatch方法)
 	  * 
 	  * array    数组
 	  * attrs    检查的键值对 
@@ -69,12 +69,42 @@ var data = {
 	},
 
 	/**
+	  * 根据键数组出重 (需要isMatch方法)
+	  * 
+	  * object   数组
+	  * attrs    去重的键数组 
+	  */
+	unique: function(array, attrs){
+	    var result = [];
+	  
+	    for (var i = 0; i < array.length; i++) {
+	      var item = array[i];
+	      var match = {};
+
+	      var isUnique = result.some(v => {
+
+	      	// 组合匹配的对象match
+	      	for (var j = 0; j < attrs.length; j++) {
+		    	var attr = attrs[j];
+		    	match[attr] = item[attr];
+		    };
+
+	        return data.isMatch(v, match);
+	      })
+
+	      if(!isUnique) result.push(item)
+	    }
+	  
+	    return result;
+	},
+
+	/**
 	  * 对象属性覆盖掉
 	  */
 	extend: function() {
-		var object = {},
+		var result = {},
 			length = arguments.length;
-	  	if (!length) return object;
+	  	if (!length) return result;
 
 	  	for (var index = 0; index < length; index++) {
 		    var source = arguments[index],
@@ -84,16 +114,16 @@ var data = {
 		    }
 		    for (var i = 0, l = keys.length; i < l; i++) {
 		      	var key = keys[i];
-		      	object[key] = source[key];
+		      	result[key] = source[key];
 		    }
 		}
-	    return object;
+	    return result;
 	},
 
 	extendDeep: function() {
-		var object = {},
+		var result = {},
 			length = arguments.length;
-	  	if (!length) return object;
+	  	if (!length) return result;
 
 	  	for (var index = 0; index < length; index++) {
 		    var source = arguments[index],
@@ -103,10 +133,10 @@ var data = {
 		    }
 		    for (var i = 0, l = keys.length; i < l; i++) {
 		      	var key = keys[i];
-		      	object[key] = source[key];
+		      	result[key] = source[key];
 		    }
 		}
-	    return object;
+	    return result;
 	},
 
 
