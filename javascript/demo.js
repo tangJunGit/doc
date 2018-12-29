@@ -28,6 +28,13 @@ data.isMatch(isMatch, {age: 32});
 // =>  true
 
 
+// ----  unique -----
+var unique = [{'id': 1, 'value': 1}, {'id': 3, 'value': 1}, {'id': 1, 'value': 1}, {'id': 1, 'value': 4}]
+var r = data.unique(unique, ['id', 'value']);
+//  => 0: {id: 1, value: 1}
+//     1: {id: 3, value: 1}
+//     2: {id: 1, value: 4}
+
 // ======================  promise
 
 var promise1 = new TPromise();
@@ -149,10 +156,9 @@ pub.publish( 'hello',  {					// 再次发布
 
 // ======================  时间 time
 
-time.dateFormat();  
+time.dateFormat('yyyy-MM-dd');  
 // 当前日期
-// => "2017-06-07 00:05:02"
+// => "2017-06-07"
 
-var d = (new Date()).getTime();   // 当前时间戳
-time.dateFormat(d);
-// => "2017-06-07 00:05:02"
+time.dateFormat(new Date('2018,12,12'), 'yyyy-MM-dd');
+// => "2018-12-12"
