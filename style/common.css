@@ -2,7 +2,9 @@
 /*=============================================
 =            reset            =
 =============================================*/
-
+html,body{
+  height: 100%;
+}
 
 html {
   box-sizing: border-box;
@@ -551,7 +553,9 @@ textarea.form-control {
   box-shadow: none;
   opacity: .65;
 }
-
+.btn-block{
+  width: 100%;
+}
 .btn-default {
   color: #333;
   background-color: #fff;
