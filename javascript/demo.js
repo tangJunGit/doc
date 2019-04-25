@@ -162,3 +162,25 @@ time.dateFormat('yyyy-MM-dd');
 
 time.dateFormat(new Date('2018,12,12'), 'yyyy-MM-dd');
 // => "2018-12-12"
+
+
+
+// ======================  列表数据转化树结构
+
+var list = [
+	{id: 1, parentId: null, name: '1'},
+	{id: 2, parentId: null, name: '2'},
+	{id: 3, parentId: null, name: '3'},
+	{id: 11, parentId: 1, name: '11'},
+	{id: 12, parentId: 1, name: '12'},
+	{id: 111, parentId: 11, name: '111'},
+	{id: 112, parentId: 11, name: '112'},
+	{id: 21, parentId: 2, name: '21'},
+	{id: 22, parentId: 2, name: '22'},
+];
+
+transformListToTree(list, null);   // null 是根节点的 parentId
+
+// =>  0: {id: 1, parentId: null, name: "1", children: Array(2)}
+//     1: {id: 2, parentId: null, name: "2", children: Array(2)}
+//     2: {id: 3, parentId: null, name: "3"}
