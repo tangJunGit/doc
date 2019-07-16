@@ -25,7 +25,7 @@ function transformListToTree(list, parentId){
 }
 
 /**
-  * 列表数据转化成tree结构
+  * 遍历查询每个节点
   * 
   * json   tree数据
   * nodeId  nodeId
@@ -61,3 +61,32 @@ function getTreeNode(json, nodeId) {
 
     return getNode(json, nodeId);
 };
+
+/**
+  * 遍历获取没有儿子节点的key数组
+  * 
+  * list   tree数据
+  * nodeId  nodeId
+  */
+function getCheckedKeys (list, ids) {
+    let keys = []           // 获取的子节点
+    let code = 'id'             //  匹配的属性
+    let children = 'children'      //  包含子节点的属性
+
+    let getNode = (list, ids) => {
+      for (let i = 0; i < list.length; i++) {
+        let obj = list[i]
+        if (obj[children] && obj[children].length) {
+          getNode(obj[children], ids)
+        } else {
+          if (ids.indexOf(obj[code]) > -1) {
+            keys.push(obj[code])
+          }
+        }
+      }
+    }
+
+    getNode(list, ids)
+
+    return keys
+  }
