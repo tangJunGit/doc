@@ -25,18 +25,18 @@ function transformListToTree(list, parentId){
 }
 
 /**
-  * 遍历查询每个节点
+  * 遍历查询匹配的节点
   * 
   * json   tree数据
   * nodeId  nodeId
   */
 function getTreeNode(json, nodeId) {
     let node = null;          // 获取的子节点
-    let code = 'label';          //  匹配的属性
+    let code = 'id';          //  匹配的属性
     let children = 'children';    //  包含子节点的属性
 
     /**
-     * 根据 NodeID 查找当前节点以及父节点
+     * 根据 NodeID 查找匹配的节点
      * json    数据源
      * nodeId  匹配的值
      */
@@ -61,6 +61,47 @@ function getTreeNode(json, nodeId) {
 
     return getNode(json, nodeId);
 };
+
+/**
+  * 遍历查询匹配祖先节点
+  * 
+  * list   tree数据
+  * nodeId  nodeId
+  */
+function getTreeRootNode (list, nodeId) {
+  let root = null;   // 获取的祖先节点
+  let node = null;   // 循环的祖先节点
+  let code = 'id';   // 匹配的属性
+  let children = 'children';   //  包含子节点的属性
+  
+  /**
+    * 根据 NodeID 查找匹配的节点
+    * json    数据源
+    * nodeId  匹配的值
+    */
+  let getNode = (json, nodeId) => {
+    for (let i = 0; i < json.length; i++) {
+      let obj = json[i];
+      if (!nodeId) break;
+      if (!obj || !obj[code]) continue;
+      if (obj[code] == nodeId) {
+        root = node;
+        break;
+      } else {
+        if (obj[children]) {
+          getNode(obj[children], nodeId);
+        } else {
+          continue;
+        }
+      }
+    }
+  };
+
+  for (let i = 0; i < list.length; i++) {
+    node = list[i];
+    getNode(node[children], nodeId);
+  }
+}
 
 /**
   * 遍历获取没有儿子节点的key数组
